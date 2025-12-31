@@ -1,67 +1,87 @@
 {
     "id": "speed-maths",
-    "title": "30 Days Speed Maths Mastery",
-    "description": "Increase your calculation speed by 10x for Banking & SSC Exams.",
-    "thumbnailUrl": "/images/speed-maths-thumb.jpg",
-    "totalDays": 30,
-    "progress": 0,
+    "title": "30 Days Speed Maths Challenge",
+    "description": "Master calculation at lightning speed.",
     "days": [
         {
-            "id": "day-1",
-            "dayNumber": 1,
-            "title": "Vedic Maths: Mental Addition & Subtraction",
-            "description": "Learn the Deviation Method and bridge numbers mentally.",
-            "isUnlocked": true,
-            "isCompleted": false,
-            "modules": [
-                {
-                    "id": "m1-v1",
-                    "type": "video",
-                    "title": "Concept: The Deviation Method",
-                    "duration": "15 min",
-                    "isCompleted": false,
-                    "content": {
-                        "videoUrl": "https://www.youtube.com/embed/placeholder1"
+            "day": 1,
+            "title": "Foundation: Single Digit Mastery",
+            "unlockDate": "2025-01-01",
+            "video": {
+                "youtubeId": "dQw4w9WgXcQ",
+                "title": "The Power of Compliments"
+            },
+            "notes": {
+                "content": "# Day 1: Single Digit Mastery\n\n## The Power of Compliments (Friends of 10)\n\nSpeed math starts with knowing your 'friends'. Two numbers are friends if they add up to 10.\n\n*   1 + 9 = 10\n*   2 + 8 = 10\n*   3 + 7 = 10\n*   4 + 6 = 10\n*   5 + 5 = 10\n\n### Why is this important?\nWhen adding 8 + 7, think: '8 needs 2 to be 10'. Take 2 from 7. Left with 5. Result: 15.\n"
+            },
+            "practice": {
+                "questions": [
+                    {
+                        "id": "q1",
+                        "q": "8 + 7",
+                        "a": "15",
+                        "type": "mcq",
+                        "options": [
+                            "14",
+                            "15",
+                            "16",
+                            "13"
+                        ]
+                    },
+                    {
+                        "id": "q2",
+                        "q": "9 + 6",
+                        "a": "15",
+                        "type": "mcq",
+                        "options": [
+                            "15",
+                            "14",
+                            "16",
+                            "17"
+                        ]
+                    },
+                    {
+                        "id": "q3",
+                        "q": "5 + 8",
+                        "a": "13",
+                        "type": "mcq",
+                        "options": [
+                            "12",
+                            "13",
+                            "14",
+                            "11"
+                        ]
+                    },
+                    {
+                        "id": "q4",
+                        "q": "7 + 4",
+                        "a": "11",
+                        "type": "mcq",
+                        "options": [
+                            "10",
+                            "11",
+                            "12",
+                            "13"
+                        ]
+                    },
+                    {
+                        "id": "q5",
+                        "q": "6 + 5",
+                        "a": "11",
+                        "type": "mcq",
+                        "options": [
+                            "10",
+                            "11",
+                            "12",
+                            "13"
+                        ]
                     }
-                },
-                {
-                    "id": "m1-n1",
-                    "type": "note",
-                    "title": "Cheat Sheet: Addition Tricks",
-                    "isCompleted": false,
-                    "content": {
-                        "markdownContent": "# Mental Addition Support\n\n## The Rule of 10s\nAlways look for pairs that make 10 (e.g., 7+3, 6+4).\n\n## Bridging\nWhen adding 8 + 7, think 8 + 2 + 5 = 15."
-                    }
-                },
-                {
-                    "id": "m1-q1",
-                    "type": "quiz",
-                    "title": "Speed Drill: Set A",
-                    "isCompleted": false,
-                    "content": {
-                        "questionCount": 20,
-                        "quizId": "quiz-day-1"
-                    }
-                }
-            ]
-        },
-        {
-            "id": "day-2",
-            "dayNumber": 2,
-            "title": "Multiplication Base Method",
-            "description": "Multiply numbers close to 100, 50, and 1000 instantly.",
-            "isUnlocked": false,
-            "isCompleted": false,
-            "modules": []
-        },
-        {
-            "id": "day-3",
-            "dayNumber": 3,
-            "title": "Squaring 2-Digit Numbers",
-            "description": "Duplex method for calculating squares in 3 seconds.",
-            "isUnlocked": false,
-            "isCompleted": false,
-            "modules": []
+                ]
+            },
+            "compete": {
+                "targetScore": 500,
+                "leaderboardId": "day_1_battle"
+            }
         }
     ]
 }

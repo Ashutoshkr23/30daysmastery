@@ -1,13 +1,21 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { Home, BookOpen, User, LogOut, Settings, LayoutDashboard, Compass } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { GlassCard } from "@/components/ui/GlassCard";
+import { createClient } from "@/lib/supabase/client";
 
 export default function SideNav() {
     const pathname = usePathname();
+    const router = useRouter();
+
+    const handleLogout = async () => {
+        const supabase = createClient();
+        await supabase.auth.signOut();
+        router.refresh();
+    };
 
     // Hide on login/signup pages
     if (pathname === '/login') return null;
@@ -76,7 +84,10 @@ export default function SideNav() {
 
                 {/* Bottom Actions */}
                 <div className="p-4 border-t border-border/50 space-y-2">
-                    <button className="flex items-center justify-center md:justify-start gap-3 w-full px-3 py-3 rounded-xl text-muted-foreground hover:bg-destructive/10 hover:text-destructive transition-colors group">
+                    <button
+                        onClick={handleLogout}
+                        className="flex items-center justify-center md:justify-start gap-3 w-full px-3 py-3 rounded-xl text-muted-foreground hover:bg-destructive/10 hover:text-destructive transition-colors group"
+                    >
                         <LogOut className="h-5 w-5" />
                         <span className="hidden md:block font-medium text-sm">Logout</span>
                     </button>

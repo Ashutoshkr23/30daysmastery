@@ -33,7 +33,7 @@ export default function Home() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 w-full justify-center pt-4">
-            <Link href="#courses">
+            <Link href="/dashboard">
               <PremiumButton size="lg" icon={<ArrowRight className="h-5 w-5" />}>
                 Start Learning
               </PremiumButton>

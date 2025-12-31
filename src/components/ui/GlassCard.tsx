@@ -19,13 +19,15 @@ export function GlassCard({
     const baseStyles = "relative overflow-hidden rounded-2xl border backdrop-blur-xl transition-all duration-300";
 
     // Explicit, non-global-variable styles for consistent premium look
-    // Switched from Slate (Grey-Blue) to Deep Indigo/Violet glass for true 'Cosmic' feel
-    const themeStyles = "bg-white/80 dark:bg-gradient-to-br dark:from-[#131124]/90 dark:to-[#070710]/95 border-white/20 dark:border-primary/10";
+    // Using arbitrary selector [.dark_&] to FORCE match the parent .dark class, bypassing tailwind config issues
+    // FIXED: Added [.dark_&]:bg-transparent to prevent light-mode bg-white from bleeding through the dark gradient
+    // UPDATED: Increased dark mode opacity to /90 for better text readability
+    const themeStyles = "bg-white/70 [.dark_&]:bg-transparent [.dark_&]:bg-gradient-to-br [.dark_&]:from-[#131124]/90 [.dark_&]:to-[#0b1021]/90 border-white/20 [.dark_&]:border-primary/20 backdrop-blur-xl";
 
     const variantStyles = {
         default: "shadow-lg",
-        hover: "shadow-lg hover:-translate-y-1 hover:shadow-xl hover:bg-white/90 dark:hover:from-[#1c1836]/90 dark:hover:to-[#0a0a12]/90 hover:border-primary/30",
-        active: "border-primary/50 shadow-[0_0_20px_rgba(124,58,237,0.2)] bg-white/90 dark:from-[#1c1836] dark:to-[#0a0a12]",
+        hover: "shadow-lg hover:-translate-y-1 hover:shadow-xl hover:bg-white/80 [.dark_&]:hover:bg-transparent [.dark_&]:hover:from-[#1c1836]/95 [.dark_&]:hover:to-[#131124]/95 [.dark_&]:hover:border-primary/40",
+        active: "border-primary/50 shadow-[0_0_20px_rgba(124,58,237,0.2)] bg-white/90 [.dark_&]:bg-transparent [.dark_&]:from-[#1c1836] [.dark_&]:to-[#0a0a12]",
     };
 
     return (
@@ -52,8 +54,8 @@ export function GlassCard({
             {/* Premium Gloss/Sheen Effect - purely decorative */}
             <div className="pointer-events-none absolute -inset-[100%] z-0 rotate-45 bg-gradient-to-b from-transparent via-white/5 to-transparent opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
 
-            {/* Inner Glow for Depth */}
-            <div className="pointer-events-none absolute inset-0 z-0 bg-gradient-to-tr from-white/0 via-white/0 to-white/5 opacity-0 dark:opacity-100" />
+            {/* Inner Glow for Depth - Reduced opacity for readability */}
+            <div className="pointer-events-none absolute inset-0 z-0 bg-gradient-to-tr from-white/0 via-white/0 to-white/[0.02] opacity-0 dark:opacity-100" />
         </div>
     );
 }

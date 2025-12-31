@@ -71,39 +71,52 @@ export default function Dashboard() {
                 </GlassCard>
             </div>
 
-            {/* Daily Goal Widget */}
-            <GlassCard
-                intensity="medium"
-                gradientBorder
-                className="p-6 relative overflow-visible"
-            >
-                <div className="absolute -top-3 -right-3">
-                    <div className="bg-primary text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-lg animate-bounce">
-                        DAILY GOAL
-                    </div>
-                </div>
-                <div className="flex items-start gap-4">
-                    <div className="rounded-full bg-primary/10 p-3 text-primary ring-1 ring-primary/20">
-                        <Zap className="h-6 w-6" />
-                    </div>
-                    <div className="flex-1">
-                        <h3 className="font-bold text-lg">Keep the momentum! 🚀</h3>
-                        <p className="text-sm text-muted-foreground mt-1 leading-relaxed">
-                            Complete 1 lesson and 1 quiz today to maintain your {streak} day streak.
-                        </p>
-                        <div className="mt-4 flex gap-3">
-                            <PremiumButton size="sm" className="w-full">
-                                Continue Learning
-                            </PremiumButton>
+            {/* Continue Learning Hero Card */}
+            <Link href="/courses/speed-maths" className="block group">
+                <GlassCard
+                    intensity="medium"
+                    gradientBorder
+                    className="p-6 relative overflow-visible transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-2xl"
+                >
+                    <div className="absolute -top-3 -right-3">
+                        <div className="bg-primary text-white text-[10px] font-bold px-3 py-1 rounded-full shadow-lg animate-bounce delay-700">
+                            RESUME DAY 7
                         </div>
                     </div>
-                </div>
-            </GlassCard>
+                    <div className="flex items-start gap-4">
+                        <div className="rounded-full bg-primary/10 p-3 text-primary ring-1 ring-primary/20 group-hover:bg-primary group-hover:text-white transition-colors duration-300">
+                            <PlayCircle className="h-8 w-8" />
+                        </div>
+                        <div className="flex-1">
+                            <div className="flex flex-col">
+                                <span className="text-xs font-bold text-primary tracking-wider uppercase mb-1">Speed Maths Mastery</span>
+                                <h3 className="font-bold text-xl leading-tight">Percentage Hacks: Level 2</h3>
+                            </div>
+                            <p className="text-sm text-muted-foreground mt-2 line-clamp-2">
+                                Learn how to calculate 16.66% and 33.33% instantly without pen and paper.
+                            </p>
+
+                            <div className="mt-4 flex items-center gap-4">
+                                <div className="flex-1 h-2 bg-secondary rounded-full overflow-hidden">
+                                    <div className="h-full w-[65%] bg-primary rounded-full" />
+                                </div>
+                                <span className="text-xs font-bold text-muted-foreground">65% Complete</span>
+                            </div>
+
+                            <div className="mt-4 flex gap-3">
+                                <PremiumButton size="sm" className="w-full group-hover:shadow-primary/50">
+                                    Continue Learning
+                                </PremiumButton>
+                            </div>
+                        </div>
+                    </div>
+                </GlassCard>
+            </Link>
 
             {/* Courses Section */}
             <section>
                 <div className="flex items-center justify-between mb-5">
-                    <h2 className="text-xl font-bold">Your Courses</h2>
+                    <h2 className="text-xl font-bold">My Active Challenges</h2>
                     <Link href="/courses" className="text-sm font-medium text-primary hover:text-primary/80 transition-colors">
                         View All
                     </Link>

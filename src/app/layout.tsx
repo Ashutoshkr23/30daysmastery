@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import MobileNav from "@/components/layout/MobileNav";
+import SideNav from "@/components/layout/SideNav";
 
 import { ThemeProvider } from "@/components/theme-provider";
 
@@ -35,10 +35,10 @@ export default function RootLayout({
           enableSystem={false}
           disableTransitionOnChange
         >
-          <main className="pb-16 min-h-screen">
+          <SideNav />
+          <main className="pl-16 md:pl-64 min-h-screen transition-all duration-300">
             {children}
           </main>
-          <MobileNav />
         </ThemeProvider>
       </body>
     </html>

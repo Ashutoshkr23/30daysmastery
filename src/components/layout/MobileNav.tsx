@@ -10,13 +10,13 @@ export default function MobileNav() {
 
     const links = [
         {
-            href: "/",
+            href: "/dashboard",
             label: "Home",
             icon: Home,
         },
         {
-            href: "/dashboard", // This acts as the "My Learning" tab
-            label: "My Course",
+            href: "/courses",
+            label: "Explore",
             icon: BookOpen,
         },
         {

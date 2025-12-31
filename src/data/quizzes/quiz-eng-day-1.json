@@ -1,0 +1,44 @@
+{
+    "id": "quiz-eng-day-1",
+    "title": "Error Detection: Nouns & Articles",
+    "description": "Identify the grammatical errors related to nouns and articles.",
+    "timeLimitMinutes": 5,
+    "questions": [
+        {
+            "id": "eq1",
+            "text": "Identify the error: 'The sceneries of Kashmir are very playing.'",
+            "options": [
+                "sceneries",
+                "are",
+                "playing",
+                "No Error"
+            ],
+            "correctAnswerIndex": 0,
+            "explanation": "'Scenery' is an uncountable noun and has no plural form. Correct: 'The scenery of Kashmir is...'"
+        },
+        {
+            "id": "eq2",
+            "text": "Identify the error: 'He gave me an advice regarding my career.'",
+            "options": [
+                "He gave",
+                "an advice",
+                "regarding",
+                "No Error"
+            ],
+            "correctAnswerIndex": 1,
+            "explanation": "'Advice' is uncountable. We cannot use 'an' directly. Use 'a piece of advice'."
+        },
+        {
+            "id": "eq3",
+            "text": "Select correct sentence:",
+            "options": [
+                "Five breads were bought.",
+                "Five loaves of bread were bought.",
+                "Five bread was bought.",
+                "Five pieces of breads were bought."
+            ],
+            "correctAnswerIndex": 1,
+            "explanation": "Bread is uncountable. To count it, we use counters like 'loaves of' or 'slices of'."
+        }
+    ]
+}

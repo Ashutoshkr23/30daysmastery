@@ -1,0 +1,67 @@
+{
+    "id": "english-rules",
+    "title": "30 Days English Grammar Rules",
+    "description": "Master the 120 Golden Rules of Grammar for SSC & Banking.",
+    "thumbnailUrl": "/images/english-rules-thumb.jpg",
+    "totalDays": 30,
+    "progress": 0,
+    "days": [
+        {
+            "id": "day-1",
+            "dayNumber": 1,
+            "title": "Nouns and Articles",
+            "description": "Understanding Countable/Uncountable Nouns and Article Usage.",
+            "isUnlocked": true,
+            "isCompleted": false,
+            "modules": [
+                {
+                    "id": "d1-v1",
+                    "type": "video",
+                    "title": "Lesson: Nouns & Articles",
+                    "duration": "20 min",
+                    "isCompleted": false,
+                    "content": {
+                        "videoUrl": "https://www.youtube.com/embed/placeholder_eng1"
+                    }
+                },
+                {
+                    "id": "d1-n1",
+                    "type": "note",
+                    "title": "Rule Book: Article A/An/The",
+                    "isCompleted": false,
+                    "content": {
+                        "markdownContent": "# Golden Rules of Articles\n\n1. **Specific Identity**: Use 'The' when the identity is known.\n2. **Vowel Sound**: Use 'An' before words starting with vowel *sounds* (e.g., An Hour)."
+                    }
+                },
+                {
+                    "id": "d1-q1",
+                    "type": "quiz",
+                    "title": "Error Detection: Nouns",
+                    "isCompleted": false,
+                    "content": {
+                        "questionCount": 15,
+                        "quizId": "quiz-eng-day-1"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "day-2",
+            "dayNumber": 2,
+            "title": "Pronouns: Subject vs Object",
+            "description": "Correct usage of I/Me, He/Him, Who/Whom.",
+            "isUnlocked": false,
+            "isCompleted": false,
+            "modules": []
+        },
+        {
+            "id": "day-3",
+            "dayNumber": 3,
+            "title": "Subject-Verb Agreement (Part 1)",
+            "description": "The foundation of error detection questions.",
+            "isUnlocked": false,
+            "isCompleted": false,
+            "modules": []
+        }
+    ]
+}

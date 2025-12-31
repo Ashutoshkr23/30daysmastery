@@ -1,0 +1,67 @@
+{
+    "id": "speed-maths",
+    "title": "30 Days Speed Maths Mastery",
+    "description": "Increase your calculation speed by 10x for Banking & SSC Exams.",
+    "thumbnailUrl": "/images/speed-maths-thumb.jpg",
+    "totalDays": 30,
+    "progress": 0,
+    "days": [
+        {
+            "id": "day-1",
+            "dayNumber": 1,
+            "title": "Vedic Maths: Mental Addition & Subtraction",
+            "description": "Learn the Deviation Method and bridge numbers mentally.",
+            "isUnlocked": true,
+            "isCompleted": false,
+            "modules": [
+                {
+                    "id": "m1-v1",
+                    "type": "video",
+                    "title": "Concept: The Deviation Method",
+                    "duration": "15 min",
+                    "isCompleted": false,
+                    "content": {
+                        "videoUrl": "https://www.youtube.com/embed/placeholder1"
+                    }
+                },
+                {
+                    "id": "m1-n1",
+                    "type": "note",
+                    "title": "Cheat Sheet: Addition Tricks",
+                    "isCompleted": false,
+                    "content": {
+                        "markdownContent": "# Mental Addition Support\n\n## The Rule of 10s\nAlways look for pairs that make 10 (e.g., 7+3, 6+4).\n\n## Bridging\nWhen adding 8 + 7, think 8 + 2 + 5 = 15."
+                    }
+                },
+                {
+                    "id": "m1-q1",
+                    "type": "quiz",
+                    "title": "Speed Drill: Set A",
+                    "isCompleted": false,
+                    "content": {
+                        "questionCount": 20,
+                        "quizId": "quiz-day-1"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "day-2",
+            "dayNumber": 2,
+            "title": "Multiplication Base Method",
+            "description": "Multiply numbers close to 100, 50, and 1000 instantly.",
+            "isUnlocked": false,
+            "isCompleted": false,
+            "modules": []
+        },
+        {
+            "id": "day-3",
+            "dayNumber": 3,
+            "title": "Squaring 2-Digit Numbers",
+            "description": "Duplex method for calculating squares in 3 seconds.",
+            "isUnlocked": false,
+            "isCompleted": false,
+            "modules": []
+        }
+    ]
+}

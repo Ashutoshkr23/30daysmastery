@@ -6,6 +6,9 @@ import { PremiumButton } from "@/components/ui/PremiumButton";
 import { cn } from "@/lib/utils";
 import { Play, BookOpen, Calculator, Trophy, CheckCircle2, Lock } from "lucide-react";
 import { PracticeSession } from "./PracticeSession";
+import { CompetitionArena } from "./CompetitionArena";
+import { Leaderboard } from "./Leaderboard";
+import { updateDailyProgress } from "@/lib/actions/progress";
 
 interface DayData {
     day: number;
@@ -30,7 +33,6 @@ const TABS = [
 ] as const;
 
 type TabId = (typeof TABS)[number]["id"];
-import { updateDailyProgress } from "@/lib/actions/progress"; // Import action
 
 export function DayView({ day, initialProgress }: DayViewProps) {
     // Determine initial tab: Watch -> Study -> Practice -> Compete
@@ -50,6 +52,13 @@ export function DayView({ day, initialProgress }: DayViewProps) {
     const [isPracticePassed, setIsPracticePassed] = useState(
         (initialProgress?.practice_score || 0) >= 80
     );
+
+    console.log("DayView Debug:", {
+        initialProgress,
+        practice_score: initialProgress?.practice_score,
+        isPracticePassed,
+        check: (initialProgress?.practice_score || 0) >= 80
+    });
 
     const handleProgressUpdate = async (type: 'video' | 'notes' | 'practice', data: any) => {
         try {
@@ -176,7 +185,7 @@ export function DayView({ day, initialProgress }: DayViewProps) {
                 )}
 
                 {activeTab === "compete" && (
-                    <div className="space-y-6 animate-in fade-in zoom-in-95 duration-300">
+                    <div className="space-y-8 animate-in fade-in zoom-in-95 duration-300">
                         <h2 className="text-2xl font-bold flex items-center gap-3">
                             <Trophy className="h-6 w-6 text-amber-400" />
                             Phase 4: The Arena
@@ -191,15 +200,21 @@ export function DayView({ day, initialProgress }: DayViewProps) {
                                 </p>
                             </div>
                         ) : (
-                            <div className="p-12 text-center border border-emerald-500/20 rounded-2xl bg-emerald-500/5 space-y-4">
-                                <Trophy className="h-12 w-12 text-emerald-500 mx-auto" />
-                                <h3 className="text-xl font-semibold text-emerald-200">Welcome to The Arena</h3>
-                                <p className="text-muted-foreground">
-                                    You have proven your skills. Now compete for glory.
-                                </p>
-                                <PremiumButton size="lg" className="w-full max-w-sm mt-4">
-                                    Enter Battle (Coming Soon)
-                                </PremiumButton>
+                            <div className="flex flex-col lg:flex-row gap-8">
+                                {/* The Arena - Main Stage */}
+                                <div className="flex-1">
+                                    <CompetitionArena
+                                        dayId={day.day}
+                                        onComplete={() => {
+                                            handleProgressUpdate('practice', { compete_score: 100 }); // Mark comp complete
+                                        }}
+                                    />
+                                </div>
+
+                                {/* Leaderboard - Sidebar */}
+                                <div className="w-full lg:w-96">
+                                    <Leaderboard courseId="speed-maths" dayId={day.day} />
+                                </div>
                             </div>
                         )}
                     </div>

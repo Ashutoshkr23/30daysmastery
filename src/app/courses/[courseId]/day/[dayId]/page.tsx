@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
 import speedMathsData from "@/data/courses/speed-maths.json";
-import { DayView } from "@/components/modules/DayView";
+import { DayView } from "../../../../../components/modules/DayView";
 import { getDailyProgress } from "@/lib/actions/progress";
+// Force Re-eval
 import { Lock } from "lucide-react";
 
 interface PageProps {
@@ -12,7 +13,8 @@ interface PageProps {
 }
 
 // Global Start Date: Jan 1, 2025
-const COURSE_START_DATE = new Date("2025-01-01T00:00:00.000Z");
+// Global Start Date: Dec 31, 2025 (Aligned with current user system time for testing)
+const COURSE_START_DATE = new Date("2025-12-31T00:00:00.000Z");
 
 export default async function DayPage({ params }: PageProps) {
     const { courseId, dayId } = await params;
@@ -37,6 +39,14 @@ export default async function DayPage({ params }: PageProps) {
 
     const today = new Date();
     const isLocked = today < unlockDate;
+
+    console.log("Page Debug - Unlock Logic:", {
+        dayNumber,
+        today: today.toISOString(),
+        courseStartDate: COURSE_START_DATE.toISOString(),
+        unlockDate: unlockDate.toISOString(),
+        isLocked
+    });
 
     // 4. Locked View
     if (isLocked) {

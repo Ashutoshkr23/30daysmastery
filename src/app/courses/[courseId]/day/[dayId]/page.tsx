@@ -1,6 +1,8 @@
 import { notFound } from "next/navigation";
 import speedMathsData from "@/data/courses/speed-maths.json";
 import { DayView } from "@/components/modules/DayView";
+import { getDailyProgress } from "@/lib/actions/progress";
+import { Lock } from "lucide-react";
 
 interface PageProps {
     params: Promise<{
@@ -8,6 +10,9 @@ interface PageProps {
         dayId: string;
     }>;
 }
+
+// Global Start Date: Jan 1, 2025
+const COURSE_START_DATE = new Date("2025-01-01T00:00:00.000Z");
 
 export default async function DayPage({ params }: PageProps) {
     const { courseId, dayId } = await params;
@@ -25,7 +30,40 @@ export default async function DayPage({ params }: PageProps) {
         notFound();
     }
 
-    // 3. Render View
+    // 3. Unlock Logic
+    // Day 1 unlocks on Start Date. Day 2 on Start Date + 1 day, etc.
+    const unlockDate = new Date(COURSE_START_DATE);
+    unlockDate.setDate(COURSE_START_DATE.getDate() + (dayNumber - 1));
+
+    const today = new Date();
+    const isLocked = today < unlockDate;
+
+    // 4. Locked View
+    if (isLocked) {
+        return (
+            <div className="container max-w-lg mx-auto py-24 px-4 text-center">
+                <div className="bg-secondary/30 border border-white/5 rounded-2xl p-12 flex flex-col items-center space-y-6">
+                    <div className="h-20 w-20 bg-red-500/10 rounded-full flex items-center justify-center text-red-500">
+                        <Lock className="h-10 w-10" />
+                    </div>
+                    <div>
+                        <h1 className="text-2xl font-bold mb-2">Day {dayNumber} is Locked</h1>
+                        <p className="text-muted-foreground">
+                            This content unlocks on {unlockDate.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' })}.
+                        </p>
+                    </div>
+                    <div className="text-sm text-white/40 bg-white/5 px-4 py-2 rounded-full">
+                        Strict Schedule Enforced
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    // 5. Fetch User Progress (Only if unlocked)
+    const progress = await getDailyProgress(courseId, dayNumber);
+
+    // 6. Render View
     return (
         <div className="container max-w-5xl mx-auto py-8 px-4 pb-24">
             <div className="mb-8">
@@ -35,7 +73,7 @@ export default async function DayPage({ params }: PageProps) {
                 <p className="text-muted-foreground">step-by-step mastery protocol</p>
             </div>
 
-            <DayView day={dayData} />
+            <DayView day={dayData} initialProgress={progress} />
         </div>
     );
 }

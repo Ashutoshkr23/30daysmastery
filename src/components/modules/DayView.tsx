@@ -5,6 +5,7 @@ import { GlassCard } from "@/components/ui/GlassCard";
 import { PremiumButton } from "@/components/ui/PremiumButton";
 import { cn } from "@/lib/utils";
 import { Play, BookOpen, Calculator, Trophy, CheckCircle2, Lock } from "lucide-react";
+import { PracticeSession } from "./PracticeSession";
 
 interface DayData {
     day: number;
@@ -13,6 +14,11 @@ interface DayData {
     notes: { content: string };
     practice: { questions: any[] };
     compete: { targetScore: number };
+}
+
+interface DayViewProps {
+    day: DayData;
+    initialProgress: any; // Using any for simplicity for now, strict type coming later
 }
 
 // Tab Definition
@@ -24,9 +30,41 @@ const TABS = [
 ] as const;
 
 type TabId = (typeof TABS)[number]["id"];
+import { updateDailyProgress } from "@/lib/actions/progress"; // Import action
 
-export function DayView({ day }: { day: DayData }) {
-    const [activeTab, setActiveTab] = useState<TabId>("watch");
+export function DayView({ day, initialProgress }: DayViewProps) {
+    // Determine initial tab: Watch -> Study -> Practice -> Compete
+    const getInitialTab = () => {
+        if (!initialProgress) return "watch";
+        if (!initialProgress.video_watched) return "watch";
+        if (!initialProgress.notes_read) return "study";
+        // If practice score is high enough (>=80), default to compete, else practice
+        // We don't have exact score logic mirrored here fully yet, checking raw score > 0 as proxy or relying on user
+        // But let's stick to sequence.
+        if (initialProgress.practice_score < 80) return "practice";
+        return "compete";
+    };
+
+    const [activeTab, setActiveTab] = useState<TabId>(getInitialTab());
+    // Also init passed state
+    const [isPracticePassed, setIsPracticePassed] = useState(
+        (initialProgress?.practice_score || 0) >= 80
+    );
+
+    const handleProgressUpdate = async (type: 'video' | 'notes' | 'practice', data: any) => {
+        try {
+            await updateDailyProgress('speed-maths', day.day, data);
+
+            // Local state updates for UI flow
+            if (type === 'video') setActiveTab('study');
+            if (type === 'notes') setActiveTab('practice');
+            if (type === 'practice' && data.practice_score >= 80) setIsPracticePassed(true);
+
+        } catch (error) {
+            console.error("Failed to save progress", error);
+            // Optionally show toast
+        }
+    };
 
     return (
         <div className="space-y-6">
@@ -94,7 +132,7 @@ export function DayView({ day }: { day: DayData }) {
                             />
                         </div>
                         <div className="flex justify-end">
-                            <PremiumButton onClick={() => setActiveTab('study')}>
+                            <PremiumButton onClick={() => handleProgressUpdate('video', { video_watched: true })}>
                                 Mark Watched & Continue
                             </PremiumButton>
                         </div>
@@ -114,7 +152,7 @@ export function DayView({ day }: { day: DayData }) {
                             </pre>
                         </div>
                         <div className="flex justify-end">
-                            <PremiumButton onClick={() => setActiveTab('practice')}>
+                            <PremiumButton onClick={() => handleProgressUpdate('notes', { notes_read: true })}>
                                 Mark Read & Start Practice
                             </PremiumButton>
                         </div>
@@ -123,24 +161,17 @@ export function DayView({ day }: { day: DayData }) {
 
                 {activeTab === "practice" && (
                     <div className="space-y-6 animate-in fade-in zoom-in-95 duration-300">
-                        <h2 className="text-2xl font-bold flex items-center gap-3">
-                            <Calculator className="h-6 w-6 text-emerald-400" />
-                            Phase 3: Skill Building
-                        </h2>
-                        <div className="p-12 text-center border border-dashed border-white/20 rounded-2xl bg-white/5 space-y-4">
-                            <div className="h-16 w-16 bg-emerald-500/20 rounded-full flex items-center justify-center mx-auto text-emerald-400">
-                                <Calculator className="h-8 w-8" />
-                            </div>
-                            <h3 className="text-xl font-semibold">Ready to test your speed?</h3>
-                            <p className="text-muted-foreground">
-                                You have {day.practice.questions.length} questions lined up.
-                                <br />
-                                Accuracy is key. Speed will follow.
-                            </p>
-                            <PremiumButton size="lg" className="w-full max-w-sm">
-                                Start Practice Session
-                            </PremiumButton>
-                        </div>
+                        <PracticeSession
+                            dayId={day.day}
+                            onComplete={(success) => {
+                                // Calculate score based on success for now (100 if success, else 0/current)
+                                // Ideally PracticeSession returns the actual score.
+                                // For now, let's assume success = 100%
+                                if (success) {
+                                    handleProgressUpdate('practice', { practice_score: 100 });
+                                }
+                            }}
+                        />
                     </div>
                 )}
 
@@ -150,13 +181,27 @@ export function DayView({ day }: { day: DayData }) {
                             <Trophy className="h-6 w-6 text-amber-400" />
                             Phase 4: The Arena
                         </h2>
-                        <div className="p-12 text-center border border-yellow-500/20 rounded-2xl bg-yellow-500/5 space-y-4">
-                            <Lock className="h-12 w-12 text-amber-500/50 mx-auto" />
-                            <h3 className="text-xl font-semibold text-amber-200">Locked Until Practice Complete</h3>
-                            <p className="text-muted-foreground">
-                                You must score at least 80% in Practice to enter the Arena.
-                            </p>
-                        </div>
+
+                        {!isPracticePassed ? (
+                            <div className="p-12 text-center border border-yellow-500/20 rounded-2xl bg-yellow-500/5 space-y-4">
+                                <Lock className="h-12 w-12 text-amber-500/50 mx-auto" />
+                                <h3 className="text-xl font-semibold text-amber-200">Locked Until Practice Complete</h3>
+                                <p className="text-muted-foreground">
+                                    You must score at least 80% accuracy in Practice to enter the Arena.
+                                </p>
+                            </div>
+                        ) : (
+                            <div className="p-12 text-center border border-emerald-500/20 rounded-2xl bg-emerald-500/5 space-y-4">
+                                <Trophy className="h-12 w-12 text-emerald-500 mx-auto" />
+                                <h3 className="text-xl font-semibold text-emerald-200">Welcome to The Arena</h3>
+                                <p className="text-muted-foreground">
+                                    You have proven your skills. Now compete for glory.
+                                </p>
+                                <PremiumButton size="lg" className="w-full max-w-sm mt-4">
+                                    Enter Battle (Coming Soon)
+                                </PremiumButton>
+                            </div>
+                        )}
                     </div>
                 )}
 

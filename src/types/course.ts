@@ -15,13 +15,20 @@ export interface Module {
 }
 
 export interface Day {
-    id: string;
-    dayNumber: number;
+    id?: string;
+    day: number; // Changed from dayNumber to match JSON
     title: string;
-    description: string;
-    isUnlocked: boolean;
-    isCompleted: boolean;
-    modules: Module[];
+    description?: string;
+    unlockDate?: string;
+
+    // New Content Structure
+    video?: { youtubeId: string; title: string };
+    notes?: { content: string };
+    practice?: { questions: any[] };
+    compete?: { targetScore: number; leaderboardId?: string };
+
+    // Deprecate
+    // modules: Module[]; 
 }
 
 export interface Course {

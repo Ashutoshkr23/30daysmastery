@@ -15,12 +15,14 @@ export async function updateDailyProgress(
     dayId: number,
     data: DailyProgressUpdate
 ) {
+    console.log("updateDailyProgress called:", { courseId, dayId, data });
     const supabase = await createClient();
     const {
         data: { user },
     } = await supabase.auth.getUser();
 
     if (!user) {
+        console.error("updateDailyProgress: Unauthorized");
         throw new Error("Unauthorized");
     }
 
@@ -44,6 +46,7 @@ export async function updateDailyProgress(
         throw new Error("Failed to update progress");
     }
 
+    console.log("updateDailyProgress success");
     revalidatePath(`/courses/${courseId}/day/${dayId}`);
     return { success: true };
 }
@@ -68,6 +71,7 @@ export async function getDailyProgress(courseId: string, dayId: number) {
         console.error("Error fetching progress:", error);
     }
 
+    // console.log("getDailyProgress result:", data);
     return data;
 }
 
@@ -84,6 +88,7 @@ export type AttemptLog = {
 };
 
 export async function logAttempt(data: AttemptLog) {
+    console.log("logAttempt called:", data);
     const supabase = await createClient();
     const {
         data: { user },
@@ -100,16 +105,22 @@ export async function logAttempt(data: AttemptLog) {
         console.error("Error logging attempt:", error);
         // We don't throw here to avoid blocking the UI if logging fails, 
         // but in a strict app we might.
+    } else {
+        console.log("logAttempt success");
     }
 }
 
 export async function getRecentAttempts(courseId: string, dayId: number) {
+    console.log("getRecentAttempts called:", { courseId, dayId });
     const supabase = await createClient();
     const {
         data: { user },
     } = await supabase.auth.getUser();
 
-    if (!user) return [];
+    if (!user) {
+        console.warn("getRecentAttempts: No user");
+        return [];
+    }
 
     const { data, error } = await supabase
         .from("course_attempts")
@@ -125,5 +136,6 @@ export async function getRecentAttempts(courseId: string, dayId: number) {
         return [];
     }
 
+    console.log("getRecentAttempts result count:", data.length);
     return data;
 }

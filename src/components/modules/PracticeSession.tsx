@@ -40,11 +40,14 @@ export function PracticeSession({ dayId, onComplete }: PracticeSessionProps) {
     const inputRef = useRef<HTMLInputElement>(null);
 
     const loadAttempts = async () => {
+        console.log("PracticeSession: loadAttempts calling for day", dayId);
         const attempts = await getRecentAttempts('speed-maths', dayId);
+        console.log("PracticeSession: loadAttempts received", attempts);
         setRecentAttempts(attempts || []);
     };
 
     useEffect(() => {
+        console.log("PracticeSession mounted or dayId changed:", dayId);
         loadAttempts();
     }, [dayId]);
 

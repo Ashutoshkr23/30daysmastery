@@ -20,12 +20,12 @@ export default function CourseTimeline({ course }: CourseTimelineProps) {
             <div className="absolute left-[19px] sm:left-[23px] top-6 h-[calc(100%-40px)] w-0.5 bg-gradient-to-b from-primary/50 via-primary/20 to-transparent" />
 
             {course.days.map((day, index) => {
-                const isCompleted = completedDays[`${course.id}-${day.dayNumber}`];
+                const isCompleted = completedDays[`${course.id}-${day.day}`];
                 // For MVP, we unlock the next day if previous is completed, or if it's day 1
                 const isLocked = false;
 
                 return (
-                    <div key={day.id} className="relative animate-in fade-in slide-in-from-bottom-4" style={{ animationDelay: `${index * 50}ms` }}>
+                    <div key={day.day} className="relative animate-in fade-in slide-in-from-bottom-4" style={{ animationDelay: `${index * 50}ms` }}>
                         {/* Timeline Dot */}
                         <div
                             className={cn(
@@ -42,12 +42,12 @@ export default function CourseTimeline({ course }: CourseTimelineProps) {
                             ) : isLocked ? (
                                 <Lock className="h-3.5 w-3.5" />
                             ) : (
-                                <span className="text-xs font-bold">{day.dayNumber}</span>
+                                <span className="text-xs font-bold">{day.day}</span>
                             )}
                         </div>
 
                         {/* Day Card */}
-                        <Link href={isLocked ? "#" : `/courses/${course.id}/day/${day.dayNumber}`}>
+                        <Link href={isLocked ? "#" : `/courses/${course.id}/day/${day.day}`}>
                             <GlassCard
                                 variant={isLocked ? "default" : "hover"}
                                 intensity="low"
@@ -63,7 +63,7 @@ export default function CourseTimeline({ course }: CourseTimelineProps) {
                                             {day.title}
                                         </h3>
                                         <p className="text-sm text-muted-foreground line-clamp-2">
-                                            {day.description}
+                                            {day.description || "Master the concepts of speed mathematics."}
                                         </p>
                                     </div>
 
@@ -76,22 +76,22 @@ export default function CourseTimeline({ course }: CourseTimelineProps) {
 
                                 {/* Modules Badges - Premium Glass Chips */}
                                 <div className="mt-4 flex flex-wrap gap-2">
-                                    {day.modules.find(m => m.type === 'video') && (
+                                    {day.video && (
                                         <div className="inline-flex items-center gap-1.5 rounded-full border border-blue-500/30 bg-blue-500/10 px-3 py-1 text-xs font-semibold text-blue-600 dark:text-blue-300 shadow-sm backdrop-blur-sm">
                                             <PlayCircle className="h-3.5 w-3.5" />
                                             Video
                                         </div>
                                     )}
-                                    {day.modules.find(m => m.type === 'note') && (
+                                    {day.notes && (
                                         <div className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/30 bg-amber-500/10 px-3 py-1 text-xs font-semibold text-amber-600 dark:text-amber-300 shadow-sm backdrop-blur-sm">
                                             <FileText className="h-3.5 w-3.5" />
                                             Notes
                                         </div>
                                     )}
-                                    {day.modules.find(m => m.type === 'quiz') && (
+                                    {day.practice && (
                                         <div className="inline-flex items-center gap-1.5 rounded-full border border-purple-500/30 bg-purple-500/10 px-3 py-1 text-xs font-semibold text-purple-600 dark:text-purple-300 shadow-sm backdrop-blur-sm">
                                             <HelpCircle className="h-3.5 w-3.5" />
-                                            Quiz
+                                            Practice
                                         </div>
                                     )}
                                 </div>

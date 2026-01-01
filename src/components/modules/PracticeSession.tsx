@@ -10,7 +10,7 @@ import { logAttempt, getRecentAttempts } from "@/lib/actions/progress";
 
 interface PracticeSessionProps {
     dayId: number;
-    onComplete?: (success: boolean) => void;
+    onComplete?: (success: boolean, accuracy: number) => void;
 }
 
 const CORRECT_ANSWERS_GOAL = 10;
@@ -96,12 +96,16 @@ export function PracticeSession({ dayId, onComplete }: PracticeSessionProps) {
                 if (val === question.answer) {
                     handleCorrect();
                 } else {
-                    // Optional: Handle wrong answer (shake effect, or just wait for them to fix)
-                    // For now, let's strictly require the correct answer to proceed? 
-                    // Or fail them? The user's code just checked if (val === correctAnswer).
+                    handleWrong();
                 }
             }
         }
+    };
+
+    const handleWrong = () => {
+        setQuestionCount(prev => prev + 1); // Penalize accuracy
+        setTempAnswer(null); // Clear input
+        // Could add visual feedback state here if needed
     };
 
     const handleCorrect = () => {
@@ -123,7 +127,7 @@ export function PracticeSession({ dayId, onComplete }: PracticeSessionProps) {
         const accuracy = score / questionCount;
         const passed = accuracy >= 0.8; // 80% Threshold
 
-        if (onComplete) onComplete(passed);
+        if (onComplete) onComplete(passed, Math.round(accuracy * 100));
 
         // Log to DB
         logAttempt({

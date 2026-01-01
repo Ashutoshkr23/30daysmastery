@@ -172,12 +172,9 @@ export function DayView({ day, initialProgress }: DayViewProps) {
                     <div className="space-y-6 animate-in fade-in zoom-in-95 duration-300">
                         <PracticeSession
                             dayId={day.day}
-                            onComplete={(success) => {
-                                // Calculate score based on success for now (100 if success, else 0/current)
-                                // Ideally PracticeSession returns the actual score.
-                                // For now, let's assume success = 100%
+                            onComplete={(success, accuracy) => {
                                 if (success) {
-                                    handleProgressUpdate('practice', { practice_score: 100 });
+                                    handleProgressUpdate('practice', { practice_score: accuracy });
                                 }
                             }}
                         />

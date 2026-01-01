@@ -136,6 +136,5 @@ export async function getRecentAttempts(courseId: string, dayId: number) {
         return [];
     }
 
-    console.log("getRecentAttempts result count:", data.length);
     return data;
 }

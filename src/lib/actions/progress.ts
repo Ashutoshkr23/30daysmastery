@@ -103,10 +103,10 @@ export async function logAttempt(data: AttemptLog) {
 
     if (error) {
         console.error("Error logging attempt:", error);
-        // We don't throw here to avoid blocking the UI if logging fails, 
-        // but in a strict app we might.
+        return { success: false, error: error.message };
     } else {
         console.log("logAttempt success");
+        return { success: true };
     }
 }
 

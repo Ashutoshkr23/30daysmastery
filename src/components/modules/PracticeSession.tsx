@@ -120,7 +120,9 @@ export function PracticeSession({ dayId, onComplete }: PracticeSessionProps) {
         }
     }
 
-    const finishSession = () => {
+    const [saveError, setSaveError] = useState<string | null>(null);
+
+    const finishSession = async () => {
         setShowResult(true);
         setStarted(false);
 
@@ -130,17 +132,25 @@ export function PracticeSession({ dayId, onComplete }: PracticeSessionProps) {
         if (onComplete) onComplete(passed, Math.round(accuracy * 100));
 
         // Log to DB
-        logAttempt({
-            course_id: 'speed-maths',
-            day_id: dayId,
-            score,
-            total_questions: questionCount,
-            accuracy: accuracy * 100, // Store as percentage e.g. 95.5
-            time_taken: elapsedTime,
-            passed
-        }).then(() => {
-            loadAttempts(); // Refresh history
-        });
+        try {
+            const result = await logAttempt({
+                course_id: 'speed-maths',
+                day_id: dayId,
+                score,
+                total_questions: questionCount,
+                accuracy: accuracy * 100, // Store as percentage e.g. 95.5
+                time_taken: elapsedTime,
+                passed
+            });
+
+            if (!result || !result.success) {
+                setSaveError(result?.error || "Unknown error saving attempt");
+            } else {
+                await loadAttempts(); // Refresh history
+            }
+        } catch (e: any) {
+            setSaveError(e.message);
+        }
 
         console.log("Session Complete!", { score, questionCount, accuracy, passed });
     };
@@ -152,6 +162,12 @@ export function PracticeSession({ dayId, onComplete }: PracticeSessionProps) {
     };
 
     // --- Renders ---
+
+    // Debug helper
+    if (dayConfig) {
+        // Just appending debug JSX to the return isn't easy with replacing the whole block.
+        // I'll inject the debug view into the showResult and default views via a helper or appended JSX.
+    }
 
     if (!dayConfig) {
         return <div>Configuration for Day {dayId} not found.</div>;
@@ -174,6 +190,12 @@ export function PracticeSession({ dayId, onComplete }: PracticeSessionProps) {
                             : "You need 80% accuracy to pass. Try again!"}
                     </p>
                 </div>
+
+                {saveError && (
+                    <div className="p-4 bg-red-500/10 border border-red-500 text-red-500 rounded-lg text-sm">
+                        Database Error: {saveError}
+                    </div>
+                )}
 
                 <div className="grid grid-cols-2 gap-4 w-full max-w-sm">
                     <GlassCard className="p-4 flex flex-col items-center">
@@ -223,6 +245,12 @@ export function PracticeSession({ dayId, onComplete }: PracticeSessionProps) {
                         </div>
                     </div>
                 )}
+
+                {/* DEBUG VIEW */}
+                <div className="w-full mt-4 text-xs text-left p-4 bg-black/50 rounded overflow-auto h-32">
+                    <p className="font-bold text-yellow-500 mb-2">DEBUG DATA:</p>
+                    <pre>{JSON.stringify({ dayId, recentAttemptsCount: recentAttempts.length, attempts: recentAttempts }, null, 2)}</pre>
+                </div>
             </div>
         );
     }

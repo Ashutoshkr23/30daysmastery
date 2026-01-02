@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import speedMathsData from "@/data/courses/speed-maths.json";
-import { DayView } from "../../../../../components/modules/DayView";
+import { DayView } from "@/components/modules/DayView";
 import { getDailyProgress } from "@/lib/actions/progress";
 // Force Re-eval
 import { Lock } from "lucide-react";

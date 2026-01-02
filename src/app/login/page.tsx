@@ -40,10 +40,20 @@ export default function LoginPage() {
             </div>
 
             {/* LEFT PANEL: Branding & Vision (Visible on Mobile now too, but styled differently) */}
-            <div className="relative z-10 hidden md:flex flex-col justify-between p-12 lg:p-16 border-r border-white/5 bg-gradient-to-br from-primary/5 via-background to-background">
+            <div className="hidden md:flex relative flex-col justify-between p-12 lg:p-16 border-r border-white/5 bg-gradient-to-br from-primary/5 via-background to-background">
+
+                {/* Desktop Logo (Absolute Top Left) */}
+                <div className="absolute top-8 left-8 flex items-center gap-3">
+                    <div className="h-10 w-10 bg-gradient-to-tr from-primary to-indigo-500 rounded-lg flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-primary/20">
+                        30
+                    </div>
+                    <span className="font-bold text-xl bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent">
+                        DaysMastery
+                    </span>
+                </div>
 
                 {/* Desktop Content Container */}
-                <div className="space-y-12 mt-12">
+                <div className="space-y-12 mt-24">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -54,7 +64,7 @@ export default function LoginPage() {
                             <span>Premium Learning Experience</span>
                         </div>
                         <h1 className="text-5xl lg:text-6xl font-bold tracking-tighter mb-6 bg-clip-text text-transparent bg-gradient-to-b from-white to-white/60 leading-[1.1]">
-                            Master Your Exam <br /> in 30 Days.
+                            Master Your <br /> Dream Exam.
                         </h1>
                         <p className="text-lg text-muted-foreground/80 max-w-md leading-relaxed">
                             Join 2,000+ disciplined aspirants who have transformed their preparation with our scientifically designed daily challenges.
@@ -89,21 +99,27 @@ export default function LoginPage() {
             <div className="relative z-10 flex flex-col items-center justify-center p-6 w-full h-full">
 
                 {/* Mobile Branding (Only visible on mobile) */}
-                <div className="md:hidden w-full max-w-sm mb-8 text-center space-y-4">
+                <div className="md:hidden w-full max-w-sm mb-12 flex flex-col items-center">
                     <motion.div
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 0.8 }}
+                        className="flex flex-col items-center gap-4"
                     >
-                        <div className="inline-flex items-center justify-center h-12 w-12 rounded-xl bg-gradient-to-tr from-primary to-violet-600 shadow-lg shadow-primary/25 mb-6">
-                            <span className="font-bold text-xl text-white">30</span>
+                        {/* Official Logo Block */}
+                        <div className="flex items-center gap-3 mb-2">
+                            <div className="h-12 w-12 bg-gradient-to-tr from-primary to-indigo-500 rounded-lg flex items-center justify-center text-white font-bold text-2xl shadow-xl shadow-primary/30">
+                                30
+                            </div>
+                            <span className="font-bold text-2xl bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent">
+                                DaysMastery
+                            </span>
                         </div>
-                        <h1 className="text-3xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-white to-white/70">
-                            Master Your Exam
-                        </h1>
-                        <p className="text-sm text-muted-foreground mt-2">
-                            Premium preparation for serious aspirants.
-                        </p>
+
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-[10px] font-medium text-primary shadow-sm">
+                            <Sparkles className="w-3 h-3" />
+                            <span>Premium Learning Environment</span>
+                        </div>
                     </motion.div>
                 </div>
 

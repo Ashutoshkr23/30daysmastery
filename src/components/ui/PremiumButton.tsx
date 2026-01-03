@@ -20,11 +20,11 @@ export function PremiumButton({
     ...props
 }: PremiumButtonProps) {
     const variants = {
-        primary: "bg-gradient-to-r from-primary to-indigo-500 text-white shadow-lg hover:shadow-primary/30 hover:scale-[1.02] active:scale-[0.98] border-none",
+        primary: "bg-gradient-to-r from-primary to-indigo-500 text-white shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:scale-[1.02] active:scale-[0.98] border-none",
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80 hover:scale-[1.02]",
         outline: "border-2 border-primary/20 bg-transparent text-primary hover:border-primary/50 hover:bg-primary/5",
         ghost: "bg-transparent text-foreground hover:bg-accent hover:text-accent-foreground",
-        glass: "bg-white/10 dark:bg-white/5 backdrop-blur-md border border-white/20 text-foreground dark:text-white hover:bg-white/20 dark:hover:bg-white/10 shadow-sm",
+        glass: "bg-white/10 dark:bg-white/5 backdrop-blur-md border border-white/10 text-foreground dark:text-white hover:bg-white/20 dark:hover:bg-white/10 shadow-sm transition-all duration-300",
     };
 
     const sizes = {
@@ -38,7 +38,7 @@ export function PremiumButton({
         <button
             disabled={disabled || isLoading}
             className={cn(
-                "relative inline-flex items-center justify-center font-medium transition-all duration-300 disabled:pointer-events-none disabled:opacity-50",
+                "relative inline-flex items-center justify-center font-medium transition-all duration-300 disabled:pointer-events-none disabled:opacity-50 group overflow-hidden",
                 variants[variant],
                 sizes[size],
                 className

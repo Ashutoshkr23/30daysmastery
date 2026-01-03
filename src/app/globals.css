@@ -104,13 +104,16 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
 
-  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  /* Fonts */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
 
   /* Enhanced Animations */
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up: accordion-up 0.2s ease-out;
   --animate-shimmer: shimmer 2s linear infinite;
+  --animate-pulse-slow: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 
   @keyframes accordion-down {
     from {
@@ -151,9 +154,22 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Scrollbar Styling */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  letter-spacing: -0.02em;
+  /* Tight tracking for headings */
+}
+
+/* Premium Scrollbar Styling */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
+  /* Thinner */
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -161,11 +177,34 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--muted-foreground);
-  border-radius: 4px;
-  opacity: 0.5;
+  background: rgba(148, 163, 184, 0.2);
+  /* Subtle slate */
+  border-radius: 999px;
+  backdrop-filter: blur(4px);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--primary);
+  background: rgba(124, 58, 237, 0.5);
+  /* Primary color on hover */
+}
+
+/* Premium Utilities */
+.glass-panel {
+  @apply bg-background/60 backdrop-blur-xl border border-white/5 shadow-xl;
+}
+
+.text-gradient {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-foreground to-muted-foreground;
+}
+
+.text-gradient-primary {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-violet-400 to-indigo-400;
+}
+
+.glow-primary {
+  box-shadow: 0 0 20px -5px rgba(124, 58, 237, 0.3);
+}
+
+.glow-text {
+  text-shadow: 0 0 20px rgba(124, 58, 237, 0.5);
 }

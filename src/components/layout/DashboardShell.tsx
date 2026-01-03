@@ -24,6 +24,13 @@ export default function DashboardShell({
             {/* Mobile Header */}
             <header className="md:hidden fixed top-0 left-0 right-0 h-16 z-50 bg-background/80 backdrop-blur-md border-b border-border/50 flex items-center px-4 justify-between">
                 <div className="flex items-center gap-3">
+                    <button
+                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                        className="p-2 rounded-lg bg-secondary/50 border border-border/50 text-foreground mr-2"
+                    >
+                        {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+                    </button>
+
                     <div className="h-8 w-8 bg-gradient-to-tr from-primary to-indigo-500 rounded-lg flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-primary/20">
                         30
                     </div>
@@ -31,13 +38,6 @@ export default function DashboardShell({
                         DaysMastery
                     </span>
                 </div>
-
-                <button
-                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                    className="p-2 rounded-lg bg-secondary/50 border border-border/50 text-foreground"
-                >
-                    {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-                </button>
             </header>
 
             {/* Side Navigation (Controlled) */}

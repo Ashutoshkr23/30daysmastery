@@ -10,6 +10,7 @@ import { CompetitionArena } from "./CompetitionArena";
 import { Leaderboard } from "./Leaderboard";
 import { FlashCard } from "./FlashCard";
 import { updateDailyProgress } from "@/lib/actions/progress";
+import { useProgressStore } from "@/store/progress-store";
 
 // Updated Interface matching new JSON Key
 interface DayData {
@@ -63,8 +64,10 @@ export function DayView({ day, initialProgress }: DayViewProps) {
         (initialProgress?.practice_score || 0) >= 80
     );
 
-    // Track Rote Memorization
-    const [memorizedItems, setMemorizedItems] = useState<number[]>([]);
+    // Track Rote Memorization (Persistent)
+    const { memorizedItems: allMemorizedItems, toggleMemorizedItem } = useProgressStore();
+    const courseId = "speed-maths"; // Hardcoded for now, could be dynamic
+    const memorizedItems = allMemorizedItems[`${courseId}-${day.day}`] || [];
 
     const handleProgressUpdate = async (type: 'notes' | 'practice', data: any) => {
         try {
@@ -79,11 +82,7 @@ export function DayView({ day, initialProgress }: DayViewProps) {
     };
 
     const toggleMemorized = (index: number) => {
-        if (memorizedItems.includes(index)) {
-            setMemorizedItems(prev => prev.filter(i => i !== index));
-        } else {
-            setMemorizedItems(prev => [...prev, index]);
-        }
+        toggleMemorizedItem(courseId, day.day, index);
     };
 
     const isAllMemorized = day.content.rote.items.length > 0 && memorizedItems.length === day.content.rote.items.length;

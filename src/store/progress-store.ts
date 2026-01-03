@@ -4,12 +4,14 @@ import { persist } from 'zustand/middleware';
 interface ProgressState {
     completedDays: Record<string, boolean>; // key: "courseId-dayId" -> true
     quizScores: Record<string, number>; // key: "quizId" -> score
+    memorizedItems: Record<string, number[]>; // key: "courseId-dayId" -> [indices]
     totalXp: number;
     streak: number;
     lastActiveDate: string | null;
 
     markDayComplete: (courseId: string, dayId: number) => void;
     saveQuizScore: (quizId: string, score: number) => void;
+    toggleMemorizedItem: (courseId: string, dayId: number, index: number) => void;
     updateStreak: () => void;
 }
 
@@ -18,6 +20,7 @@ export const useProgressStore = create<ProgressState>()(
         (set, get) => ({
             completedDays: {},
             quizScores: {},
+            memorizedItems: {},
             totalXp: 0,
             streak: 0,
             lastActiveDate: null,
@@ -58,6 +61,23 @@ export const useProgressStore = create<ProgressState>()(
                 } catch (e) {
                     console.error("Failed to sync XP with server", e);
                 }
+            },
+
+            toggleMemorizedItem: (courseId, dayId, index) => {
+                const key = `${courseId}-${dayId}`;
+                set((state) => {
+                    const currentItems = state.memorizedItems[key] || [];
+                    const newItems = currentItems.includes(index)
+                        ? currentItems.filter((i) => i !== index)
+                        : [...currentItems, index];
+
+                    return {
+                        memorizedItems: {
+                            ...state.memorizedItems,
+                            [key]: newItems
+                        }
+                    };
+                });
             },
 
             updateStreak: () => {

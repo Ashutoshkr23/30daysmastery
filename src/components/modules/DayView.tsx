@@ -26,7 +26,7 @@ interface DayViewProps {
 
 // Tab Definition
 const TABS = [
-    { id: "watch", label: "Watch", icon: Play },
+    // { id: "watch", label: "Watch", icon: Play },
     { id: "study", label: "Study", icon: BookOpen },
     { id: "practice", label: "Practice", icon: Calculator },
     { id: "compete", label: "Compete", icon: Trophy },
@@ -37,8 +37,8 @@ type TabId = (typeof TABS)[number]["id"];
 export function DayView({ day, initialProgress }: DayViewProps) {
     // Determine initial tab: Watch -> Study -> Practice -> Compete
     const getInitialTab = () => {
-        if (!initialProgress) return "watch";
-        if (!initialProgress.video_watched) return "watch";
+        if (!initialProgress) return "study"; // Default to study (skipped watch)
+        // if (!initialProgress.video_watched) return "watch"; // Disabled
         if (!initialProgress.notes_read) return "study";
         // If practice score is high enough (>=80), default to compete, else practice
         // We don't have exact score logic mirrored here fully yet, checking raw score > 0 as proxy or relying on user
@@ -122,7 +122,8 @@ export function DayView({ day, initialProgress }: DayViewProps) {
                 {/* Background Glow */}
                 <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-[128px] -z-10" />
 
-                {activeTab === "watch" && (
+                {/* Video Tab Disabled */
+                /* activeTab === "watch" && (
                     <div className="space-y-6 animate-in fade-in zoom-in-95 duration-300">
                         <h2 className="text-2xl font-bold flex items-center gap-3">
                             <Play className="h-6 w-6 text-primary" />
@@ -146,7 +147,7 @@ export function DayView({ day, initialProgress }: DayViewProps) {
                             </PremiumButton>
                         </div>
                     </div>
-                )}
+                ) */}
 
                 {activeTab === "study" && (
                     <div className="space-y-6 animate-in fade-in zoom-in-95 duration-300">

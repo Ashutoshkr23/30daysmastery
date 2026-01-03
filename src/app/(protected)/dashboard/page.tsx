@@ -6,6 +6,8 @@ import { Zap, Trophy, Flame, ChevronRight, PlayCircle, BookOpen } from "lucide-r
 import { cn } from "@/lib/utils";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { PremiumButton } from "@/components/ui/PremiumButton";
+import { AnalyticsView } from "@/components/modules/AnalyticsView";
+import { BadgesView } from "@/components/modules/BadgesView";
 
 export default function Dashboard() {
     const { streak, totalXp } = useProgressStore();
@@ -47,29 +49,22 @@ export default function Dashboard() {
                 </div>
             </header>
 
-            {/* Stats Overview */}
-            <div className="grid grid-cols-2 gap-4">
-                <GlassCard variant="hover" intensity="low" className="p-5 flex flex-col justify-between h-32">
-                    <div className="flex items-center gap-2 text-muted-foreground text-xs font-bold uppercase tracking-wider">
-                        <Trophy className="h-4 w-4 text-yellow-500" />
-                        Total XP
-                    </div>
-                    <div>
-                        <div className="text-4xl font-extrabold text-primary">{totalXp}</div>
-                        <div className="text-xs text-muted-foreground mt-1">Points earned</div>
-                    </div>
-                </GlassCard>
-                <GlassCard variant="hover" intensity="low" className="p-5 flex flex-col justify-between h-32">
-                    <div className="flex items-center gap-2 text-muted-foreground text-xs font-bold uppercase tracking-wider">
-                        <BookOpen className="h-4 w-4 text-blue-500" />
-                        Lessons
-                    </div>
-                    <div>
-                        <div className="text-4xl font-extrabold text-foreground">4</div>
-                        <div className="text-xs text-muted-foreground mt-1">Completed</div>
-                    </div>
-                </GlassCard>
-            </div>
+            {/* Premium Analytics Dashboard */}
+            <section>
+                <div className="flex items-center gap-2 mb-5">
+                    <h2 className="text-xl font-bold">Performance Analytics</h2>
+                    <span className="text-[10px] bg-primary/20 text-primary px-2 py-0.5 rounded-full font-bold uppercase tracking-wide">PRO</span>
+                </div>
+                <AnalyticsView />
+            </section>
+
+            {/* Achievements Section */}
+            <section>
+                <div className="flex items-center gap-2 mb-5">
+                    <h2 className="text-xl font-bold">Hall of Fame</h2>
+                </div>
+                <BadgesView />
+            </section>
 
             {/* Continue Learning Hero Card */}
             <Link href="/courses/speed-maths" className="block group">

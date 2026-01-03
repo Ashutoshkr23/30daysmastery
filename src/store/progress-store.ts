@@ -22,25 +22,42 @@ export const useProgressStore = create<ProgressState>()(
             streak: 0,
             lastActiveDate: null,
 
-            markDayComplete: (courseId, dayId) => {
+            markDayComplete: async (courseId, dayId) => {
                 const key = `${courseId}-${dayId}`;
                 const { completedDays, updateStreak } = get();
 
                 if (!completedDays[key]) {
                     set((state) => ({
                         completedDays: { ...state.completedDays, [key]: true },
-                        totalXp: state.totalXp + 50, // 50 XP per day completion
+                        totalXp: state.totalXp + 50, // Optimistic update
                     }));
                     updateStreak();
+
+                    // Server Sync
+                    try {
+                        const { addXp } = await import('@/lib/actions/gamification');
+                        await addXp(50, 'day_completion');
+                    } catch (e) {
+                        console.error("Failed to sync XP with server", e);
+                    }
                 }
             },
 
-            saveQuizScore: (quizId, score) => {
+            saveQuizScore: async (quizId, score) => {
+                const xpEarned = score * 10;
                 set((state) => ({
                     quizScores: { ...state.quizScores, [quizId]: score },
-                    totalXp: state.totalXp + (score * 10), // 10 XP per point
+                    totalXp: state.totalXp + xpEarned, // Optimistic update
                 }));
                 get().updateStreak();
+
+                // Server Sync
+                try {
+                    const { addXp } = await import('@/lib/actions/gamification');
+                    await addXp(xpEarned, 'quiz_score');
+                } catch (e) {
+                    console.error("Failed to sync XP with server", e);
+                }
             },
 
             updateStreak: () => {

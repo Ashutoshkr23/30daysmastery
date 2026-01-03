@@ -6,6 +6,12 @@ create table profiles (
   full_name text,
   avatar_url text,
   website text,
+ 
+  -- Gamification Fields
+  total_xp integer default 0,
+  weekly_xp integer default 0,
+  level integer default 1,
+  badges jsonb default '[]'::jsonb,
 
   constraint username_length check (char_length(username) >= 3)
 );

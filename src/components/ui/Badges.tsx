@@ -1,5 +1,5 @@
 import { GlassCard } from "@/components/ui/GlassCard";
-import { Trophy, Zap, Flame, Star, Target, Crown } from "lucide-react";
+import { Trophy, Zap, Flame, Star, Target, Crown, HelpCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export interface Badge {
@@ -21,7 +21,7 @@ const ICONS = {
 };
 
 export const BadgeCard = ({ badge, locked = false }: { badge: Badge; locked?: boolean }) => {
-    const Icon = ICONS[badge.icon];
+    const Icon = ICONS[badge.icon] || HelpCircle;
 
     return (
         <GlassCard

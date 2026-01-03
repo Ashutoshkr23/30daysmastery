@@ -9,7 +9,7 @@ import { Loader2 } from "lucide-react";
 // Mocking some badges definitions for now since we count on just IDs in DB
 // In Phase 4 we'd make a badges table.
 const BADGE_DEFINITIONS: Record<string, Badge> = {
-    "first_login": { id: "first_login", name: "Welcome Aboard", description: "Joined the 30 Days Mastery journey", icon: "start", color: "from-blue-400 to-cyan-400" },
+    "first_login": { id: "first_login", name: "Welcome Aboard", description: "Joined the 30 Days Mastery journey", icon: "star", color: "from-blue-400 to-cyan-400" },
     "streak_3": { id: "streak_3", name: "3 Day Streak", description: "Consistency is key!", icon: "flame", color: "from-orange-400 to-red-400" },
     "streak_7": { id: "streak_7", name: "7 Day Streak", description: "Unstoppable force.", icon: "flame", color: "from-red-500 to-pink-500" },
     "quiz_master": { id: "quiz_master", name: "Quiz Master", description: "Scored 100% on a quiz", icon: "trophy", color: "from-yellow-400 to-amber-500" },

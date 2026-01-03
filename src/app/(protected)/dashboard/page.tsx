@@ -6,7 +6,7 @@ import { Zap, Trophy, Flame, ChevronRight, PlayCircle, BookOpen } from "lucide-r
 import { cn } from "@/lib/utils";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { PremiumButton } from "@/components/ui/PremiumButton";
-import { AnalyticsView } from "@/components/modules/AnalyticsView";
+
 import { BadgesView } from "@/components/modules/BadgesView";
 
 export default function Dashboard() {
@@ -48,15 +48,6 @@ export default function Dashboard() {
                     <span className="font-bold">{streak} Day Streak</span>
                 </div>
             </header>
-
-            {/* Premium Analytics Dashboard */}
-            <section>
-                <div className="flex items-center gap-2 mb-5">
-                    <h2 className="text-xl font-bold">Performance Analytics</h2>
-                    <span className="text-[10px] bg-primary/20 text-primary px-2 py-0.5 rounded-full font-bold uppercase tracking-wide">PRO</span>
-                </div>
-                <AnalyticsView />
-            </section>
 
             {/* Achievements Section */}
             <section>

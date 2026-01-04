@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import { PremiumButton } from "@/components/ui/PremiumButton";
 import { GlassCard } from "@/components/ui/GlassCard";
-import { challengeConfig, Question } from "@/lib/generators";
+import { daysConfig, getGenerator, Question } from "@/lib/generators";
 import { Loader2, Zap, Trophy, Timer, AlertTriangle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { logAttempt } from "@/lib/actions/progress";
@@ -17,7 +17,7 @@ const ARENA_GOAL = 20; // Harder than practice
 const TIME_PENALTY = 5; // +5 seconds for wrong answer
 
 export function CompetitionArena({ dayId, onComplete }: CompetitionArenaProps) {
-    const dayConfig = challengeConfig[dayId];
+    const dayConfig = daysConfig[dayId];
 
     // State
     const [started, setStarted] = useState(false);
@@ -44,12 +44,19 @@ export function CompetitionArena({ dayId, onComplete }: CompetitionArenaProps) {
         return () => clearInterval(timer);
     }, [started, startTime, showResult, penaltyTime]);
 
-    // Setup Task (Default to first for now, or mix?)
-    const currentTask = dayConfig?.tasks[0];
+    // Strategies: Pick a random generator from unlocked list for variety
+    const getNextQuestion = () => {
+        if (!dayConfig) return null;
+        // Randomly pick one of the available types for this day
+        const genIds = dayConfig.unlockedGenerators;
+        const randomId = genIds[Math.floor(Math.random() * genIds.length)];
+        const generator = getGenerator(randomId);
+        return generator();
+    };
 
     // Start
     const enterArena = () => {
-        if (!currentTask) return;
+        if (!dayConfig) return;
         setStarted(true);
         setScore(0);
         setQuestionCount(1);
@@ -61,11 +68,12 @@ export function CompetitionArena({ dayId, onComplete }: CompetitionArenaProps) {
     };
 
     const generateNewQuestion = () => {
-        if (!currentTask) return;
-        const q = currentTask.generator();
-        setQuestion(q);
-        setTempAnswer(null);
-        setTimeout(() => inputRef.current?.focus(), 100);
+        const q = getNextQuestion();
+        if (q) {
+            setQuestion(q);
+            setTempAnswer(null);
+            setTimeout(() => inputRef.current?.focus(), 100);
+        }
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

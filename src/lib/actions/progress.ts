@@ -80,6 +80,7 @@ export async function getDailyProgress(courseId: string, dayId: number) {
 export type AttemptLog = {
     course_id: string;
     day_id: number;
+    task_id?: string; // New field
     score: number;
     total_questions: number;
     accuracy: number;
@@ -106,12 +107,13 @@ export async function logAttempt(data: AttemptLog) {
         return { success: false, error: error.message };
     } else {
         console.log("logAttempt success");
+        revalidatePath(`/courses/${data.course_id}/day/${data.day_id}`);
         return { success: true };
     }
 }
 
-export async function getRecentAttempts(courseId: string, dayId: number) {
-    console.log("getRecentAttempts called:", { courseId, dayId });
+export async function getRecentAttempts(courseId: string, dayId: number, taskId?: string) {
+    console.log("getRecentAttempts called:", { courseId, dayId, taskId });
     const supabase = await createClient();
     const {
         data: { user },
@@ -122,14 +124,20 @@ export async function getRecentAttempts(courseId: string, dayId: number) {
         return [];
     }
 
-    const { data, error } = await supabase
+    let query = supabase
         .from("course_attempts")
         .select("*")
         .eq("user_id", user.id)
         .eq("course_id", courseId)
         .eq("day_id", dayId)
-        .order("created_at", { ascending: false })
-        .limit(10);
+        .order("created_at", { ascending: false }); // Latest first
+
+    if (taskId) {
+        query = query.eq("task_id", taskId);
+    }
+
+    // Increase limit to capture enough history for unlock checks
+    const { data, error } = await query.limit(50);
 
     if (error) {
         console.error("Error fetching attempts:", error);

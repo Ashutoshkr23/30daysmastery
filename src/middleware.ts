@@ -37,6 +37,12 @@ export async function middleware(request: NextRequest) {
 
     // Protected Routes Logic
     const path = request.nextUrl.pathname
+
+    // Bypass auth for localhost
+    if (request.nextUrl.hostname === 'localhost' || request.nextUrl.hostname === '127.0.0.1') {
+        return supabaseResponse
+    }
+
     const isProtectedPath = path.startsWith('/dashboard') || path.startsWith('/courses') || path.startsWith('/profile')
     const isAuthPath = path === '/login' || path === '/signup'
 

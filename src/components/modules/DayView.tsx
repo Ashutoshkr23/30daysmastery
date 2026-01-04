@@ -1,14 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { GlassCard } from "@/components/ui/GlassCard";
-import { PremiumButton } from "@/components/ui/PremiumButton";
 import { cn } from "@/lib/utils";
-import { BookOpen, Calculator, Trophy, Lock, Sparkles, BrainCircuit } from "lucide-react"; // Removed Play
+import { BookOpen, Calculator, Trophy, Lock } from "lucide-react";
 import { PracticeSession } from "./PracticeSession";
 import { CompetitionArena } from "./CompetitionArena";
 import { Leaderboard } from "./Leaderboard";
-import { FlashCard } from "./FlashCard";
+import { StudyCardDeck } from "./StudyCardDeck";
 import { updateDailyProgress } from "@/lib/actions/progress";
 import { useProgressStore } from "@/store/progress-store";
 
@@ -16,11 +15,10 @@ import { useProgressStore } from "@/store/progress-store";
 interface DayData {
     day: number;
     title: string;
-    // video removed
     content: {
         concept: {
             title: string;
-            description: string; // Markdown
+            description: string;
             example?: {
                 problem: string;
                 solution: string;
@@ -29,7 +27,10 @@ interface DayData {
         };
         rote: {
             title: string;
-            items: Array<{ front: string; back: string }>;
+            groups: Array<{
+                title: string;
+                items: Array<{ q: string; a: string }>;
+            }>;
         };
     };
     practice: { questions: any[] };
@@ -37,7 +38,7 @@ interface DayData {
 }
 
 interface DayViewProps {
-    day: DayData;
+    day: any; // Type assertion handled in component due to JSON variability during migration
     initialProgress: any;
 }
 
@@ -51,7 +52,6 @@ const TABS = [
 type TabId = (typeof TABS)[number]["id"];
 
 export function DayView({ day, initialProgress }: DayViewProps) {
-    // Determine initial tab
     const getInitialTab = () => {
         if (!initialProgress) return "study";
         if (!initialProgress.notes_read) return "study";
@@ -64,28 +64,15 @@ export function DayView({ day, initialProgress }: DayViewProps) {
         (initialProgress?.practice_score || 0) >= 80
     );
 
-    // Track Rote Memorization (Persistent)
-    const { memorizedItems: allMemorizedItems, toggleMemorizedItem } = useProgressStore();
-    const courseId = "speed-maths"; // Hardcoded for now, could be dynamic
-    const memorizedItems = allMemorizedItems[`${courseId}-${day.day}`] || [];
-
     const handleProgressUpdate = async (type: 'notes' | 'practice', data: any) => {
         try {
             await updateDailyProgress('speed-maths', day.day, data);
-
             if (type === 'notes') setActiveTab('practice');
             if (type === 'practice' && data.practice_score >= 80) setIsPracticePassed(true);
-
         } catch (error) {
             console.error("Failed to save progress", error);
         }
     };
-
-    const toggleMemorized = (index: number) => {
-        toggleMemorizedItem(courseId, day.day, index);
-    };
-
-    const isAllMemorized = day.content.rote.items.length > 0 && memorizedItems.length === day.content.rote.items.length;
 
     return (
         <div className="space-y-6">
@@ -132,86 +119,10 @@ export function DayView({ day, initialProgress }: DayViewProps) {
                 <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-[128px] -z-10" />
 
                 {activeTab === "study" && (
-                    <div className="space-y-12 animate-in fade-in zoom-in-95 duration-500">
-                        {/* Section A: Concept / The Trick */}
-                        <div className="space-y-6">
-                            <div className="flex items-center gap-3 mb-4">
-                                <div className="p-2 bg-indigo-500/10 rounded-lg border border-indigo-500/20">
-                                    <Sparkles className="h-6 w-6 text-indigo-400" />
-                                </div>
-                                <div>
-                                    <h2 className="text-2xl font-bold">The Mental Hack</h2>
-                                    <p className="text-sm text-muted-foreground">Master the concept</p>
-                                </div>
-                            </div>
-
-                            <GlassCard variant="hover" className="p-8 border-indigo-500/20 bg-indigo-950/10">
-                                <h3 className="text-xl font-bold mb-4 text-indigo-300">{day.content.concept.title}</h3>
-                                <div className="prose prose-invert max-w-none mb-8 text-muted-foreground">
-                                    {day.content.concept.description.split('\n').map((line, i) => (
-                                        <p key={i} className="mb-2">{line}</p>
-                                    ))}
-                                </div>
-
-                                {day.content.concept.example && (
-                                    <div className="bg-black/20 rounded-xl p-6 border border-white/5">
-                                        <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-4">Live Example</h4>
-                                        <div className="flex items-center gap-8">
-                                            <div className="text-3xl font-mono text-white">
-                                                {day.content.concept.example.problem}
-                                            </div>
-                                            <div className="h-px flex-1 bg-white/10" />
-                                            <div className="text-3xl font-mono text-green-400 font-bold">
-                                                = {day.content.concept.example.solution}
-                                            </div>
-                                        </div>
-                                        {day.content.concept.example.steps && (
-                                            <div className="mt-4 pt-4 border-t border-white/5 text-sm text-indigo-200/80">
-                                                <span className="font-bold text-indigo-400">Logic: </span>
-                                                {day.content.concept.example.steps}
-                                            </div>
-                                        )}
-                                    </div>
-                                )}
-                            </GlassCard>
-                        </div>
-
-                        {/* Section B: Rote / Memory Bank */}
-                        <div className="space-y-6">
-                            <div className="flex items-center gap-3 mb-4">
-                                <div className="p-2 bg-amber-500/10 rounded-lg border border-amber-500/20">
-                                    <BrainCircuit className="h-6 w-6 text-amber-500" />
-                                </div>
-                                <div>
-                                    <h2 className="text-2xl font-bold">Memory Bank</h2>
-                                    <p className="text-sm text-muted-foreground">Commit these to your neural network</p>
-                                </div>
-                            </div>
-
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                                {day.content.rote.items.map((item, index) => (
-                                    <FlashCard
-                                        key={index}
-                                        index={index}
-                                        front={item.front}
-                                        back={item.back}
-                                        isMemorized={memorizedItems.includes(index)}
-                                        onToggleMemorized={() => toggleMemorized(index)}
-                                    />
-                                ))}
-                            </div>
-                        </div>
-
-                        {/* Completion Action */}
-                        <div className="flex justify-end pt-8 border-t border-white/5">
-                            <PremiumButton
-                                onClick={() => handleProgressUpdate('notes', { notes_read: true })}
-                                className={cn(!isAllMemorized && "opacity-90")}
-                            >
-                                {isAllMemorized ? "All Memorized - Start Drill" : "Proceed to Speed Drill"}
-                            </PremiumButton>
-                        </div>
-                    </div>
+                    <StudyCardDeck
+                        content={day.content}
+                        onComplete={() => handleProgressUpdate('notes', { notes_read: true })}
+                    />
                 )}
 
                 {activeTab === "practice" && (

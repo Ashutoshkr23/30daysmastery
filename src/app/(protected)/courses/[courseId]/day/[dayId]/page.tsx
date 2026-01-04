@@ -4,6 +4,7 @@ import { DayView } from "@/components/modules/DayView";
 import { getDailyProgress } from "@/lib/actions/progress";
 // Force Re-eval
 import { Lock } from "lucide-react";
+import { headers } from "next/headers";
 
 interface PageProps {
     params: Promise<{
@@ -38,14 +39,21 @@ export default async function DayPage({ params }: PageProps) {
     unlockDate.setDate(COURSE_START_DATE.getDate() + (dayNumber - 1));
 
     const today = new Date();
-    const isLocked = today < unlockDate;
+
+    // Bypass lock for localhost
+    const headersList = await headers();
+    const host = headersList.get('host') || '';
+    const isLocalhost = host.includes('localhost') || host.includes('127.0.0.1');
+
+    const isLocked = !isLocalhost && today < unlockDate;
 
     console.log("Page Debug - Unlock Logic:", {
         dayNumber,
         today: today.toISOString(),
         courseStartDate: COURSE_START_DATE.toISOString(),
         unlockDate: unlockDate.toISOString(),
-        isLocked
+        isLocked,
+        isLocalhost
     });
 
     // 4. Locked View

@@ -18,39 +18,49 @@
                     }
                 },
                 "rote": {
-                    "title": "Daily Vitamin: Tables & Squares",
-                    "items": [
+                    "title": "Daily Vitamin",
+                    "groups": [
                         {
-                            "front": "2 x 12",
-                            "back": "24"
+                            "title": "Multiplication Tables",
+                            "items": [
+                                {
+                                    "q": "2 x 12",
+                                    "a": "24"
+                                },
+                                {
+                                    "q": "3 x 12",
+                                    "a": "36"
+                                },
+                                {
+                                    "q": "4 x 12",
+                                    "a": "48"
+                                }
+                            ]
                         },
                         {
-                            "front": "3 x 12",
-                            "back": "36"
-                        },
-                        {
-                            "front": "4 x 12",
-                            "back": "48"
-                        },
-                        {
-                            "front": "Square of 5",
-                            "back": "25"
-                        },
-                        {
-                            "front": "Square of 6",
-                            "back": "36"
-                        },
-                        {
-                            "front": "Square of 7",
-                            "back": "49"
-                        },
-                        {
-                            "front": "Square of 8",
-                            "back": "64"
-                        },
-                        {
-                            "front": "Square of 9",
-                            "back": "81"
+                            "title": "Squares (5-9)",
+                            "items": [
+                                {
+                                    "q": "5²",
+                                    "a": "25"
+                                },
+                                {
+                                    "q": "6²",
+                                    "a": "36"
+                                },
+                                {
+                                    "q": "7²",
+                                    "a": "49"
+                                },
+                                {
+                                    "q": "8²",
+                                    "a": "64"
+                                },
+                                {
+                                    "q": "9²",
+                                    "a": "81"
+                                }
+                            ]
                         }
                     ]
                 }

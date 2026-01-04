@@ -66,9 +66,11 @@ export function DayView({ day, initialProgress }: DayViewProps) {
 
     const handleProgressUpdate = async (type: 'notes' | 'practice', data: any) => {
         try {
-            await updateDailyProgress('speed-maths', day.day, data);
+            // Optimistic UI Update: Move to next tab immediately
             if (type === 'notes') setActiveTab('practice');
             if (type === 'practice' && data.practice_score >= 80) setIsPracticePassed(true);
+
+            await updateDailyProgress('speed-maths', day.day, data);
         } catch (error) {
             console.error("Failed to save progress", error);
         }

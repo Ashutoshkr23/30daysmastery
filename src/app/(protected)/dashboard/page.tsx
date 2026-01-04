@@ -1,16 +1,28 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useProgressStore } from "@/store/progress-store";
 import { Zap, Trophy, Flame, ChevronRight, PlayCircle, BookOpen } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { PremiumButton } from "@/components/ui/PremiumButton";
+import { createClient } from "@/lib/supabase/client";
 
 import { BadgesView } from "@/components/modules/BadgesView";
 
 export default function Dashboard() {
     const { streak, totalXp } = useProgressStore();
+    const [user, setUser] = useState<any>(null);
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            const supabase = createClient();
+            const { data: { user } } = await supabase.auth.getUser();
+            setUser(user);
+        };
+        fetchUser();
+    }, []);
 
     const courses = [
         {
@@ -39,7 +51,7 @@ export default function Dashboard() {
             <header className="flex items-center justify-between pt-4">
                 <div className="space-y-1">
                     <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-violet-400 bg-clip-text text-transparent">
-                        Hello, Aspirant! 👋
+                        Hello, {user?.user_metadata?.full_name?.split(' ')[0] || "Aspirant"}! 👋
                     </h1>
                     <p className="text-muted-foreground font-medium">Ready to conquer your goals?</p>
                 </div>

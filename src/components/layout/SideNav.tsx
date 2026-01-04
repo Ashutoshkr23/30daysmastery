@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { Home, BookOpen, User, LogOut, Settings, LayoutDashboard, Compass } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
@@ -13,6 +14,16 @@ interface SideNavProps {
 export default function SideNav({ isOpen = false }: SideNavProps) {
     const pathname = usePathname();
     const router = useRouter();
+    const [user, setUser] = useState<any>(null);
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            const supabase = createClient();
+            const { data: { user } } = await supabase.auth.getUser();
+            setUser(user);
+        };
+        fetchUser();
+    }, []);
 
     const handleLogout = async () => {
         const supabase = createClient();
@@ -103,10 +114,18 @@ export default function SideNav({ isOpen = false }: SideNavProps) {
 
                 {/* User Mini Profile */}
                 <div className="flex items-center gap-3 mt-4 p-2 rounded-xl bg-secondary/50 border border-border/50">
-                    <div className="h-8 w-8 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600" />
+                    {user?.user_metadata?.avatar_url ? (
+                        <img
+                            src={user.user_metadata.avatar_url}
+                            alt="Avatar"
+                            className="h-8 w-8 rounded-full object-cover"
+                        />
+                    ) : (
+                        <div className="h-8 w-8 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600" />
+                    )}
                     <div className="flex-1 overflow-hidden">
-                        <p className="text-sm font-bold truncate">Aspirant</p>
-                        <p className="text-xs text-muted-foreground truncate">Free Plan</p>
+                        <p className="text-sm font-bold truncate">{user?.user_metadata?.full_name || "Aspirant"}</p>
+                        <p className="text-xs text-muted-foreground truncate">{user?.email || "Free Plan"}</p>
                     </div>
                     <Settings className="h-4 w-4 text-muted-foreground hover:text-foreground cursor-pointer" />
                 </div>

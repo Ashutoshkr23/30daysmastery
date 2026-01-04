@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useProgressStore } from "@/store/progress-store";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { PremiumButton } from "@/components/ui/PremiumButton";
@@ -12,6 +13,16 @@ import { useRouter } from "next/navigation";
 export default function ProfilePage() {
     const { totalXp, streak } = useProgressStore();
     const router = useRouter();
+    const [user, setUser] = useState<any>(null);
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            const supabase = createClient();
+            const { data: { user } } = await supabase.auth.getUser();
+            setUser(user);
+        };
+        fetchUser();
+    }, []);
 
     const handleLogout = async () => {
         const supabase = createClient();
@@ -34,7 +45,15 @@ export default function ProfilePage() {
                     <div className="relative group">
                         <div className="h-28 w-28 md:h-32 md:w-32 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 p-1 shadow-2xl shadow-indigo-500/30">
                             <div className="h-full w-full rounded-full bg-black/40 backdrop-blur-sm flex items-center justify-center border-4 border-white/10 overflow-hidden relative">
-                                <User className="h-12 w-12 text-white/80" />
+                                {user?.user_metadata?.avatar_url ? (
+                                    <img
+                                        src={user.user_metadata.avatar_url}
+                                        alt="Profile"
+                                        className="h-full w-full object-cover"
+                                    />
+                                ) : (
+                                    <User className="h-12 w-12 text-white/80" />
+                                )}
                             </div>
                         </div>
                         <div className="absolute -bottom-2 -right-2 bg-amber-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg border border-amber-400 flex items-center gap-1">
@@ -46,7 +65,7 @@ export default function ProfilePage() {
                     {/* Stats & Info */}
                     <div className="flex-1 text-center md:text-left space-y-2">
                         <h1 className="text-3xl md:text-4xl font-black text-white tracking-tight">
-                            Aspirant
+                            {user?.user_metadata?.full_name || "Aspirant"}
                         </h1>
                         <p className="text-muted-foreground font-medium">Joined January 2026</p>
 

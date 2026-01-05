@@ -153,14 +153,14 @@ export function StudyCardDeck({ content, onComplete, courseId = "speed-maths", d
                         <button
                             onClick={handleToggleBookmark}
                             className={cn(
-                                "p-2 rounded-full transition-all",
+                                "px-3 py-1.5 rounded-full text-xs font-medium transition-all flex items-center gap-2 border",
                                 bookmarkedCards.has(currentCardId)
-                                    ? "text-blue-400 bg-blue-500/10 hover:bg-blue-500/20"
-                                    : "text-muted-foreground/50 hover:text-blue-400 hover:bg-blue-500/10"
+                                    ? "bg-blue-500/20 text-blue-300 border-blue-500/30 hover:bg-blue-500/30"
+                                    : "bg-secondary/30 text-muted-foreground border-white/5 hover:bg-secondary/50 hover:text-white"
                             )}
-                            title="See Later (Recall)"
                         >
-                            <Eye className={cn("h-5 w-5", bookmarkedCards.has(currentCardId) && "fill-current")} />
+                            <Eye className={cn("h-3 w-3", bookmarkedCards.has(currentCardId) && "fill-current")} />
+                            {bookmarkedCards.has(currentCardId) ? "Recall Saved" : "Recall"}
                         </button>
                     </div>
 

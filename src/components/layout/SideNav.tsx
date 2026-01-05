@@ -100,6 +100,22 @@ export default function SideNav({ isOpen = false }: SideNavProps) {
                         </Link>
                     );
                 })}
+                <Link
+                    href="/review"
+                    className={cn(
+                        "flex items-center justify-start gap-3 px-3 py-3 rounded-xl transition-all duration-200 group relative",
+                        pathname === "/review"
+                            ? "bg-primary/10 text-primary"
+                            : "text-muted-foreground hover:bg-secondary hover:text-foreground"
+                    )}
+                >
+                    <div className="p-1 rounded bg-blue-500/10 group-hover:bg-blue-500/20">
+                        <BookOpen className={cn("h-3 w-3 text-blue-400 group-hover:text-blue-300", pathname === "/review" && "text-blue-500")} />
+                    </div>
+                    <span className={cn("font-medium text-sm", pathname === "/review" && "font-semibold")}>
+                        Recall
+                    </span>
+                </Link>
             </nav>
 
             {/* Bottom Actions */}

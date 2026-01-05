@@ -39,7 +39,7 @@ export function FlashCard({
                 )}
             >
                 {/* Header Actions */}
-                <div className="absolute top-4 right-4 flex gap-2 z-20">
+                <div className="w-full flex justify-end mb-2 relative z-20 min-h-[32px]">
                     {onToggleBookmark && (
                         <button
                             onClick={handleBookmark}
@@ -57,7 +57,7 @@ export function FlashCard({
                 </div>
 
                 {/* Content */}
-                <div className="flex-1 flex flex-col items-center justify-center gap-6">
+                <div className="flex-1 flex flex-col items-center justify-center gap-6 w-full">
                     <div>
                         <span className="text-xs font-bold text-amber-500/70 uppercase tracking-widest mb-2 block">
                             Question / Concept

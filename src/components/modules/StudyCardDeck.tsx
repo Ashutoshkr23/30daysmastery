@@ -231,16 +231,19 @@ export function StudyCardDeck({ content, onComplete, courseId = "speed-maths", d
                             </div>
 
                             <div className="flex-1 overflow-y-auto custom-scrollbar">
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+                                <div className={cn(
+                                    "grid gap-3 md:gap-4",
+                                    currentRoteGroup.items.length === 1 ? "grid-cols-1" : "grid-cols-1 md:grid-cols-2"
+                                )}>
                                     {currentRoteGroup.items.map((item, idx) => (
                                         <div
                                             key={idx}
-                                            className="group flex items-center justify-between p-3 md:p-4 rounded-xl border border-white/5 bg-white/5 hover:bg-white/10 hover:border-white/10 transition-all duration-300"
+                                            className="group flex flex-col md:flex-row items-start md:items-center justify-between p-4 rounded-xl border border-white/5 bg-white/5 hover:bg-white/10 hover:border-white/10 transition-all duration-300"
                                         >
-                                            <span className="text-base md:text-lg font-mono text-muted-foreground group-hover:text-foreground transition-colors">
+                                            <span className="text-sm md:text-base font-mono text-muted-foreground group-hover:text-foreground transition-colors mb-2 md:mb-0">
                                                 {item.q}
                                             </span>
-                                            <span className="text-lg md:text-xl font-bold font-mono text-primary group-hover:scale-110 transition-transform">
+                                            <span className="text-base md:text-lg font-bold font-mono text-primary whitespace-pre-line text-right w-full md:w-auto leading-relaxed">
                                                 {item.a}
                                             </span>
                                         </div>

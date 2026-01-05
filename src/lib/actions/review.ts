@@ -73,7 +73,29 @@ export async function getReviewCards() {
         return [];
     }
 
-    return data as ReviewCard[];
+    // Sort by Day Number (Ascending)
+    // card_id format: d{dayId}-concept or d{dayId}-rote-{index}
+    const sortedData = (data as ReviewCard[]).sort((a, b) => {
+        const getDay = (id: string) => {
+            const match = id.match(/^d(\d+)/);
+            return match ? parseInt(match[1]) : 999; // 999 for fallback
+        };
+
+        const dayA = getDay(a.card_id);
+        const dayB = getDay(b.card_id);
+
+        if (dayA !== dayB) {
+            return dayA - dayB; // Ascending Order (Day 1, Day 2...)
+        }
+
+        // Secondary sort: Concept first, then Rote
+        if (a.card_id.includes('concept') && !b.card_id.includes('concept')) return -1;
+        if (!a.card_id.includes('concept') && b.card_id.includes('concept')) return 1;
+
+        return 0;
+    });
+
+    return sortedData;
 }
 
 export async function getReviewStatus(courseId: string) {

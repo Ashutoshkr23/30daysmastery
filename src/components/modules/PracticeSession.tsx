@@ -36,33 +36,19 @@ export function PracticeSession({ dayId, onComplete }: PracticeSessionProps) {
     useEffect(() => {
         const fetchProgress = async () => {
             try {
-                // Determine how many linear tasks are already "done"
-                // We can't easily know EXACTLY which ones without a proper "user_task_progress" table
-                // But we can approximate by checking if we have enough passed attempts? 
-                // OR better: Just check `initialProgress` passed from DayView if it tracks "practice_score"?
+                const progressActions = await import("@/lib/actions/progress");
 
-                // User requirement: "Once I complete [linear], custom should open"
-                // If the user has a passing practice_score (>=80), we can assume linear is done?
-                // `DayView` sets `isPracticePassed` if score >= 80.
-
-                // Let's defer to a prop or check attempts.
-                // Checking attempts is safer.
-                const attempts = await import("@/lib/actions/progress").then(m => m.getRecentAttempts('speed-maths', dayId));
+                // Fetch History for Display
+                const attempts = await progressActions.getRecentAttempts('speed-maths', dayId);
                 setHistory(attempts || []);
 
-                // This is a naive check: if we have passed attempts equal to or greater than the number of tasks?
-                // Or just check if we have roughly completed it.
-                // For MVP, if we have > 0 passed attempts, let's assume progress. Use a proper ID check later.
+                // Fetch Completed Task IDs for Unlock Logic
+                const completedIds = await progressActions.getCompletedTasks('speed-maths', dayId);
 
-                // BETTER STRATEGY: 
-                // If any attempt has "passed" = true AND score >= last task target? 
-                // Hard to correlate.
-
-                // For now, let's just restore based on passed count, limited to max tasks.
-                if (attempts && attempts.length > 0) {
-                    const passedCount = attempts.filter((a: any) => a.passed).length;
-                    // Restore progress, but cap it at max
-                    setLinearProgress(Math.min(passedCount, config.linearTasks.length));
+                // Calculate progress based on how many linear tasks have their ID in the completed set
+                if (completedIds && config.linearTasks.length > 0) {
+                    const completedCount = config.linearTasks.filter(task => completedIds.includes(task.id)).length;
+                    setLinearProgress(completedCount);
                 }
             } catch (e) {
                 console.error("Failed to sync progress", e);
@@ -70,7 +56,7 @@ export function PracticeSession({ dayId, onComplete }: PracticeSessionProps) {
         };
 
         fetchProgress();
-    }, [dayId, config.linearTasks.length]);
+    }, [dayId, config.linearTasks]);
 
     if (!config) return <div className="p-8 text-center text-red-500">Configuration Error: Day {dayId} not found.</div>;
 

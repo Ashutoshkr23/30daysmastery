@@ -146,3 +146,30 @@ export async function getRecentAttempts(courseId: string, dayId: number, taskId?
 
     return data;
 }
+
+export async function getCompletedTasks(courseId: string, dayId: number) {
+    const supabase = await createClient();
+    const {
+        data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) return [];
+
+    // Fetch all PASSED attempts for this day, selecting only task_id
+    const { data, error } = await supabase
+        .from("course_attempts")
+        .select("task_id")
+        .eq("user_id", user.id)
+        .eq("course_id", courseId)
+        .eq("day_id", dayId)
+        .eq("passed", true);
+
+    if (error) {
+        console.error("Error fetching completed tasks:", error);
+        return [];
+    }
+
+    // Return unique task IDs
+    const uniqueIds = Array.from(new Set(data.map(d => d.task_id).filter(Boolean)));
+    return uniqueIds as string[];
+}

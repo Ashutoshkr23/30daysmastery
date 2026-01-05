@@ -4,13 +4,14 @@ import { useState, useEffect } from "react";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { PremiumButton } from "@/components/ui/PremiumButton";
 import { cn } from "@/lib/utils";
-import { Sparkles, BrainCircuit, ArrowRight, ArrowLeft, CheckCircle2, Eye } from "lucide-react";
+import { Sparkles, BrainCircuit, ArrowRight, ArrowLeft, CheckCircle2, Eye, RotateCcw } from "lucide-react";
 import { toggleReviewCard, getReviewStatus } from "@/lib/actions/review";
+import { motion, useMotionValue, useTransform, useAnimation, PanInfo, AnimatePresence } from "framer-motion";
 
-// Define strict types based on the new JSON structure
+// ... (Existing Interfaces)
 interface StudyDeckProps {
-    courseId?: string; // Added courseId
-    dayId?: number;    // Added dayId
+    courseId?: string;
+    dayId?: number;
     content: {
         concept: {
             title: string;
@@ -23,7 +24,6 @@ interface StudyDeckProps {
         };
         rote: {
             title: string;
-            // Support both new (groups) and old (items) structure
             groups?: Array<{
                 title: string;
                 items: Array<{ q: string; a: string }>;
@@ -35,17 +35,15 @@ interface StudyDeckProps {
 }
 
 export function StudyCardDeck({ content, onComplete, courseId = "speed-maths", dayId }: StudyDeckProps) {
-    // Adapter for Legacy Data: If groups are missing, convert items to a single group
     const roteGroups = content.rote.groups || (content.rote.items ? [{
         title: "Daily Vitamin",
         items: content.rote.items.map(item => ({ q: item.front, a: item.back }))
     }] : []);
 
-    // Flatten the deck: Card 0 is Concept, Cards 1..N are Rote Groups
     const totalCards = 1 + roteGroups.length;
     const [currentCardIndex, setCurrentCardIndex] = useState(0);
-    // Store bookmarked card IDs (e.g. "concept", "group-0", "group-1")
     const [bookmarkedCards, setBookmarkedCards] = useState<Set<string>>(new Set());
+    const [direction, setDirection] = useState(0); // -1 for left (next), 1 for right (prev) - Wait, Swipe Left = Next (-x)
 
     const isConceptCard = currentCardIndex === 0;
     const roteGroupIndex = currentCardIndex - 1;
@@ -57,8 +55,14 @@ export function StudyCardDeck({ content, onComplete, courseId = "speed-maths", d
 
     const progress = ((currentCardIndex + 1) / totalCards) * 100;
 
+    // Animation Controls
+    const controls = useAnimation();
+    const x = useMotionValue(0);
+    // Rotate slightly based on x position: -200px -> -10deg
+    const rotate = useTransform(x, [-200, 200], [-10, 10]);
+    const opacity = useTransform(x, [-200, -100, 0, 100, 200], [0, 1, 1, 1, 0]);
+
     useEffect(() => {
-        // Fetch initial bookmarks
         getReviewStatus(courseId).then(ids => {
             setBookmarkedCards(new Set(ids));
         });
@@ -73,10 +77,9 @@ export function StudyCardDeck({ content, onComplete, courseId = "speed-maths", d
 
         if (isConceptCard) {
             frontContent = content.concept.title;
-            backContent = content.concept.description; // Simplified
+            backContent = content.concept.description;
         } else if (currentRoteGroup) {
             frontContent = currentRoteGroup.title;
-            // Serialize items for the back
             backContent = currentRoteGroup.items.map(i => `${i.q} = ${i.a}`).join('\n');
         }
 
@@ -87,7 +90,6 @@ export function StudyCardDeck({ content, onComplete, courseId = "speed-maths", d
         }
         setBookmarkedCards(newSet);
 
-        // Server action
         await toggleReviewCard({
             courseId,
             cardId: currentCardId,
@@ -96,24 +98,59 @@ export function StudyCardDeck({ content, onComplete, courseId = "speed-maths", d
         });
     };
 
-    const handleNext = () => {
+    const handleNext = async () => {
+        console.log("Handle Next Triggered");
         if (currentCardIndex < totalCards - 1) {
+            setDirection(1); // Moving forward
+            await controls.start({ x: -500, opacity: 0, transition: { duration: 0.2 } });
             setCurrentCardIndex(prev => prev + 1);
+            x.set(0);
+            controls.set({ x: 0, opacity: 1 }); // Reset for new card
         } else {
+            // Last card swipe triggers complete
+            await controls.start({ x: -500, opacity: 0, transition: { duration: 0.2 } });
             onComplete();
         }
     };
 
-    const handlePrev = () => {
+    const handlePrev = async () => {
         if (currentCardIndex > 0) {
+            setDirection(-1); // Moving backward
+            await controls.start({ x: 500, opacity: 0, transition: { duration: 0.2 } });
             setCurrentCardIndex(prev => prev - 1);
+            x.set(0);
+            controls.set({ x: 0, opacity: 1 });
+        }
+    };
+
+    const handleDragEnd = async (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+        const offset = info.offset.x;
+        const velocity = info.velocity.x;
+        const swipeThreshold = 100;
+
+        // Swipe Left (<-) : Next
+        if (offset < -swipeThreshold || velocity < -500) {
+            await handleNext();
+        }
+        // Swipe Right (->) : Prev
+        else if (offset > swipeThreshold || velocity > 500) {
+            if (currentCardIndex > 0) {
+                await handlePrev();
+            } else {
+                // Snap back if no prev
+                controls.start({ x: 0, opacity: 1 });
+            }
+        }
+        // Snap Back
+        else {
+            controls.start({ x: 0, opacity: 1 });
         }
     };
 
     return (
-        <div className="flex flex-col h-full min-h-[500px]">
+        <div className="flex flex-col h-full min-h-[500px] overflow-hidden">
             {/* Progress Header */}
-            <div className="flex items-center justify-between mb-6 px-2">
+            <div className="flex items-center justify-between mb-2 md:mb-6 px-2">
                 <div className="flex items-center gap-3">
                     <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
                         Card {currentCardIndex + 1}/{totalCards}
@@ -143,135 +180,143 @@ export function StudyCardDeck({ content, onComplete, courseId = "speed-maths", d
                 </div>
             </div>
 
-            {/* Card Content Area */}
-            <div className="flex-1 relative perspective-1000">
-                {/* Reduced padding for mobile from p-8 to p-4 md:p-12 */}
-                <GlassCard className="h-full p-4 md:p-12 transition-all duration-500 ease-in-out animate-in fade-in slide-in-from-right-4 relative">
+            {/* Card Content Area - Swipeable Wrapper */}
+            <div className="flex-1 relative perspective-1000 flex items-center justify-center w-full">
+                <AnimatePresence mode="wait">
+                    <motion.div
+                        key={currentCardIndex}
+                        drag="x"
+                        dragConstraints={{ left: 0, right: 0 }}
+                        dragElastic={0.05} // Stiff resistance once constraint hit, but we handle logic in onDragEnd
+                        onDragEnd={handleDragEnd}
+                        style={{ x, rotate, opacity }}
+                        animate={controls}
+                        initial={{ opacity: 0, scale: 0.9, x: direction === 1 ? 100 : -100 }} // Enter animation based on direction
+                        whileInView={{ opacity: 1, scale: 1, x: 0 }}
+                        exit={{ opacity: 0, scale: 0.9 }} // Exit animation handled by Animate Presence? Actually handled by manual controls mostly
+                        transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                        className="h-full w-full cursor-grab active:cursor-grabbing touch-pan-y" // allow vertical scroll
+                    >
+                        {/* Reduced padding for mobile from p-8 to p-4 md:p-12 */}
+                        <GlassCard className="h-full p-4 md:p-12 relative w-full select-none">
 
-                    {/* Bookmark Button */}
-                    <div className="absolute top-4 right-4 z-10">
-                        <button
-                            onClick={handleToggleBookmark}
-                            className={cn(
-                                "px-3 py-1.5 rounded-full text-xs font-medium transition-all flex items-center gap-2 border",
-                                bookmarkedCards.has(currentCardId)
-                                    ? "bg-blue-500/20 text-blue-300 border-blue-500/30 hover:bg-blue-500/30"
-                                    : "bg-secondary/30 text-muted-foreground border-white/5 hover:bg-secondary/50 hover:text-white"
-                            )}
-                        >
-                            <Eye className={cn("h-3 w-3", bookmarkedCards.has(currentCardId) && "fill-current")} />
-                            {bookmarkedCards.has(currentCardId) ? "Recall Saved" : "Recall"}
-                        </button>
-                    </div>
-
-                    {/* TYPE 1: CONCEPT CARD */}
-                    {isConceptCard && (
-                        <div className="space-y-6 md:space-y-8 h-full flex flex-col">
-                            <div className="flex items-center gap-3 border-b border-indigo-500/20 pb-4">
-                                <div className="p-2 bg-indigo-500/10 rounded-lg border border-indigo-500/20">
-                                    <Sparkles className="h-6 w-6 text-indigo-400" />
-                                </div>
-                                <div>
-                                    <h2 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-indigo-300 to-indigo-100 bg-clip-text text-transparent">
-                                        Mental Hack
-                                    </h2>
-                                    <p className="text-xs md:text-sm text-indigo-300/60 font-medium">Concept Mastery</p>
-                                </div>
+                            {/* Bookmark Button */}
+                            <div className="absolute top-4 right-4 z-10">
+                                <button
+                                    onPointerDown={(e) => e.stopPropagation()} // Prevent drag start on button click
+                                    onClick={handleToggleBookmark}
+                                    className={cn(
+                                        "px-3 py-1.5 rounded-full text-xs font-medium transition-all flex items-center gap-2 border",
+                                        bookmarkedCards.has(currentCardId)
+                                            ? "bg-blue-500/20 text-blue-300 border-blue-500/30 hover:bg-blue-500/30"
+                                            : "bg-secondary/30 text-muted-foreground border-white/5 hover:bg-secondary/50 hover:text-white"
+                                    )}
+                                >
+                                    <Eye className={cn("h-3 w-3", bookmarkedCards.has(currentCardId) && "fill-current")} />
+                                    {bookmarkedCards.has(currentCardId) ? "Recall Saved" : "Recall"}
+                                </button>
                             </div>
 
-                            <div className="flex-1 space-y-6 overflow-y-auto pr-2 md:pr-4 custom-scrollbar">
-                                <div>
-                                    <h3 className="text-lg md:text-xl font-bold mb-4 text-foreground/90">{content.concept.title}</h3>
-                                    <div className="prose prose-invert max-w-none text-muted-foreground leading-relaxed text-base md:text-lg">
-                                        {content.concept.description.split('\n').map((line, i) => (
-                                            <p key={i} className="mb-2">{line}</p>
-                                        ))}
+                            {/* TYPE 1: CONCEPT CARD */}
+                            {isConceptCard && (
+                                <div className="space-y-6 md:space-y-8 h-full flex flex-col">
+                                    <div className="flex items-center gap-3 border-b border-indigo-500/20 pb-4">
+                                        <div className="p-2 bg-indigo-500/10 rounded-lg border border-indigo-500/20">
+                                            <Sparkles className="h-6 w-6 text-indigo-400" />
+                                        </div>
+                                        <div>
+                                            <h2 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-indigo-300 to-indigo-100 bg-clip-text text-transparent">
+                                                Mental Hack
+                                            </h2>
+                                            <p className="text-xs md:text-sm text-indigo-300/60 font-medium">Concept Mastery</p>
+                                        </div>
                                     </div>
-                                </div>
 
-                                {content.concept.example && (
-                                    <div className="bg-black/40 rounded-xl p-4 md:p-6 border border-white/5 backdrop-blur-md shadow-inner">
-                                        <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-4 md:mb-6">Live Example</h4>
-                                        <div className="flex flex-col items-center justify-center py-4 space-y-6">
-                                            <div className="flex flex-wrap justify-center items-center gap-4 md:gap-8 text-3xl md:text-4xl font-mono">
-                                                <div className="text-white font-bold">{content.concept.example.problem}</div>
-                                                <ArrowRight className="h-6 w-6 md:h-8 md:w-8 text-muted-foreground/50" />
-                                                <div className="text-green-400 font-bold drop-shadow-[0_0_15px_rgba(74,222,128,0.3)]">
-                                                    {content.concept.example.solution}
+                                    <div className="flex-1 space-y-6 overflow-y-auto pr-2 md:pr-4 custom-scrollbar" onPointerDown={(e) => e.stopPropagation()}>
+                                        {/* Stop propagation on scroll area to allow text selection / scrolling without dragging card? 
+                                            Actually tough balance. For Tinder-cards usually content is static. 
+                                            Let's try standard touch-action CSS first. 
+                                        */}
+                                        <div>
+                                            <h3 className="text-lg md:text-xl font-bold mb-4 text-foreground/90">{content.concept.title}</h3>
+                                            <div className="prose prose-invert max-w-none text-muted-foreground leading-relaxed text-base md:text-lg">
+                                                {content.concept.description.split('\n').map((line, i) => (
+                                                    <p key={i} className="mb-2">{line}</p>
+                                                ))}
+                                            </div>
+                                        </div>
+
+                                        {content.concept.example && (
+                                            <div className="bg-black/40 rounded-xl p-4 md:p-6 border border-white/5 backdrop-blur-md shadow-inner">
+                                                <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-4 md:mb-6">Live Example</h4>
+                                                <div className="flex flex-col items-center justify-center py-4 space-y-6">
+                                                    <div className="flex flex-wrap justify-center items-center gap-4 md:gap-8 text-3xl md:text-4xl font-mono">
+                                                        <div className="text-white font-bold">{content.concept.example.problem}</div>
+                                                        <ArrowRight className="h-6 w-6 md:h-8 md:w-8 text-muted-foreground/50" />
+                                                        <div className="text-green-400 font-bold drop-shadow-[0_0_15px_rgba(74,222,128,0.3)]">
+                                                            {content.concept.example.solution}
+                                                        </div>
+                                                    </div>
+
+                                                    {content.concept.example.steps && (
+                                                        <div className="w-full bg-white/5 rounded-lg p-4 border border-white/5">
+                                                            <p className="text-xs md:text-sm text-indigo-200/80 font-mono whitespace-pre-wrap">
+                                                                {content.concept.example.steps}
+                                                            </p>
+                                                        </div>
+                                                    )}
                                                 </div>
                                             </div>
+                                        )}
+                                    </div>
+                                </div>
+                            )}
 
-                                            {content.concept.example.steps && (
-                                                <div className="w-full bg-white/5 rounded-lg p-4 border border-white/5">
-                                                    <p className="text-xs md:text-sm text-indigo-200/80 font-mono whitespace-pre-wrap">
-                                                        {content.concept.example.steps}
-                                                    </p>
-                                                </div>
-                                            )}
+                            {/* TYPE 2: ROTE GROUP CARD */}
+                            {currentRoteGroup && (
+                                <div className="space-y-6 md:space-y-8 h-full flex flex-col">
+                                    <div className="flex items-center gap-3 border-b border-amber-500/20 pb-4">
+                                        <div className="p-2 bg-amber-500/10 rounded-lg border border-amber-500/20">
+                                            <BrainCircuit className="h-6 w-6 text-amber-500" />
+                                        </div>
+                                        <div>
+                                            <h2 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-amber-200 to-yellow-100 bg-clip-text text-transparent">
+                                                Memory Bank
+                                            </h2>
+                                            <p className="text-xs md:text-sm text-amber-300/60 font-medium">{currentRoteGroup.title}</p>
                                         </div>
                                     </div>
-                                )}
-                            </div>
-                        </div>
-                    )}
 
-                    {/* TYPE 2: ROTE GROUP CARD */}
-                    {currentRoteGroup && (
-                        <div className="space-y-6 md:space-y-8 h-full flex flex-col">
-                            <div className="flex items-center gap-3 border-b border-amber-500/20 pb-4">
-                                <div className="p-2 bg-amber-500/10 rounded-lg border border-amber-500/20">
-                                    <BrainCircuit className="h-6 w-6 text-amber-500" />
-                                </div>
-                                <div>
-                                    <h2 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-amber-200 to-yellow-100 bg-clip-text text-transparent">
-                                        Memory Bank
-                                    </h2>
-                                    <p className="text-xs md:text-sm text-amber-300/60 font-medium">{currentRoteGroup.title}</p>
-                                </div>
-                            </div>
-
-                            <div className="flex-1 overflow-y-auto custom-scrollbar">
-                                <div className={cn(
-                                    "grid gap-3 md:gap-4",
-                                    currentRoteGroup.items.length === 1 ? "grid-cols-1" : "grid-cols-1 md:grid-cols-2"
-                                )}>
-                                    {currentRoteGroup.items.map((item, idx) => (
-                                        <div
-                                            key={idx}
-                                            className="group flex flex-col md:flex-row items-start md:items-center justify-between p-4 rounded-xl border border-white/5 bg-white/5 hover:bg-white/10 hover:border-white/10 transition-all duration-300"
-                                        >
-                                            <span className="text-sm md:text-base font-mono text-muted-foreground group-hover:text-foreground transition-colors mb-2 md:mb-0">
-                                                {item.q}
-                                            </span>
-                                            <span className="text-base md:text-lg font-bold font-mono text-primary whitespace-pre-line text-right w-full md:w-auto leading-relaxed">
-                                                {item.a}
-                                            </span>
+                                    <div className="flex-1 overflow-y-auto custom-scrollbar" onPointerDown={(e) => e.stopPropagation()}>
+                                        <div className={cn(
+                                            "grid gap-3 md:gap-4",
+                                            currentRoteGroup.items.length === 1 ? "grid-cols-1" : "grid-cols-1 md:grid-cols-2"
+                                        )}>
+                                            {currentRoteGroup.items.map((item, idx) => (
+                                                <div
+                                                    key={idx}
+                                                    className="group flex flex-col md:flex-row items-start md:items-center justify-between p-4 rounded-xl border border-white/5 bg-white/5 hover:bg-white/10 hover:border-white/10 transition-all duration-300"
+                                                >
+                                                    <span className="text-sm md:text-base font-mono text-muted-foreground group-hover:text-foreground transition-colors mb-2 md:mb-0">
+                                                        {item.q}
+                                                    </span>
+                                                    <span className="text-base md:text-lg font-bold font-mono text-primary whitespace-pre-line text-right w-full md:w-auto leading-relaxed">
+                                                        {item.a}
+                                                    </span>
+                                                </div>
+                                            ))}
                                         </div>
-                                    ))}
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    )}
+                            )}
 
-                </GlassCard>
+                        </GlassCard>
+                    </motion.div>
+                </AnimatePresence>
+            </div>
 
-                {/* Action Footer */}
-                <div className="mt-6 md:mt-8 flex justify-end">
-                    <PremiumButton
-                        onClick={handleNext}
-                        className="w-full sm:w-auto min-w-[200px]"
-                    >
-                        {currentCardIndex === totalCards - 1 ? (
-                            <span className="flex items-center gap-2">
-                                Complete Protocol <CheckCircle2 className="h-4 w-4" />
-                            </span>
-                        ) : (
-                            <span className="flex items-center gap-2">
-                                Next Card <ArrowRight className="h-4 w-4" />
-                            </span>
-                        )}
-                    </PremiumButton>
-                </div>
+            <div className="mt-4 flex justify-center text-xs text-muted-foreground/40 md:hidden">
+                Swipe left to continue
             </div>
         </div>
     );

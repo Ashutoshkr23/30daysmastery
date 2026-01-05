@@ -117,7 +117,14 @@ export function DayView({ day, initialProgress }: DayViewProps) {
             </div>
 
             {/* 2. Content Area */}
-            <GlassCard className="min-h-[600px] p-6 md:p-8 relative overflow-hidden">
+            <GlassCard
+                className={cn(
+                    "min-h-[600px] relative overflow-hidden transition-all duration-300",
+                    activeTab === "study"
+                        ? "-mx-4 w-[calc(100%+2rem)] rounded-none p-0 bg-transparent border-0 shadow-none md:mx-0 md:w-full md:rounded-3xl md:p-8 md:bg-white/5 md:border-white/10 md:shadow-lg md:backdrop-blur-md"
+                        : "p-6 md:p-8"
+                )}
+            >
                 <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-[128px] -z-10" />
 
                 {activeTab === "study" && (

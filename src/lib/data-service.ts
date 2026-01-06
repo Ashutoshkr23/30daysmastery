@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { Course } from '@/types/course';
 import { Quiz } from '@/types/quiz';
+import { getCourseProgress } from '@/lib/actions/progress';
 
 const DATA_DIR = path.join(process.cwd(), 'src/data/courses');
 const QUIZ_DIR = path.join(process.cwd(), 'src/data/quizzes');
@@ -10,7 +11,17 @@ export async function getCourse(courseId: string): Promise<Course | null> {
     try {
         const filePath = path.join(DATA_DIR, `${courseId}.json`);
         const fileContents = await fs.promises.readFile(filePath, 'utf8');
-        return JSON.parse(fileContents);
+        const courseData = JSON.parse(fileContents);
+
+        // Fetch actual user progress from database
+        const totalDays = courseData.days?.length || 30;
+        const actualProgress = await getCourseProgress(courseId, totalDays);
+
+        return {
+            ...courseData,
+            totalDays,
+            progress: actualProgress, // Override static progress with actual progress
+        };
     } catch (error) {
         console.error(`Error loading course ${courseId}:`, error);
         return null;

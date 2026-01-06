@@ -173,3 +173,70 @@ export async function getCompletedTasks(courseId: string, dayId: number) {
     const uniqueIds = Array.from(new Set(data.map(d => d.task_id).filter(Boolean)));
     return uniqueIds as string[];
 }
+
+/**
+ * Get user's overall course progress as a percentage (0-100).
+ * Progress is based on how many days have been completed (notes_read or practice_score > 0).
+ */
+export async function getCourseProgress(courseId: string, totalDays: number = 30) {
+    const supabase = await createClient();
+    const {
+        data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) return 0;
+
+    // Get all daily_progress entries for this course
+    const { data, error } = await supabase
+        .from("daily_progress")
+        .select("day_id, notes_read, practice_score")
+        .eq("user_id", user.id)
+        .eq("course_id", courseId);
+
+    if (error) {
+        console.error("Error fetching course progress:", error);
+        return 0;
+    }
+
+    // Count days where user has made meaningful progress
+    const completedDays = data?.filter(d => d.notes_read || (d.practice_score && d.practice_score > 0)).length || 0;
+
+    return Math.round((completedDays / totalDays) * 100);
+}
+
+/**
+ * Get last active day info to show on the "Continue Learning" card.
+ * Returns the highest day_id with progress, or day 1 if no progress yet.
+ */
+export async function getLastActiveDay(courseId: string) {
+    const supabase = await createClient();
+    const {
+        data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) return { dayId: 1, completionPercent: 0 };
+
+    // Get the user's most recent progress for this course
+    const { data, error } = await supabase
+        .from("daily_progress")
+        .select("day_id, notes_read, practice_score, compete_score, updated_at")
+        .eq("user_id", user.id)
+        .eq("course_id", courseId)
+        .order("updated_at", { ascending: false })
+        .limit(1);
+
+    if (error || !data || data.length === 0) {
+        return { dayId: 1, completionPercent: 0 };
+    }
+
+    const lastDay = data[0];
+
+    // Calculate day completion percentage
+    // Notes = 33%, Practice = 33%, Compete = 34%
+    let completionPercent = 0;
+    if (lastDay.notes_read) completionPercent += 33;
+    if (lastDay.practice_score && lastDay.practice_score > 0) completionPercent += 33;
+    if (lastDay.compete_score && lastDay.compete_score > 0) completionPercent += 34;
+
+    return { dayId: lastDay.day_id, completionPercent };
+}

@@ -11,39 +11,108 @@ import { createClient } from "@/lib/supabase/client";
 
 import { BadgesView } from "@/components/modules/BadgesView";
 
+// Course data with day information
+import speedMathsData from "@/data/courses/speed-maths.json";
+
+type CourseData = {
+    id: string;
+    title: string;
+    description: string;
+    progress: number;
+    color: string;
+    icon: typeof Zap;
+    stats: { lessons: number; quizzes: number };
+    totalDays: number;
+};
+
+type ResumeInfo = {
+    dayId: number;
+    dayTitle: string;
+    dayDescription: string;
+    completionPercent: number;
+    courseTitle: string;
+};
+
 export default function Dashboard() {
     const { streak, totalXp } = useProgressStore();
     const [user, setUser] = useState<any>(null);
-
-    useEffect(() => {
-        const fetchUser = async () => {
-            const supabase = createClient();
-            const { data: { user } } = await supabase.auth.getUser();
-            setUser(user);
-        };
-        fetchUser();
-    }, []);
-
-    const courses = [
+    const [resumeInfo, setResumeInfo] = useState<ResumeInfo | null>(null);
+    const [courses, setCourses] = useState<CourseData[]>([
         {
             id: "speed-maths",
             title: "Speed Maths Mastery",
             description: "Master calculation tricks in 30 days",
-            progress: 10,
+            progress: 0,
             color: "from-blue-600 to-indigo-600",
             icon: Zap,
-            stats: { lessons: 3, quizzes: 2 }
+            stats: { lessons: 3, quizzes: 2 },
+            totalDays: 30
         },
         {
             id: "english-rules",
             title: "English Grammar Rules",
             description: "Crack error spotting like a pro",
-            progress: 5,
+            progress: 0,
             color: "from-purple-600 to-pink-600",
             icon: Trophy,
-            stats: { lessons: 1, quizzes: 1 }
+            stats: { lessons: 1, quizzes: 1 },
+            totalDays: 30
         },
-    ];
+    ]);
+
+    useEffect(() => {
+        const fetchUserAndProgress = async () => {
+            const supabase = createClient();
+            const { data: { user } } = await supabase.auth.getUser();
+            setUser(user);
+
+            if (user) {
+                // Fetch actual progress from server actions
+                try {
+                    const progressActions = await import("@/lib/actions/progress");
+
+                    // Fetch progress for each course
+                    const [speedMathsProgress, englishProgress] = await Promise.all([
+                        progressActions.getCourseProgress("speed-maths", 30),
+                        progressActions.getCourseProgress("english-rules", 30),
+                    ]);
+
+                    // Update course progress
+                    setCourses(prev => prev.map(course => {
+                        if (course.id === "speed-maths") return { ...course, progress: speedMathsProgress };
+                        if (course.id === "english-rules") return { ...course, progress: englishProgress };
+                        return course;
+                    }));
+
+                    // Get last active day for the "Continue Learning" card
+                    const lastActiveDay = await progressActions.getLastActiveDay("speed-maths");
+
+                    // Get day info from course data
+                    const dayData = speedMathsData.days.find((d: any) => d.day === lastActiveDay.dayId);
+
+                    setResumeInfo({
+                        dayId: lastActiveDay.dayId,
+                        dayTitle: dayData?.title || `Day ${lastActiveDay.dayId}`,
+                        dayDescription: dayData?.content?.concept?.title || "Continue your learning journey",
+                        completionPercent: lastActiveDay.completionPercent,
+                        courseTitle: "Speed Maths Mastery"
+                    });
+                } catch (error) {
+                    console.error("Failed to fetch progress:", error);
+                    // Set default resume info
+                    const dayData = speedMathsData.days[0];
+                    setResumeInfo({
+                        dayId: 1,
+                        dayTitle: dayData?.title || "Day 1",
+                        dayDescription: dayData?.content?.concept?.title || "Start your journey",
+                        completionPercent: 0,
+                        courseTitle: "Speed Maths Mastery"
+                    });
+                }
+            }
+        };
+        fetchUserAndProgress();
+    }, []);
 
     return (
         <div className="min-h-screen bg-background pb-24 p-4 space-y-8 animate-in fade-in-50 duration-500">
@@ -70,46 +139,48 @@ export default function Dashboard() {
             </section>
 
             {/* Continue Learning Hero Card */}
-            <Link href="/courses/speed-maths" className="block group">
-                <GlassCard
-                    intensity="medium"
-                    gradientBorder
-                    className="p-6 relative overflow-visible transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-2xl"
-                >
-                    <div className="absolute -top-3 -right-3">
-                        <div className="bg-primary text-white text-[10px] font-bold px-3 py-1 rounded-full shadow-lg animate-bounce delay-700">
-                            RESUME DAY 7
-                        </div>
-                    </div>
-                    <div className="flex items-start gap-4">
-                        <div className="rounded-full bg-primary/10 p-3 text-primary ring-1 ring-primary/20 group-hover:bg-primary group-hover:text-white transition-colors duration-300">
-                            <PlayCircle className="h-8 w-8" />
-                        </div>
-                        <div className="flex-1">
-                            <div className="flex flex-col">
-                                <span className="text-xs font-bold text-primary tracking-wider uppercase mb-1">Speed Maths Mastery</span>
-                                <h3 className="font-bold text-xl leading-tight">Percentage Hacks: Level 2</h3>
+            {resumeInfo && (
+                <Link href={`/courses/speed-maths/day/${resumeInfo.dayId}`} className="block group">
+                    <GlassCard
+                        intensity="medium"
+                        gradientBorder
+                        className="p-6 relative overflow-visible transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-2xl"
+                    >
+                        <div className="absolute -top-3 -right-3">
+                            <div className="bg-primary text-white text-[10px] font-bold px-3 py-1 rounded-full shadow-lg animate-bounce delay-700">
+                                RESUME DAY {resumeInfo.dayId}
                             </div>
-                            <p className="text-sm text-muted-foreground mt-2 line-clamp-2">
-                                Learn how to calculate 16.66% and 33.33% instantly without pen and paper.
-                            </p>
-
-                            <div className="mt-4 flex items-center gap-4">
-                                <div className="flex-1 h-2 bg-secondary rounded-full overflow-hidden">
-                                    <div className="h-full w-[65%] bg-primary rounded-full" />
+                        </div>
+                        <div className="flex items-start gap-4">
+                            <div className="rounded-full bg-primary/10 p-3 text-primary ring-1 ring-primary/20 group-hover:bg-primary group-hover:text-white transition-colors duration-300">
+                                <PlayCircle className="h-8 w-8" />
+                            </div>
+                            <div className="flex-1">
+                                <div className="flex flex-col">
+                                    <span className="text-xs font-bold text-primary tracking-wider uppercase mb-1">{resumeInfo.courseTitle}</span>
+                                    <h3 className="font-bold text-xl leading-tight">{resumeInfo.dayTitle}</h3>
                                 </div>
-                                <span className="text-xs font-bold text-muted-foreground">65% Complete</span>
-                            </div>
+                                <p className="text-sm text-muted-foreground mt-2 line-clamp-2">
+                                    {resumeInfo.dayDescription}
+                                </p>
 
-                            <div className="mt-4 flex gap-3">
-                                <PremiumButton size="sm" className="w-full group-hover:shadow-primary/50">
-                                    Continue Learning
-                                </PremiumButton>
+                                <div className="mt-4 flex items-center gap-4">
+                                    <div className="flex-1 h-2 bg-secondary rounded-full overflow-hidden">
+                                        <div className="h-full bg-primary rounded-full transition-all duration-500" style={{ width: `${resumeInfo.completionPercent}%` }} />
+                                    </div>
+                                    <span className="text-xs font-bold text-muted-foreground">{resumeInfo.completionPercent}% Complete</span>
+                                </div>
+
+                                <div className="mt-4 flex gap-3">
+                                    <PremiumButton size="sm" className="w-full group-hover:shadow-primary/50">
+                                        Continue Learning
+                                    </PremiumButton>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </GlassCard>
-            </Link>
+                    </GlassCard>
+                </Link>
+            )}
 
             {/* Courses Section */}
             <section>

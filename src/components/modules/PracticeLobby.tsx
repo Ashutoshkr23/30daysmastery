@@ -67,16 +67,13 @@ export function PracticeLobby({ config, isLinearComplete, onStartLinear, onStart
                 </button>
                 <button
                     onClick={() => setActiveTab("CUSTOM")}
-                    disabled={!isLinearComplete}
                     className={cn(
                         "px-6 py-2 rounded-full text-sm font-bold transition-all flex items-center gap-2",
                         activeTab === "CUSTOM"
                             ? "bg-amber-500 text-black shadow-[0_0_15px_rgba(245,158,11,0.4)]"
-                            : "bg-secondary/30 text-muted-foreground hover:bg-secondary/50",
-                        !isLinearComplete && "opacity-50 cursor-not-allowed"
+                            : "bg-secondary/30 text-muted-foreground hover:bg-secondary/50"
                     )}
                 >
-                    {!isLinearComplete && <Lock className="h-3 w-3" />}
                     Custom Gym
                 </button>
             </div>

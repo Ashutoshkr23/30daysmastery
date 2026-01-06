@@ -60,7 +60,7 @@ export function DayView({ day, initialProgress }: DayViewProps) {
     };
 
     const [activeTab, setActiveTab] = useState<TabId>(getInitialTab());
-    const [isLinearComplete, setIsLinearComplete] = useState(false);
+    const [isLinearComplete, setIsLinearComplete] = useState(true);
 
     const handleProgressUpdate = async (type: 'notes' | 'practice', data: any) => {
         try {

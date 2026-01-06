@@ -10,11 +10,12 @@ import { logAttempt } from "@/lib/actions/progress";
 interface PracticeSessionProps {
     dayId: number;
     onComplete?: (success: boolean, accuracy: number) => void;
+    onLinearComplete?: () => void;
 }
 
 type ViewState = "LOBBY" | "RUNNING" | "RESULT";
 
-export function PracticeSession({ dayId, onComplete }: PracticeSessionProps) {
+export function PracticeSession({ dayId, onComplete, onLinearComplete }: PracticeSessionProps) {
     const config = daysConfig[dayId];
 
     // State
@@ -61,6 +62,13 @@ export function PracticeSession({ dayId, onComplete }: PracticeSessionProps) {
     if (!config) return <div className="p-8 text-center text-red-500">Configuration Error: Day {dayId} not found.</div>;
 
     const isLinearComplete = linearProgress >= config.linearTasks.length;
+
+    // Notify parent when linear tasks are complete (for Arena unlock)
+    useEffect(() => {
+        if (isLinearComplete && onLinearComplete) {
+            onLinearComplete();
+        }
+    }, [isLinearComplete, onLinearComplete]);
 
     // --- Actions ---
 

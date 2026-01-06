@@ -60,15 +60,12 @@ export function DayView({ day, initialProgress }: DayViewProps) {
     };
 
     const [activeTab, setActiveTab] = useState<TabId>(getInitialTab());
-    const [isPracticePassed, setIsPracticePassed] = useState(
-        (initialProgress?.practice_score || 0) >= 80
-    );
+    const [isLinearComplete, setIsLinearComplete] = useState(false);
 
     const handleProgressUpdate = async (type: 'notes' | 'practice', data: any) => {
         try {
             // Optimistic UI Update: Move to next tab immediately
             if (type === 'notes') setActiveTab('practice');
-            if (type === 'practice' && data.practice_score >= 80) setIsPracticePassed(true);
 
             await updateDailyProgress('speed-maths', day.day, data);
         } catch (error) {
@@ -152,6 +149,7 @@ export function DayView({ day, initialProgress }: DayViewProps) {
                                     handleProgressUpdate('practice', { practice_score: accuracy });
                                 }
                             }}
+                            onLinearComplete={() => setIsLinearComplete(true)}
                         />
                     </div>
                 )}
@@ -163,12 +161,12 @@ export function DayView({ day, initialProgress }: DayViewProps) {
                             Phase 4: The Arena
                         </h2>
 
-                        {!isPracticePassed ? (
+                        {!isLinearComplete ? (
                             <div className="p-12 text-center border border-yellow-500/20 rounded-2xl bg-yellow-500/5 space-y-4">
                                 <Lock className="h-12 w-12 text-amber-500/50 mx-auto" />
                                 <h3 className="text-xl font-semibold text-amber-200">Locked Until Speed Drill Complete</h3>
                                 <p className="text-muted-foreground">
-                                    You must score at least 80% accuracy in the Speed Drill to enter the Arena.
+                                    Complete all Speed Drill tasks in the Standard Protocol to unlock the Arena.
                                 </p>
                             </div>
                         ) : (

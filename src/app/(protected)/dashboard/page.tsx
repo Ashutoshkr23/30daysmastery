@@ -48,16 +48,16 @@ export default function Dashboard() {
             stats: { lessons: 3, quizzes: 2 },
             totalDays: 30
         },
-        {
-            id: "english-rules",
-            title: "English Grammar Rules",
-            description: "Crack error spotting like a pro",
-            progress: 0,
-            color: "from-purple-600 to-pink-600",
-            icon: Trophy,
-            stats: { lessons: 1, quizzes: 1 },
-            totalDays: 30
-        },
+        // {
+        //     id: "english-rules",
+        //     title: "English Grammar Rules",
+        //     description: "Crack error spotting like a pro",
+        //     progress: 0,
+        //     color: "from-purple-600 to-pink-600",
+        //     icon: Trophy,
+        //     stats: { lessons: 1, quizzes: 1 },
+        //     totalDays: 30
+        // },
     ]);
 
     useEffect(() => {

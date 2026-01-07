@@ -1,11 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { PremiumButton } from "@/components/ui/PremiumButton";
 import { cn } from "@/lib/utils";
 import { Play, Lock, Settings2, Clock, Zap, Heart, Check } from "lucide-react";
 import { DayConfig, TaskConfig } from "@/lib/generators";
+import { UpgradeModal } from "@/components/monetization/UpgradeModal";
+import { createClient } from "@/lib/supabase/client";
 
 interface PracticeLobbyProps {
     config: DayConfig;
@@ -28,6 +30,20 @@ export function PracticeLobby({ config, isLinearComplete, onStartLinear, onStart
     const [selectedGens, setSelectedGens] = useState<string[]>([config.unlockedGenerators[0]?.id || ""]);
     const [customMode, setCustomMode] = useState<"TIME" | "SURVIVAL">("TIME");
     const [timeLimit, setTimeLimit] = useState(60); // 1 min default
+    const [showUpgradeModal, setShowUpgradeModal] = useState(false);
+    const [isPremium, setIsPremium] = useState(false);
+
+    useEffect(() => {
+        const checkPremium = async () => {
+            const supabase = createClient();
+            const { data: { user } } = await supabase.auth.getUser();
+            if (user) {
+                const { data } = await supabase.from('profiles').select('is_premium').eq('id', user.id).single();
+                if (data?.is_premium) setIsPremium(true);
+            }
+        };
+        checkPremium();
+    }, []);
 
     // Toggle generator selection
     const toggleGenerator = (genId: string) => {
@@ -56,6 +72,7 @@ export function PracticeLobby({ config, isLinearComplete, onStartLinear, onStart
 
     return (
         <div className="w-full max-w-4xl mx-auto p-4 space-y-8 animate-in fade-in slide-in-from-bottom-4">
+            <UpgradeModal open={showUpgradeModal} onOpenChange={setShowUpgradeModal} />
 
             {/* Header */}
             <div className="text-center space-y-2">
@@ -129,7 +146,28 @@ export function PracticeLobby({ config, isLinearComplete, onStartLinear, onStart
 
             {/* TAB CONTENT: CUSTOM */}
             {activeTab === "CUSTOM" && (
-                <GlassCard className="p-8 max-w-2xl mx-auto space-y-8">
+                <GlassCard className="p-8 max-w-2xl mx-auto space-y-8 relative overflow-hidden">
+                    {/* FREEMIUM LOCK - TODO: Use real status */}
+                    {!false && ( // Hardcoded isPremium = false effectively
+                        <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-black/80 backdrop-blur-sm text-center p-8 space-y-6">
+                            <div className="p-4 bg-amber-500/20 rounded-full ring-4 ring-amber-500/10 animate-pulse">
+                                <Lock className="h-12 w-12 text-amber-500" />
+                            </div>
+                            <div className="max-w-md space-y-2">
+                                <h2 className="text-2xl font-bold text-amber-500">Premium Feature</h2>
+                                <p className="text-muted-foreground">
+                                    The Custom Gym allows you to mix and match any exercise for targeted training.
+                                </p>
+                            </div>
+                            <button
+                                onClick={() => setShowUpgradeModal(true)}
+                                className="px-8 py-3 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 font-bold text-black shadow-lg shadow-amber-500/20 hover:scale-105 transition-transform"
+                            >
+                                Upgrade to Unlock
+                            </button>
+                        </div>
+                    )}
+
                     <div className="flex items-center gap-3 border-b border-amber-500/20 pb-4 mb-6">
                         <Settings2 className="h-6 w-6 text-amber-500" />
                         <h3 className="text-xl font-bold">Configure Session</h3>

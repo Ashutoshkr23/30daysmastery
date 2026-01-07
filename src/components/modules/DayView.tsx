@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { cn } from "@/lib/utils";
 import { BookOpen, Calculator, Trophy, Lock } from "lucide-react";
@@ -10,6 +10,10 @@ import { Leaderboard } from "./Leaderboard";
 import { StudyCardDeck } from "./StudyCardDeck";
 import { updateDailyProgress } from "@/lib/actions/progress";
 import { useProgressStore } from "@/store/progress-store";
+import { UpgradeModal } from "@/components/monetization/UpgradeModal";
+import { createClient } from "@/lib/supabase/client";
+
+// Updated Interface matching new JSON Key
 
 // Updated Interface matching new JSON Key
 interface DayData {
@@ -82,8 +86,27 @@ export function DayView({ day, initialProgress }: DayViewProps) {
         }
     };
 
+    // FREEMIUM LOGIC
+    const [isPremium, setIsPremium] = useState(false);
+    const [showUpgradeModal, setShowUpgradeModal] = useState(false);
+
+    useEffect(() => {
+        const checkPremium = async () => {
+            const supabase = createClient();
+            const { data: { user } } = await supabase.auth.getUser();
+            if (user) {
+                const { data } = await supabase.from('profiles').select('is_premium').eq('id', user.id).single();
+                if (data?.is_premium) setIsPremium(true);
+            }
+        };
+        checkPremium();
+    }, []);
+
+    const isLockedDay = day.day > 3 && !isPremium;
+
     return (
         <div className="space-y-6">
+            <UpgradeModal open={showUpgradeModal} onOpenChange={setShowUpgradeModal} />
             {/* 1. Progress / Tab Navigation */}
             <div className="grid grid-cols-3 gap-2 md:gap-4">
                 {TABS.map((tab) => {
@@ -126,12 +149,33 @@ export function DayView({ day, initialProgress }: DayViewProps) {
             <GlassCard
                 className={cn(
                     "min-h-[600px] relative overflow-hidden transition-all duration-300",
-                    activeTab === "study"
+                    activeTab === "study" && !isLockedDay
                         ? "-mx-4 w-[calc(100%+2rem)] rounded-none p-0 bg-transparent border-0 shadow-none md:mx-0 md:w-full md:rounded-3xl md:p-8 md:bg-white/5 md:border-white/10 md:shadow-lg md:backdrop-blur-md"
                         : "p-6 md:p-8"
                 )}
             >
                 <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-[128px] -z-10" />
+
+                {/* PREMIUM LOCK OVERLAY */}
+                {isLockedDay && (
+                    <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-black/80 backdrop-blur-sm text-center p-8 space-y-6">
+                        <div className="p-4 bg-amber-500/20 rounded-full ring-4 ring-amber-500/10 animate-pulse">
+                            <Lock className="h-12 w-12 text-amber-500" />
+                        </div>
+                        <div className="max-w-md space-y-2">
+                            <h2 className="text-2xl font-bold text-amber-500">Premium Content</h2>
+                            <p className="text-muted-foreground">
+                                Day {day.day} is locked. Upgrade to unlock the full 30-day mastery course.
+                            </p>
+                        </div>
+                        <button
+                            onClick={() => setShowUpgradeModal(true)}
+                            className="px-8 py-3 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 font-bold text-black shadow-lg shadow-amber-500/20 hover:scale-105 transition-transform"
+                        >
+                            Unlock Full Access for ₹99
+                        </button>
+                    </div>
+                )}
 
                 {activeTab === "study" && (
                     <StudyCardDeck
@@ -170,7 +214,21 @@ export function DayView({ day, initialProgress }: DayViewProps) {
                             Phase 4: The Arena
                         </h2>
 
-                        {!isLinearComplete ? (
+                        {!isPremium ? (
+                            <div className="p-12 text-center border border-amber-500/20 rounded-2xl bg-amber-500/5 space-y-4">
+                                <Lock className="h-12 w-12 text-amber-500/50 mx-auto" />
+                                <h3 className="text-xl font-semibold text-amber-200">Premium Feature</h3>
+                                <p className="text-muted-foreground max-w-sm mx-auto">
+                                    The Competition Arena is available only for Premium members.
+                                </p>
+                                <button
+                                    onClick={() => setShowUpgradeModal(true)}
+                                    className="mt-4 px-6 py-2 rounded-full bg-amber-500/20 text-amber-500 border border-amber-500/50 font-bold hover:bg-amber-500 hover:text-black transition-all"
+                                >
+                                    Upgrade to Unlock
+                                </button>
+                            </div>
+                        ) : !isLinearComplete ? (
                             <div className="p-12 text-center border border-yellow-500/20 rounded-2xl bg-yellow-500/5 space-y-4">
                                 <Lock className="h-12 w-12 text-amber-500/50 mx-auto" />
                                 <h3 className="text-xl font-semibold text-amber-200">Locked Until Speed Drill Complete</h3>

@@ -90,10 +90,15 @@ export default function Dashboard() {
                     // Get day info from course data
                     const dayData = speedMathsData.days.find((d: any) => d.day === lastActiveDay.dayId);
 
+                    const getConceptTitle = (concept: any) => {
+                        if (!concept) return null;
+                        return Array.isArray(concept) ? concept[0]?.title : concept.title;
+                    };
+
                     setResumeInfo({
                         dayId: lastActiveDay.dayId,
                         dayTitle: dayData?.title || `Day ${lastActiveDay.dayId}`,
-                        dayDescription: dayData?.content?.concept?.title || "Continue your learning journey",
+                        dayDescription: getConceptTitle(dayData?.content?.concept) || "Continue your learning journey",
                         completionPercent: lastActiveDay.completionPercent,
                         courseTitle: "Speed Maths Mastery"
                     });
@@ -101,10 +106,16 @@ export default function Dashboard() {
                     console.error("Failed to fetch progress:", error);
                     // Set default resume info
                     const dayData = speedMathsData.days[0];
+
+                    const getConceptTitle = (concept: any) => {
+                        if (!concept) return null;
+                        return Array.isArray(concept) ? concept[0]?.title : concept.title;
+                    };
+
                     setResumeInfo({
                         dayId: 1,
                         dayTitle: dayData?.title || "Day 1",
-                        dayDescription: dayData?.content?.concept?.title || "Start your journey",
+                        dayDescription: getConceptTitle(dayData?.content?.concept) || "Start your journey",
                         completionPercent: 0,
                         courseTitle: "Speed Maths Mastery"
                     });

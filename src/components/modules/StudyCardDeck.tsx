@@ -208,8 +208,8 @@ export function StudyCardDeck({ content, onComplete, courseId = "speed-maths", d
                         transition={{ type: "spring", stiffness: 300, damping: 20 }}
                         className="h-full w-full cursor-grab active:cursor-grabbing touch-pan-y"
                     >
-                        {/* Reduced padding for mobile from p-8 to p-4 md:p-12 */}
-                        <GlassCard className="h-full p-4 md:p-12 relative w-full select-none">
+                        {/* Reduced padding for mobile from p-8 to p-4 md:p-12. Now even minimal. */}
+                        <GlassCard className="h-full px-2 py-4 md:p-12 relative w-full select-none">
 
                             {/* Bookmark Button */}
                             <div className="absolute top-4 right-4 z-10">
@@ -254,7 +254,7 @@ export function StudyCardDeck({ content, onComplete, courseId = "speed-maths", d
                                         </div>
 
                                         {currentConcept.example && (
-                                            <div className="bg-black/40 rounded-xl p-4 md:p-6 border border-white/5 backdrop-blur-md shadow-inner">
+                                            <div className="bg-black/40 rounded-xl p-3 md:p-6 border border-white/5 backdrop-blur-md shadow-inner">
                                                 <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-4 md:mb-6">Live Example</h4>
                                                 <div className="flex flex-col items-center justify-center py-4 space-y-6">
                                                     <div className="flex flex-wrap justify-center items-center gap-4 md:gap-8 text-3xl md:text-4xl font-mono">
@@ -302,7 +302,7 @@ export function StudyCardDeck({ content, onComplete, courseId = "speed-maths", d
                                             {currentRoteGroup.items.map((item, idx) => (
                                                 <div
                                                     key={idx}
-                                                    className="group flex flex-col md:flex-row items-start md:items-center justify-between p-4 rounded-xl border border-white/5 bg-white/5 hover:bg-white/10 hover:border-white/10 transition-all duration-300"
+                                                    className="group flex flex-col md:flex-row items-start md:items-center justify-between p-3 md:p-4 rounded-xl border border-white/5 bg-white/5 hover:bg-white/10 hover:border-white/10 transition-all duration-300"
                                                 >
                                                     <span className="text-sm md:text-base font-mono text-muted-foreground group-hover:text-foreground transition-colors mb-2 md:mb-0">
                                                         {item.q}

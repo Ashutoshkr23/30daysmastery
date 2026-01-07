@@ -183,7 +183,7 @@ export function PracticeRunner({ generatorIds, generatorConfig, config, customSe
                     isWrong ? "bg-red-500/20" : "bg-primary/10"
                 )} />
 
-                <GlassCard className="relative p-12 flex flex-col items-center gap-8 backdrop-blur-2xl">
+                <GlassCard className="relative p-6 md:p-12 flex flex-col items-center gap-8 backdrop-blur-2xl">
                     <div className="text-7xl font-black tracking-tighter flex items-center gap-4 text-foreground/90">
                         {/* Render Question */}
                         {question.operands.length === 2 && (

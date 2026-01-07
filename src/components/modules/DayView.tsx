@@ -179,18 +179,13 @@ export function DayView({ day, initialProgress }: DayViewProps) {
                                 </p>
                             </div>
                         ) : (
-                            <div className="flex flex-col lg:flex-row gap-8">
-                                <div className="flex-1">
-                                    <CompetitionArena
-                                        dayId={day.day}
-                                        onComplete={() => {
-                                            handleProgressUpdate('practice', { compete_score: 100 });
-                                        }}
-                                    />
-                                </div>
-                                <div className="w-full lg:w-96">
-                                    <Leaderboard courseId="speed-maths" dayId={day.day} />
-                                </div>
+                            <div className="w-full max-w-4xl mx-auto">
+                                <CompetitionArena
+                                    dayId={day.day}
+                                    onComplete={() => {
+                                        handleProgressUpdate('practice', { compete_score: 100 });
+                                    }}
+                                />
                             </div>
                         )}
                     </div>

@@ -7,6 +7,7 @@ import { daysConfig, getGenerator, Question } from "@/lib/generators";
 import { Loader2, Zap, Trophy, Timer, AlertTriangle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { logAttempt } from "@/lib/actions/progress";
+import { Leaderboard } from "./Leaderboard";
 
 interface CompetitionArenaProps {
     dayId: number;
@@ -142,9 +143,11 @@ export function CompetitionArena({ dayId, onComplete }: CompetitionArenaProps) {
 
     if (!dayConfig) return <div>Arena not available.</div>;
 
+
+
     if (showResult) {
         return (
-            <div className="flex flex-col items-center justify-center p-8 text-center space-y-8 animate-in zoom-in-95">
+            <div className="flex flex-col items-center justify-center p-8 text-center space-y-8 animate-in zoom-in-95 w-full max-w-4xl mx-auto">
                 <div className="bg-amber-500/20 p-6 rounded-full ring-4 ring-amber-500/20">
                     <Trophy className="h-16 w-16 text-amber-500" />
                 </div>
@@ -162,6 +165,12 @@ export function CompetitionArena({ dayId, onComplete }: CompetitionArenaProps) {
                         <span className="text-xs text-amber-500/60 uppercase">Score</span>
                         <div className="text-3xl font-mono font-bold text-amber-400">{score}</div>
                     </GlassCard>
+                </div>
+
+                {/* Comparison Leaderboard */}
+                <div className="w-full mt-8">
+                    <h3 className="text-xl font-bold text-amber-200 mb-4">Global Rankings</h3>
+                    <Leaderboard courseId="speed-maths" dayId={dayId} />
                 </div>
 
                 <PremiumButton onClick={enterArena} className="bg-amber-600 hover:bg-amber-700 text-white border-none">
@@ -215,7 +224,7 @@ export function CompetitionArena({ dayId, onComplete }: CompetitionArenaProps) {
             {/* Question */}
             <div className="relative w-full">
                 <div className="absolute inset-0 bg-red-600/20 blur-[80px] rounded-full animate-pulse" />
-                <GlassCard className="relative p-16 flex flex-col items-center space-y-8 border-red-500/30 bg-black/60 backdrop-blur-3xl shadow-[0_0_50px_rgba(220,38,38,0.2)]">
+                <GlassCard className="relative p-6 md:p-16 flex flex-col items-center space-y-8 border-red-500/30 bg-black/60 backdrop-blur-3xl shadow-[0_0_50px_rgba(220,38,38,0.2)]">
                     {question && (
                         <div className="text-7xl md:text-9xl font-black tracking-tighter text-white flex items-center gap-6">
                             <span>{question.operands[0]}</span>

@@ -147,6 +147,26 @@ const gen_sub_from_base = () => {
 };
 
 
+// 13. Subtraction: Numbers close to 100 (85-115)
+const gen_sub_close_100 = () => {
+    // Generate two numbers near 100
+    const a = Math.floor(Math.random() * 31) + 85; // 85-115
+    let b = Math.floor(Math.random() * 31) + 85;   // 85-115
+
+    // Ensure distinct and a > b for simple subtraction context
+    while (a === b) {
+        b = Math.floor(Math.random() * 31) + 85;
+    }
+
+    return {
+        operands: [Math.max(a, b), Math.min(a, b)],
+        operator: "-",
+        answer: Math.abs(a - b),
+        type: "SUB_CLOSE_100"
+    } as Question;
+};
+
+
 // --- Generator Registry ---
 export const GeneratorRegistry: Record<string, QuestionGenerator> = {
     "ADD_1D_1D": gen_add_1d_1d,
@@ -161,6 +181,7 @@ export const GeneratorRegistry: Record<string, QuestionGenerator> = {
     "SUB_2D_1D": gen_sub_2d_1d,
     "SUB_2D_2D": gen_sub_2d_2d,
     "SUB_FROM_BASE": gen_sub_from_base,
+    "SUB_CLOSE_100": gen_sub_close_100,
 };
 
 // --- Day Configurations ---
@@ -279,6 +300,31 @@ export const daysConfig: Record<number, DayConfig> = {
             { id: "SUB_2D_2D" },
             { id: "SUB_FROM_BASE" },
             { id: "TABLES", config: { min: 10, max: 12 } }
+        ]
+    },
+    4: {
+        id: 4,
+        title: "Subtraction: Base Method & Tables 13-15",
+        linearTasks: [
+            {
+                id: "d4_sub_close_100",
+                title: "Close to 100",
+                description: "Difference between numbers near 100.",
+                generatorId: "SUB_CLOSE_100",
+                targetCount: 10
+            },
+            {
+                id: "d4_tables",
+                title: "Tables 13-15",
+                description: "Multiplication tables 13, 14, 15.",
+                generatorId: "TABLES",
+                generatorConfig: { min: 13, max: 15 },
+                targetCount: 10
+            }
+        ],
+        unlockedGenerators: [
+            { id: "SUB_CLOSE_100" },
+            { id: "TABLES", config: { min: 13, max: 15 } }
         ]
     }
 };

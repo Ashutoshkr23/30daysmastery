@@ -595,7 +595,7 @@
             "content": {
                 "concept": {
                     "title": "Difference by Base Method",
-                    "description": "When numbers are close to a base (like 100), find the difference by finding how far each is from the base.\n\n### The Trick\nIf subtracting 96 from 102:\n* 102 is +2 from 100\n* 96 is -4 from 100\n* Distance = 2 - (-4) = 6\n\nWait, easier: Just add the deficiencies if crossing the base.\nE.g. 104 - 98\n* 104 is 4 above\n* 98 is 2 below\n* 4 + 2 = 6.",
+                    "description": "When numbers are close to a base (like 100), find the difference, use their distance from the base.\n\n### The Trick\nIf subtracting 96 from 102:\n* 102 is +2 from 100\n* 96 is -4 from 100\n* Distance = 2 - (-4) = 6\n\nWait, easier: Just add the deficiencies if crossing the base.\nE.g. 104 - 98\n* 104 is 4 above\n* 98 is 2 below\n* 4 + 2 = 6.",
                     "example": {
                         "problem": "105 - 97",
                         "solution": "8",
@@ -603,31 +603,142 @@
                     }
                 },
                 "rote": {
-                    "title": "Daily Vitamin: Tables 15-16 & Squares 31-40",
-                    "items": [
+                    "title": "Tables 13-15",
+                    "groups": [
                         {
-                            "front": "15 x 6",
-                            "back": "90"
+                            "title": "Table of 13",
+                            "items": [
+                                {
+                                    "q": "13 × 1",
+                                    "a": "13"
+                                },
+                                {
+                                    "q": "13 × 2",
+                                    "a": "26"
+                                },
+                                {
+                                    "q": "13 × 3",
+                                    "a": "39"
+                                },
+                                {
+                                    "q": "13 × 4",
+                                    "a": "52"
+                                },
+                                {
+                                    "q": "13 × 5",
+                                    "a": "65"
+                                },
+                                {
+                                    "q": "13 × 6",
+                                    "a": "78"
+                                },
+                                {
+                                    "q": "13 × 7",
+                                    "a": "91"
+                                },
+                                {
+                                    "q": "13 × 8",
+                                    "a": "104"
+                                },
+                                {
+                                    "q": "13 × 9",
+                                    "a": "117"
+                                },
+                                {
+                                    "q": "13 × 10",
+                                    "a": "130"
+                                }
+                            ]
                         },
                         {
-                            "front": "16 x 4",
-                            "back": "64"
+                            "title": "Table of 14",
+                            "items": [
+                                {
+                                    "q": "14 × 1",
+                                    "a": "14"
+                                },
+                                {
+                                    "q": "14 × 2",
+                                    "a": "28"
+                                },
+                                {
+                                    "q": "14 × 3",
+                                    "a": "42"
+                                },
+                                {
+                                    "q": "14 × 4",
+                                    "a": "56"
+                                },
+                                {
+                                    "q": "14 × 5",
+                                    "a": "70"
+                                },
+                                {
+                                    "q": "14 × 6",
+                                    "a": "84"
+                                },
+                                {
+                                    "q": "14 × 7",
+                                    "a": "98"
+                                },
+                                {
+                                    "q": "14 × 8",
+                                    "a": "112"
+                                },
+                                {
+                                    "q": "14 × 9",
+                                    "a": "126"
+                                },
+                                {
+                                    "q": "14 × 10",
+                                    "a": "140"
+                                }
+                            ]
                         },
                         {
-                            "front": "Square of 31",
-                            "back": "961"
-                        },
-                        {
-                            "front": "Square of 32",
-                            "back": "1024"
-                        },
-                        {
-                            "front": "Square of 35",
-                            "back": "1225"
-                        },
-                        {
-                            "front": "Square of 40",
-                            "back": "1600"
+                            "title": "Table of 15",
+                            "items": [
+                                {
+                                    "q": "15 × 1",
+                                    "a": "15"
+                                },
+                                {
+                                    "q": "15 × 2",
+                                    "a": "30"
+                                },
+                                {
+                                    "q": "15 × 3",
+                                    "a": "45"
+                                },
+                                {
+                                    "q": "15 × 4",
+                                    "a": "60"
+                                },
+                                {
+                                    "q": "15 × 5",
+                                    "a": "75"
+                                },
+                                {
+                                    "q": "15 × 6",
+                                    "a": "90"
+                                },
+                                {
+                                    "q": "15 × 7",
+                                    "a": "105"
+                                },
+                                {
+                                    "q": "15 × 8",
+                                    "a": "120"
+                                },
+                                {
+                                    "q": "15 × 9",
+                                    "a": "135"
+                                },
+                                {
+                                    "q": "15 × 10",
+                                    "a": "150"
+                                }
+                            ]
                         }
                     ]
                 }
@@ -635,40 +746,32 @@
             "practice": {
                 "questions": [
                     {
-                        "id": "d4q1",
                         "q": "103 - 98",
-                        "a": "5",
-                        "type": "mcq",
-                        "options": [
-                            "4",
-                            "5",
-                            "6",
-                            "7"
-                        ]
+                        "a": "5"
                     },
                     {
-                        "id": "d4q2",
                         "q": "100 - 87",
-                        "a": "13",
-                        "type": "mcq",
-                        "options": [
-                            "12",
-                            "13",
-                            "14",
-                            "23"
-                        ]
+                        "a": "13"
                     },
                     {
-                        "id": "d4q3",
                         "q": "15 x 8",
-                        "a": "120",
-                        "type": "mcq",
-                        "options": [
-                            "110",
-                            "120",
-                            "130",
-                            "125"
-                        ]
+                        "a": "120"
+                    },
+                    {
+                        "q": "14 x 5",
+                        "a": "70"
+                    },
+                    {
+                        "q": "13 x 9",
+                        "a": "117"
+                    },
+                    {
+                        "q": "106 - 95",
+                        "a": "11"
+                    },
+                    {
+                        "q": "92 - 86",
+                        "a": "6"
                     }
                 ]
             },

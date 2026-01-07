@@ -116,6 +116,37 @@ const gen_add_near_doubles = () => {
 };
 
 
+// 10. Subtraction: 2 digit - 1 digit
+const gen_sub_2d_1d = () => {
+    const a = Math.floor(Math.random() * 90) + 10; // 10-99
+    const b = Math.floor(Math.random() * 9) + 1;   // 1-9
+    return { operands: [a, b], operator: "-", answer: a - b, type: "SUB_2D_1D" } as Question;
+};
+
+// 11. Subtraction: 2 digit - 2 digit (positive result)
+const gen_sub_2d_2d = () => {
+    const a = Math.floor(Math.random() * 90) + 10; // 10-99
+    let b = Math.floor(Math.random() * 90) + 10;   // 10-99
+
+    // Ensure a > b for positive result, swap if needed
+    if (b > a) {
+        const temp = a;
+        // addressing the "const assignment" complaint if I just did a=b.
+        // Actually, let's just regenerate b to be smaller or equal to a.
+        // Or simpler: just return max - min.
+        return { operands: [Math.max(a, b), Math.min(a, b)], operator: "-", answer: Math.max(a, b) - Math.min(a, b), type: "SUB_2D_2D" } as Question;
+    }
+    return { operands: [a, b], operator: "-", answer: a - b, type: "SUB_2D_2D" } as Question;
+};
+
+// 12. Subtraction from multiples of 100 (100, 200... 900)
+const gen_sub_from_base = () => {
+    const base = (Math.floor(Math.random() * 9) + 1) * 100; // 100, 200... 900
+    const sub = Math.floor(Math.random() * 99) + 1; // 1-99
+    return { operands: [base, sub], operator: "-", answer: base - sub, type: "SUB_FROM_BASE" } as Question;
+};
+
+
 // --- Generator Registry ---
 export const GeneratorRegistry: Record<string, QuestionGenerator> = {
     "ADD_1D_1D": gen_add_1d_1d,
@@ -127,6 +158,9 @@ export const GeneratorRegistry: Record<string, QuestionGenerator> = {
     "SQUARES": gen_squares,
     "ADD_MIRROR": gen_add_mirror,
     "ADD_NEAR_DOUBLES": gen_add_near_doubles,
+    "SUB_2D_1D": gen_sub_2d_1d,
+    "SUB_2D_2D": gen_sub_2d_2d,
+    "SUB_FROM_BASE": gen_sub_from_base,
 };
 
 // --- Day Configurations ---
@@ -204,6 +238,47 @@ export const daysConfig: Record<number, DayConfig> = {
             { id: "ADD_MIRROR" },
             { id: "ADD_NEAR_DOUBLES" },
             { id: "TABLES", config: { min: 6, max: 9 } }
+        ]
+    },
+    3: {
+        id: 3,
+        title: "Subtraction & Tables 10-12",
+        linearTasks: [
+            {
+                id: "d3_sub_2d_1d",
+                title: "2-Digit - 1-Digit",
+                description: "Simple subtraction.",
+                generatorId: "SUB_2D_1D",
+                targetCount: 10
+            },
+            {
+                id: "d3_sub_2d_2d",
+                title: "2-Digit - 2-Digit",
+                description: "Double digit subtraction.",
+                generatorId: "SUB_2D_2D",
+                targetCount: 10
+            },
+            {
+                id: "d3_sub_base",
+                title: "Subtraction from Base",
+                description: "Subtract from multiples of 100.",
+                generatorId: "SUB_FROM_BASE",
+                targetCount: 10
+            },
+            {
+                id: "d3_tables",
+                title: "Tables 10-12",
+                description: "Multiplication tables 10, 11, 12.",
+                generatorId: "TABLES",
+                generatorConfig: { min: 10, max: 12 },
+                targetCount: 10
+            }
+        ],
+        unlockedGenerators: [
+            { id: "SUB_2D_1D" },
+            { id: "SUB_2D_2D" },
+            { id: "SUB_FROM_BASE" },
+            { id: "TABLES", config: { min: 10, max: 12 } }
         ]
     }
 };

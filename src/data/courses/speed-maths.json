@@ -160,12 +160,24 @@
                             "title": "Table of 6",
                             "items": [
                                 {
+                                    "q": "6 × 1",
+                                    "a": "6"
+                                },
+                                {
+                                    "q": "6 × 2",
+                                    "a": "12"
+                                },
+                                {
                                     "q": "6 × 3",
                                     "a": "18"
                                 },
                                 {
                                     "q": "6 × 4",
                                     "a": "24"
+                                },
+                                {
+                                    "q": "6 × 5",
+                                    "a": "30"
                                 },
                                 {
                                     "q": "6 × 6",
@@ -182,6 +194,10 @@
                                 {
                                     "q": "6 × 9",
                                     "a": "54"
+                                },
+                                {
+                                    "q": "6 × 10",
+                                    "a": "60"
                                 }
                             ]
                         },
@@ -189,12 +205,24 @@
                             "title": "Table of 7",
                             "items": [
                                 {
+                                    "q": "7 × 1",
+                                    "a": "7"
+                                },
+                                {
+                                    "q": "7 × 2",
+                                    "a": "14"
+                                },
+                                {
                                     "q": "7 × 3",
                                     "a": "21"
                                 },
                                 {
                                     "q": "7 × 4",
                                     "a": "28"
+                                },
+                                {
+                                    "q": "7 × 5",
+                                    "a": "35"
                                 },
                                 {
                                     "q": "7 × 6",
@@ -211,6 +239,10 @@
                                 {
                                     "q": "7 × 9",
                                     "a": "63"
+                                },
+                                {
+                                    "q": "7 × 10",
+                                    "a": "70"
                                 }
                             ]
                         },
@@ -218,12 +250,24 @@
                             "title": "Table of 8",
                             "items": [
                                 {
+                                    "q": "8 × 1",
+                                    "a": "8"
+                                },
+                                {
+                                    "q": "8 × 2",
+                                    "a": "16"
+                                },
+                                {
                                     "q": "8 × 3",
                                     "a": "24"
                                 },
                                 {
                                     "q": "8 × 4",
                                     "a": "32"
+                                },
+                                {
+                                    "q": "8 × 5",
+                                    "a": "40"
                                 },
                                 {
                                     "q": "8 × 6",
@@ -240,6 +284,10 @@
                                 {
                                     "q": "8 × 9",
                                     "a": "72"
+                                },
+                                {
+                                    "q": "8 × 10",
+                                    "a": "80"
                                 }
                             ]
                         },
@@ -247,12 +295,24 @@
                             "title": "Table of 9",
                             "items": [
                                 {
+                                    "q": "9 × 1",
+                                    "a": "9"
+                                },
+                                {
+                                    "q": "9 × 2",
+                                    "a": "18"
+                                },
+                                {
                                     "q": "9 × 3",
                                     "a": "27"
                                 },
                                 {
                                     "q": "9 × 4",
                                     "a": "36"
+                                },
+                                {
+                                    "q": "9 × 5",
+                                    "a": "45"
                                 },
                                 {
                                     "q": "9 × 6",
@@ -269,6 +329,10 @@
                                 {
                                     "q": "9 × 9",
                                     "a": "81"
+                                },
+                                {
+                                    "q": "9 × 10",
+                                    "a": "90"
                                 }
                             ]
                         }
@@ -317,45 +381,172 @@
             "title": "Subtraction Mastery",
             "unlockDate": "2025-01-03",
             "content": {
-                "concept": {
-                    "title": "Subtraction from 100/Base",
-                    "description": "Subtracting strictly from left to right can be faster, but for numbers near 100, use the base complement method.\n\n### The Trick\nTo subtract a number from 100:\nApply 'All from 9 and the last from 10' to the number being subtracted.\n\nE.g., 100 - 36\n* 3 from 9 = 6\n* 6 from 10 = 4\n* Result: 64",
-                    "example": {
-                        "problem": "100 - 58",
-                        "solution": "42",
-                        "steps": "1. 5 from 9 = 4\n2. 8 from 10 = 2\n3. Result = 42"
+                "concept": [
+                    {
+                        "title": "2-Digit - 1-Digit",
+                        "description": "Subtracting a single digit is the first step to mastery.\n\n### The Trick\n* If the unit digit is large enough (e.g., 45 - 3), just subtract: 42.\n* If not (e.g., 42 - 7), subtract to the previous ten, then the rest.\n\n**Example: 42 - 7**\n* 42 - 2 = 40\n* 40 - 5 = 35",
+                        "example": {
+                            "problem": "53 - 8",
+                            "solution": "45",
+                            "steps": "53 - 3 = 50 → 50 - 5 = 45"
+                        }
+                    },
+                    {
+                        "title": "2-Digit - 2-Digit",
+                        "description": "Subtract the tens first, then the units.\n\n### The Trick\n**Example: 84 - 36**\n1. Subtract Tens: 84 - 30 = 54\n2. Subtract Units: 54 - 6 = 48\n\nAlternatively, if the unit being subtracted is larger (6 > 4), you can subtract one more ten (40) and add the complement (4).",
+                        "example": {
+                            "problem": "72 - 38",
+                            "solution": "34",
+                            "steps": "72 - 30 = 42 → 42 - 8 = 34"
+                        }
+                    },
+                    {
+                        "title": "Subtraction from Base (100, 200...)",
+                        "description": "When subtracting from 100, 200, etc., use the 'All from 9 and the last from 10' rule for the digits being subtracted.\n\n**Example: 100 - 47**\n* 4 from 9 is 5\n* 7 from 10 is 3\n* Result: 53",
+                        "example": {
+                            "problem": "100 - 36",
+                            "solution": "64",
+                            "steps": "9-3=6, 10-6=4 → 64"
+                        }
                     }
-                },
+                ],
                 "rote": {
-                    "title": "Daily Vitamin: Tables 13-14 & Squares 21-30",
-                    "items": [
+                    "title": "Tables 10-12",
+                    "groups": [
                         {
-                            "front": "13 x 7",
-                            "back": "91"
+                            "title": "Table of 10",
+                            "items": [
+                                {
+                                    "q": "10 × 1",
+                                    "a": "10"
+                                },
+                                {
+                                    "q": "10 × 2",
+                                    "a": "20"
+                                },
+                                {
+                                    "q": "10 × 3",
+                                    "a": "30"
+                                },
+                                {
+                                    "q": "10 × 4",
+                                    "a": "40"
+                                },
+                                {
+                                    "q": "10 × 5",
+                                    "a": "50"
+                                },
+                                {
+                                    "q": "10 × 6",
+                                    "a": "60"
+                                },
+                                {
+                                    "q": "10 × 7",
+                                    "a": "70"
+                                },
+                                {
+                                    "q": "10 × 8",
+                                    "a": "80"
+                                },
+                                {
+                                    "q": "10 × 9",
+                                    "a": "90"
+                                },
+                                {
+                                    "q": "10 × 10",
+                                    "a": "100"
+                                }
+                            ]
                         },
                         {
-                            "front": "14 x 5",
-                            "back": "70"
+                            "title": "Table of 11",
+                            "items": [
+                                {
+                                    "q": "11 × 1",
+                                    "a": "11"
+                                },
+                                {
+                                    "q": "11 × 2",
+                                    "a": "22"
+                                },
+                                {
+                                    "q": "11 × 3",
+                                    "a": "33"
+                                },
+                                {
+                                    "q": "11 × 4",
+                                    "a": "44"
+                                },
+                                {
+                                    "q": "11 × 5",
+                                    "a": "55"
+                                },
+                                {
+                                    "q": "11 × 6",
+                                    "a": "66"
+                                },
+                                {
+                                    "q": "11 × 7",
+                                    "a": "77"
+                                },
+                                {
+                                    "q": "11 × 8",
+                                    "a": "88"
+                                },
+                                {
+                                    "q": "11 × 9",
+                                    "a": "99"
+                                },
+                                {
+                                    "q": "11 × 10",
+                                    "a": "110"
+                                }
+                            ]
                         },
                         {
-                            "front": "Square of 21",
-                            "back": "441"
-                        },
-                        {
-                            "front": "Square of 25",
-                            "back": "625"
-                        },
-                        {
-                            "front": "Square of 24",
-                            "back": "576"
-                        },
-                        {
-                            "front": "Square of 26",
-                            "back": "676"
-                        },
-                        {
-                            "front": "Square of 30",
-                            "back": "900"
+                            "title": "Table of 12",
+                            "items": [
+                                {
+                                    "q": "12 × 1",
+                                    "a": "12"
+                                },
+                                {
+                                    "q": "12 × 2",
+                                    "a": "24"
+                                },
+                                {
+                                    "q": "12 × 3",
+                                    "a": "36"
+                                },
+                                {
+                                    "q": "12 × 4",
+                                    "a": "48"
+                                },
+                                {
+                                    "q": "12 × 5",
+                                    "a": "60"
+                                },
+                                {
+                                    "q": "12 × 6",
+                                    "a": "72"
+                                },
+                                {
+                                    "q": "12 × 7",
+                                    "a": "84"
+                                },
+                                {
+                                    "q": "12 × 8",
+                                    "a": "96"
+                                },
+                                {
+                                    "q": "12 × 9",
+                                    "a": "108"
+                                },
+                                {
+                                    "q": "12 × 10",
+                                    "a": "120"
+                                }
+                            ]
                         }
                     ]
                 }
@@ -363,52 +554,32 @@
             "practice": {
                 "questions": [
                     {
-                        "id": "d3q1",
-                        "q": "100 - 24",
-                        "a": "76",
-                        "type": "mcq",
-                        "options": [
-                            "66",
-                            "76",
-                            "86",
-                            "74"
-                        ]
+                        "q": "85 - 8",
+                        "a": "77"
                     },
                     {
-                        "id": "d3q2",
-                        "q": "1000 - 345",
-                        "a": "655",
-                        "type": "mcq",
-                        "options": [
-                            "645",
-                            "655",
-                            "555",
-                            "665"
-                        ]
+                        "q": "64 - 28",
+                        "a": "36"
                     },
                     {
-                        "id": "d3q3",
-                        "q": "13 x 6",
-                        "a": "78",
-                        "type": "mcq",
-                        "options": [
-                            "68",
-                            "78",
-                            "88",
-                            "72"
-                        ]
+                        "q": "100 - 43",
+                        "a": "57"
                     },
                     {
-                        "id": "d3q4",
-                        "q": "Square of 25",
-                        "a": "625",
-                        "type": "mcq",
-                        "options": [
-                            "615",
-                            "625",
-                            "635",
-                            "525"
-                        ]
+                        "q": "12 x 8",
+                        "a": "96"
+                    },
+                    {
+                        "q": "11 x 11",
+                        "a": "121"
+                    },
+                    {
+                        "q": "200 - 45",
+                        "a": "155"
+                    },
+                    {
+                        "q": "92 - 17",
+                        "a": "75"
                     }
                 ]
             },

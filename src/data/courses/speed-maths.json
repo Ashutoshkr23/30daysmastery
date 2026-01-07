@@ -785,37 +785,172 @@
             "title": "The '5' Family (Mult)",
             "unlockDate": "2025-01-05",
             "content": {
-                "concept": {
-                    "title": "Multiplying by 5",
-                    "description": "5 is simply 10 divided by 2. \n\n### The Trick\nTo multiply any number by 5:\n1. Halve the number.\n2. Add a zero (multiply by 10).\n\n*If the number is odd, you'll get a .5, just move the decimal.*\n\nE.g. 48 x 5\n* Half of 48 = 24\n* Add zero = 240",
-                    "example": {
-                        "problem": "36 x 5",
-                        "solution": "180",
-                        "steps": "1. Half of 36 is 18\n2. 18 * 10 = 180"
+                "concept": [
+                    {
+                        "title": "Multiply by 5",
+                        "description": "5 is simply 10 divided by 2. \n\n### The Trick\nTo multiply any number by 5:\n1. Halve the number.\n2. Add a zero (multiply by 10).\n\n*If the number is odd, you'll get a .5, just remove the decimal.*\n\nE.g. 48 x 5\n* Half of 48 = 24\n* Add zero = 240",
+                        "example": {
+                            "problem": "36 x 5",
+                            "solution": "180",
+                            "steps": "1. Half of 36 is 18\n2. 18 * 10 = 180"
+                        }
+                    },
+                    {
+                        "title": "Multiply by 50 or 0.5",
+                        "description": "**Multiply by 50:** Halve numbers, add two zeros \n* 44 × 50 → 22 → 2200\n\n**Multiply by 0.5:** Just halve the number.\n* 84 × 0.5 = 42",
+                        "example": {
+                            "problem": "48 x 50",
+                            "solution": "2400",
+                            "steps": "Half: 24 → Add 00 → 2400"
+                        }
+                    },
+                    {
+                        "title": "Even No. × Ends in 5",
+                        "description": "Double and Halve method.\n\n### The Trick\n1. Double the number ending in 5 to make it a round number.\n2. Halve the even number.\n3. Multiply results.\n\nE.g. 14 × 15\n* Double 15 → 30\n* Halve 14 → 7\n* 7 × 30 = 210",
+                        "example": {
+                            "problem": "18 x 35",
+                            "solution": "630",
+                            "steps": "Double 35=70, Halve 18=9 → 9x70=630"
+                        }
                     }
-                },
+                ],
                 "rote": {
-                    "title": "Daily Vitamin: Tables 17-18 & Squares 41-50",
-                    "items": [
+                    "title": "Tables 16-18",
+                    "groups": [
                         {
-                            "front": "17 x 3",
-                            "back": "51"
+                            "title": "Table of 16",
+                            "items": [
+                                {
+                                    "q": "16 × 1",
+                                    "a": "16"
+                                },
+                                {
+                                    "q": "16 × 2",
+                                    "a": "32"
+                                },
+                                {
+                                    "q": "16 × 3",
+                                    "a": "48"
+                                },
+                                {
+                                    "q": "16 × 4",
+                                    "a": "64"
+                                },
+                                {
+                                    "q": "16 × 5",
+                                    "a": "80"
+                                },
+                                {
+                                    "q": "16 × 6",
+                                    "a": "96"
+                                },
+                                {
+                                    "q": "16 × 7",
+                                    "a": "112"
+                                },
+                                {
+                                    "q": "16 × 8",
+                                    "a": "128"
+                                },
+                                {
+                                    "q": "16 × 9",
+                                    "a": "144"
+                                },
+                                {
+                                    "q": "16 × 10",
+                                    "a": "160"
+                                }
+                            ]
                         },
                         {
-                            "front": "18 x 5",
-                            "back": "90"
+                            "title": "Table of 17",
+                            "items": [
+                                {
+                                    "q": "17 × 1",
+                                    "a": "17"
+                                },
+                                {
+                                    "q": "17 × 2",
+                                    "a": "34"
+                                },
+                                {
+                                    "q": "17 × 3",
+                                    "a": "51"
+                                },
+                                {
+                                    "q": "17 × 4",
+                                    "a": "68"
+                                },
+                                {
+                                    "q": "17 × 5",
+                                    "a": "85"
+                                },
+                                {
+                                    "q": "17 × 6",
+                                    "a": "102"
+                                },
+                                {
+                                    "q": "17 × 7",
+                                    "a": "119"
+                                },
+                                {
+                                    "q": "17 × 8",
+                                    "a": "136"
+                                },
+                                {
+                                    "q": "17 × 9",
+                                    "a": "153"
+                                },
+                                {
+                                    "q": "17 × 10",
+                                    "a": "170"
+                                }
+                            ]
                         },
                         {
-                            "front": "Square of 41",
-                            "back": "1681"
-                        },
-                        {
-                            "front": "Square of 45",
-                            "back": "2025"
-                        },
-                        {
-                            "front": "Square of 50",
-                            "back": "2500"
+                            "title": "Table of 18",
+                            "items": [
+                                {
+                                    "q": "18 × 1",
+                                    "a": "18"
+                                },
+                                {
+                                    "q": "18 × 2",
+                                    "a": "36"
+                                },
+                                {
+                                    "q": "18 × 3",
+                                    "a": "54"
+                                },
+                                {
+                                    "q": "18 × 4",
+                                    "a": "72"
+                                },
+                                {
+                                    "q": "18 × 5",
+                                    "a": "90"
+                                },
+                                {
+                                    "q": "18 × 6",
+                                    "a": "108"
+                                },
+                                {
+                                    "q": "18 × 7",
+                                    "a": "126"
+                                },
+                                {
+                                    "q": "18 × 8",
+                                    "a": "144"
+                                },
+                                {
+                                    "q": "18 × 9",
+                                    "a": "162"
+                                },
+                                {
+                                    "q": "18 × 10",
+                                    "a": "180"
+                                }
+                            ]
                         }
                     ]
                 }
@@ -823,40 +958,32 @@
             "practice": {
                 "questions": [
                     {
-                        "id": "d5q1",
                         "q": "24 x 5",
-                        "a": "120",
-                        "type": "mcq",
-                        "options": [
-                            "100",
-                            "120",
-                            "240",
-                            "125"
-                        ]
+                        "a": "120"
                     },
                     {
-                        "id": "d5q2",
                         "q": "86 x 5",
-                        "a": "430",
-                        "type": "mcq",
-                        "options": [
-                            "430",
-                            "420",
-                            "400",
-                            "450"
-                        ]
+                        "a": "430"
                     },
                     {
-                        "id": "d5q3",
-                        "q": "13 x 5",
-                        "a": "65",
-                        "type": "mcq",
-                        "options": [
-                            "55",
-                            "65",
-                            "75",
-                            "70"
-                        ]
+                        "q": "16 x 35",
+                        "a": "560"
+                    },
+                    {
+                        "q": "42 x 50",
+                        "a": "2100"
+                    },
+                    {
+                        "q": "12 x 55",
+                        "a": "660"
+                    },
+                    {
+                        "q": "84 x 0.5",
+                        "a": "42"
+                    },
+                    {
+                        "q": "18 x 7",
+                        "a": "126"
                     }
                 ]
             },
@@ -867,40 +994,175 @@
         },
         {
             "day": 6,
-            "title": "The '25' & '125' Family",
+            "title": "The '25' Family (Mult)",
             "unlockDate": "2025-01-06",
             "content": {
-                "concept": {
-                    "title": "Multiply by 25 and 125",
-                    "description": "Just as 5 is 10/2...\n* 25 is 100/4\n* 125 is 1000/8\n\n### The Trick (x25)\n1. Divide the number by 4.\n2. Add two zeros.\n\nE.g. 12 x 25\n* 12 ÷ 4 = 3\n* Result: 300",
-                    "example": {
-                        "problem": "32 x 25",
-                        "solution": "800",
-                        "steps": "1. 32 / 4 = 8\n2. Add two zeros -> 800"
+                "concept": [
+                    {
+                        "title": "Multiply by 25",
+                        "description": "25 is 100 divided by 4.\n\n### The Trick\nTo multiply by 25, divide by 4 and multiply by 100 (add two zeros).\n\nE.g. 16 × 25\n* 16 / 4 = 4\n* 4 × 100 = 400\n\nIf there is a remainder:\n* .25 = 25\n* .50 = 50\n* .75 = 75",
+                        "example": {
+                            "problem": "36 x 25",
+                            "solution": "900",
+                            "steps": "36 / 4 = 9 → 900"
+                        }
+                    },
+                    {
+                        "title": "Multiply by 125",
+                        "description": "125 is 1000 divided by 8.\n\n### The Trick\nDivide numbers by 8 and add three zeros.\n\nE.g. 32 × 125\n* 32 / 8 = 4\n* 4 × 1000 = 4000",
+                        "example": {
+                            "problem": "48 x 125",
+                            "solution": "6000",
+                            "steps": "48 / 8 = 6 → 6000"
+                        }
+                    },
+                    {
+                        "title": "Decimals (0.25, 1.25, 12.5)",
+                        "description": "**× 0.25**: Divide by 4.\n* 64 × 0.25 = 16\n\n**× 1.25**: Is 1 + 1/4 (Add a quarter of itself).\n* 48 × 1.25 → 48 + 12 = 60\n\n**× 12.5**: Divide by 8, mult by 100.\n* 32 × 12.5 → 400",
+                        "example": {
+                            "problem": "80 x 1.25",
+                            "solution": "100",
+                            "steps": "80 + (80/4) = 80 + 20 = 100"
+                        }
                     }
-                },
+                ],
                 "rote": {
-                    "title": "Daily Vitamin: Tables 19-20 & Squares 51-60",
-                    "items": [
+                    "title": "Tables 19-21",
+                    "groups": [
                         {
-                            "front": "19 x 5",
-                            "back": "95"
+                            "title": "Table of 19",
+                            "items": [
+                                {
+                                    "q": "19 × 1",
+                                    "a": "19"
+                                },
+                                {
+                                    "q": "19 × 2",
+                                    "a": "38"
+                                },
+                                {
+                                    "q": "19 × 3",
+                                    "a": "57"
+                                },
+                                {
+                                    "q": "19 × 4",
+                                    "a": "76"
+                                },
+                                {
+                                    "q": "19 × 5",
+                                    "a": "95"
+                                },
+                                {
+                                    "q": "19 × 6",
+                                    "a": "114"
+                                },
+                                {
+                                    "q": "19 × 7",
+                                    "a": "133"
+                                },
+                                {
+                                    "q": "19 × 8",
+                                    "a": "152"
+                                },
+                                {
+                                    "q": "19 × 9",
+                                    "a": "171"
+                                },
+                                {
+                                    "q": "19 × 10",
+                                    "a": "190"
+                                }
+                            ]
                         },
                         {
-                            "front": "20 x 8",
-                            "back": "160"
+                            "title": "Table of 20",
+                            "items": [
+                                {
+                                    "q": "20 × 1",
+                                    "a": "20"
+                                },
+                                {
+                                    "q": "20 × 2",
+                                    "a": "40"
+                                },
+                                {
+                                    "q": "20 × 3",
+                                    "a": "60"
+                                },
+                                {
+                                    "q": "20 × 4",
+                                    "a": "80"
+                                },
+                                {
+                                    "q": "20 × 5",
+                                    "a": "100"
+                                },
+                                {
+                                    "q": "20 × 6",
+                                    "a": "120"
+                                },
+                                {
+                                    "q": "20 × 7",
+                                    "a": "140"
+                                },
+                                {
+                                    "q": "20 × 8",
+                                    "a": "160"
+                                },
+                                {
+                                    "q": "20 × 9",
+                                    "a": "180"
+                                },
+                                {
+                                    "q": "20 × 10",
+                                    "a": "200"
+                                }
+                            ]
                         },
                         {
-                            "front": "Square of 51",
-                            "back": "2601"
-                        },
-                        {
-                            "front": "Square of 55",
-                            "back": "3025"
-                        },
-                        {
-                            "front": "Square of 60",
-                            "back": "3600"
+                            "title": "Table of 21",
+                            "items": [
+                                {
+                                    "q": "21 × 1",
+                                    "a": "21"
+                                },
+                                {
+                                    "q": "21 × 2",
+                                    "a": "42"
+                                },
+                                {
+                                    "q": "21 × 3",
+                                    "a": "63"
+                                },
+                                {
+                                    "q": "21 × 4",
+                                    "a": "84"
+                                },
+                                {
+                                    "q": "21 × 5",
+                                    "a": "105"
+                                },
+                                {
+                                    "q": "21 × 6",
+                                    "a": "126"
+                                },
+                                {
+                                    "q": "21 × 7",
+                                    "a": "147"
+                                },
+                                {
+                                    "q": "21 × 8",
+                                    "a": "168"
+                                },
+                                {
+                                    "q": "21 × 9",
+                                    "a": "189"
+                                },
+                                {
+                                    "q": "21 × 10",
+                                    "a": "210"
+                                }
+                            ]
                         }
                     ]
                 }
@@ -908,40 +1170,32 @@
             "practice": {
                 "questions": [
                     {
-                        "id": "d6q1",
-                        "q": "16 x 25",
-                        "a": "400",
-                        "type": "mcq",
-                        "options": [
-                            "400",
-                            "450",
-                            "300",
-                            "350"
-                        ]
+                        "q": "32 x 25",
+                        "a": "800"
                     },
                     {
-                        "id": "d6q2",
-                        "q": "8 x 125",
-                        "a": "1000",
-                        "type": "mcq",
-                        "options": [
-                            "800",
-                            "1250",
-                            "1000",
-                            "1100"
-                        ]
+                        "q": "64 x 0.25",
+                        "a": "16"
                     },
                     {
-                        "id": "d6q3",
-                        "q": "44 x 25",
-                        "a": "1100",
-                        "type": "mcq",
-                        "options": [
-                            "1000",
-                            "1100",
-                            "1200",
-                            "1050"
-                        ]
+                        "q": "48 x 1.25",
+                        "a": "60"
+                    },
+                    {
+                        "q": "16 x 12.5",
+                        "a": "200"
+                    },
+                    {
+                        "q": "24 x 125",
+                        "a": "3000"
+                    },
+                    {
+                        "q": "36 x 25",
+                        "a": "900"
+                    },
+                    {
+                        "q": "19 x 6",
+                        "a": "114"
                     }
                 ]
             },
@@ -952,36 +1206,220 @@
         },
         {
             "day": 7,
-            "title": "Division by the '5' Family",
+            "title": "Division Mastery (5, 25, 125)",
             "unlockDate": "2025-01-07",
             "content": {
-                "concept": {
-                    "title": "Division by 5",
-                    "description": "Division is the opposite. To divide by 5, divide by 10 and multiply by 2.\n\n### The Trick\n1. Double the number.\n2. Divide by 10 (move decimal left).\n\nE.g. 140 ÷ 5\n* Double 140 = 280\n* Move decimal = 28.0",
-                    "example": {
-                        "problem": "23 ÷ 5",
-                        "solution": "4.6",
-                        "steps": "1. Double 23 = 46\n2. Move decimal = 4.6"
+                "concept": [
+                    {
+                        "title": "Divide by 5, 50, 0.5",
+                        "description": "Division is the opposite of multiplication. Use the 2x rule.\n\n### The Trick\n* **÷ 5**: Double, then decimals moves 1 left (÷10). \n  * `140 ÷ 5` -> `280` -> `28`\n* **÷ 50**: Double, then decimals moves 2 left (÷100).\n  * `2300 ÷ 50` -> `4600` -> `46`\n* **÷ 0.5**: Just Double!\n  * `42 ÷ 0.5` -> `84`",
+                        "example": {
+                            "problem": "23 ÷ 5",
+                            "solution": "4.6",
+                            "steps": "1. Double 23 = 46\n2. Move decimal = 4.6"
+                        }
+                    },
+                    {
+                        "title": "Divide by 25, 0.25",
+                        "description": "Use the 4x rule.\n\n### The Trick\n* **÷ 25**: Multiply by 4, decimal moves 2 left (÷100).\n  * `1200 ÷ 25` -> `4800` -> `48`\n* **÷ 0.25**: Just Multiply by 4!\n  * `16 ÷ 0.25` -> `64`",
+                        "example": {
+                            "problem": "300 ÷ 25",
+                            "solution": "12",
+                            "steps": "1. 300 * 4 = 1200\n2. Div 100 = 12"
+                        }
+                    },
+                    {
+                        "title": "Divide by 125, 0.125",
+                        "description": "Use the 8x rule.\n\n### The Trick\n* **÷ 125**: Multiply by 8, decimal moves 3 left (÷1000).\n  * `4000 ÷ 125` -> `32000` -> `32`\n* **÷ 0.125**: Just Multiply by 8!\n  * `7 ÷ 0.125` -> `56`",
+                        "example": {
+                            "problem": "5000 ÷ 125",
+                            "solution": "40",
+                            "steps": "5000 * 8 = 40000 -> 40"
+                        }
                     }
-                },
+                ],
                 "rote": {
-                    "title": "Review Week 1",
-                    "items": [
+                    "title": "Tables 22-25",
+                    "groups": [
                         {
-                            "front": "Review 17x3",
-                            "back": "51"
+                            "title": "Table of 22",
+                            "items": [
+                                {
+                                    "q": "22 × 1",
+                                    "a": "22"
+                                },
+                                {
+                                    "q": "22 × 2",
+                                    "a": "44"
+                                },
+                                {
+                                    "q": "22 × 3",
+                                    "a": "66"
+                                },
+                                {
+                                    "q": "22 × 4",
+                                    "a": "88"
+                                },
+                                {
+                                    "q": "22 × 5",
+                                    "a": "110"
+                                },
+                                {
+                                    "q": "22 × 6",
+                                    "a": "132"
+                                },
+                                {
+                                    "q": "22 × 7",
+                                    "a": "154"
+                                },
+                                {
+                                    "q": "22 × 8",
+                                    "a": "176"
+                                },
+                                {
+                                    "q": "22 × 9",
+                                    "a": "198"
+                                },
+                                {
+                                    "q": "22 × 10",
+                                    "a": "220"
+                                }
+                            ]
                         },
                         {
-                            "front": "Review 24^2",
-                            "back": "576"
+                            "title": "Table of 23",
+                            "items": [
+                                {
+                                    "q": "23 × 1",
+                                    "a": "23"
+                                },
+                                {
+                                    "q": "23 × 2",
+                                    "a": "46"
+                                },
+                                {
+                                    "q": "23 × 3",
+                                    "a": "69"
+                                },
+                                {
+                                    "q": "23 × 4",
+                                    "a": "92"
+                                },
+                                {
+                                    "q": "23 × 5",
+                                    "a": "115"
+                                },
+                                {
+                                    "q": "23 × 6",
+                                    "a": "138"
+                                },
+                                {
+                                    "q": "23 × 7",
+                                    "a": "161"
+                                },
+                                {
+                                    "q": "23 × 8",
+                                    "a": "184"
+                                },
+                                {
+                                    "q": "23 × 9",
+                                    "a": "207"
+                                },
+                                {
+                                    "q": "23 × 10",
+                                    "a": "230"
+                                }
+                            ]
                         },
                         {
-                            "front": "Review 100-36",
-                            "back": "64"
+                            "title": "Table of 24",
+                            "items": [
+                                {
+                                    "q": "24 × 1",
+                                    "a": "24"
+                                },
+                                {
+                                    "q": "24 × 2",
+                                    "a": "48"
+                                },
+                                {
+                                    "q": "24 × 3",
+                                    "a": "72"
+                                },
+                                {
+                                    "q": "24 × 4",
+                                    "a": "96"
+                                },
+                                {
+                                    "q": "24 × 5",
+                                    "a": "120"
+                                },
+                                {
+                                    "q": "24 × 6",
+                                    "a": "144"
+                                },
+                                {
+                                    "q": "24 × 7",
+                                    "a": "168"
+                                },
+                                {
+                                    "q": "24 × 8",
+                                    "a": "192"
+                                },
+                                {
+                                    "q": "24 × 9",
+                                    "a": "216"
+                                },
+                                {
+                                    "q": "24 × 10",
+                                    "a": "240"
+                                }
+                            ]
                         },
                         {
-                            "front": "Review 48x5",
-                            "back": "240"
+                            "title": "Table of 25",
+                            "items": [
+                                {
+                                    "q": "25 × 1",
+                                    "a": "25"
+                                },
+                                {
+                                    "q": "25 × 2",
+                                    "a": "50"
+                                },
+                                {
+                                    "q": "25 × 3",
+                                    "a": "75"
+                                },
+                                {
+                                    "q": "25 × 4",
+                                    "a": "100"
+                                },
+                                {
+                                    "q": "25 × 5",
+                                    "a": "125"
+                                },
+                                {
+                                    "q": "25 × 6",
+                                    "a": "150"
+                                },
+                                {
+                                    "q": "25 × 7",
+                                    "a": "175"
+                                },
+                                {
+                                    "q": "25 × 8",
+                                    "a": "200"
+                                },
+                                {
+                                    "q": "25 × 9",
+                                    "a": "225"
+                                },
+                                {
+                                    "q": "25 × 10",
+                                    "a": "250"
+                                }
+                            ]
                         }
                     ]
                 }
@@ -989,40 +1427,32 @@
             "practice": {
                 "questions": [
                     {
-                        "id": "d7q1",
                         "q": "135 ÷ 5",
-                        "a": "27",
-                        "type": "mcq",
-                        "options": [
-                            "25",
-                            "26",
-                            "27",
-                            "28"
-                        ]
+                        "a": "27"
                     },
                     {
-                        "id": "d7q2",
                         "q": "42 ÷ 5",
-                        "a": "8.4",
-                        "type": "mcq",
-                        "options": [
-                            "8.2",
-                            "8.4",
-                            "8.5",
-                            "8.0"
-                        ]
+                        "a": "8.4"
                     },
                     {
-                        "id": "d7q3",
-                        "q": "120 ÷ 5",
-                        "a": "24",
-                        "type": "mcq",
-                        "options": [
-                            "24",
-                            "25",
-                            "22",
-                            "20"
-                        ]
+                        "q": "400 ÷ 25",
+                        "a": "16"
+                    },
+                    {
+                        "q": "16 ÷ 0.25",
+                        "a": "64"
+                    },
+                    {
+                        "q": "3000 ÷ 125",
+                        "a": "24"
+                    },
+                    {
+                        "q": "5 ÷ 0.125",
+                        "a": "40"
+                    },
+                    {
+                        "q": "23 x 5",
+                        "a": "115"
                     }
                 ]
             },
@@ -1033,40 +1463,115 @@
         },
         {
             "day": 8,
-            "title": "The '1' Family",
+            "title": "The '1' Family & Review",
             "unlockDate": "2025-01-08",
             "content": {
-                "concept": {
-                    "title": "Multiply by 11",
-                    "description": "The x11 trick is legendary. 'Add neighbors'.\n\n### The Trick\nTo multiply any number by 11:\n1. Write down the first digit.\n2. Add adjacent digits in pairs.\n3. Write down the last digit.\n\nE.g. 123 x 11\n* Start: 1\n* 1+2 = 3\n* 2+3 = 5\n* End: 3\n* Result: 1353",
-                    "example": {
-                        "problem": "45 x 11",
-                        "solution": "495",
-                        "steps": "1. First 4\n2. 4+5=9\n3. Last 5 -> 495"
+                "concept": [
+                    {
+                        "title": "Multiply by 11",
+                        "description": "The x11 trick is legendary. 'Add neighbors'.\n\n### The Trick\nTo multiply any number by 11:\n1. Write down the first digit.\n2. Add adjacent digits in pairs.\n3. Write down the last digit.\n\nE.g. 123 x 11\n* Start: 1\n* 1+2 = 3\n* 2+3 = 5\n* End: 3\n* Result: 1353",
+                        "example": {
+                            "problem": "45 x 11",
+                            "solution": "495",
+                            "steps": "1. First 4\n2. 4+5=9\n3. Last 5 -> 495"
+                        }
+                    },
+                    {
+                        "title": "Multiply by 101, 1001",
+                        "description": "Repeating patterns occur with these multipliers.\n\n### The Trick\n* **x 101**: For 2-digit numbers, it repeats the number.\n  * `42 x 101` = `4242`\n* **x 1001**: For 3-digit numbers, it repeats the number.\n  * `123 x 1001` = `123123`",
+                        "example": {
+                            "problem": "78 x 101",
+                            "solution": "7878",
+                            "steps": "Just repeat twice: 78 -> 7878"
+                        }
+                    },
+                    {
+                        "title": "Repeating Multipliers (22, 33...)",
+                        "description": "Combine x11 with multiplication.\n\n### The Trick\nTo do `14 x 22`:\n1. Treat as `14 x 2 x 11`\n2. `14 x 2` = 28\n3. `28 x 11` (Add neighbors) = 308",
+                        "example": {
+                            "problem": "13 x 33",
+                            "solution": "429",
+                            "steps": "1. 13 x 3 = 39\n2. 39 x 11 -> 3 (3+9) 9 -> 429"
+                        }
                     }
-                },
+                ],
                 "rote": {
-                    "title": "Daily Vitamin: Tables 21-22 & Squares 61-70",
-                    "items": [
+                    "title": "Mega Review: Tables 1-15",
+                    "groups": [
                         {
-                            "front": "21 x 4",
-                            "back": "84"
+                            "title": "Tables 1-5 (Review)",
+                            "items": [
+                                {
+                                    "q": "2 x 8",
+                                    "a": "16"
+                                },
+                                {
+                                    "q": "3 x 7",
+                                    "a": "21"
+                                },
+                                {
+                                    "q": "4 x 9",
+                                    "a": "36"
+                                },
+                                {
+                                    "q": "5 x 6",
+                                    "a": "30"
+                                },
+                                {
+                                    "q": "3 x 12",
+                                    "a": "36"
+                                }
+                            ]
                         },
                         {
-                            "front": "22 x 5",
-                            "back": "110"
+                            "title": "Tables 6-10 (Review)",
+                            "items": [
+                                {
+                                    "q": "6 x 8",
+                                    "a": "48"
+                                },
+                                {
+                                    "q": "7 x 7",
+                                    "a": "49"
+                                },
+                                {
+                                    "q": "8 x 9",
+                                    "a": "72"
+                                },
+                                {
+                                    "q": "9 x 6",
+                                    "a": "54"
+                                },
+                                {
+                                    "q": "7 x 12",
+                                    "a": "84"
+                                }
+                            ]
                         },
                         {
-                            "front": "Square of 61",
-                            "back": "3721"
-                        },
-                        {
-                            "front": "Square of 65",
-                            "back": "4225"
-                        },
-                        {
-                            "front": "Square of 70",
-                            "back": "4900"
+                            "title": "Tables 11-15 (Review)",
+                            "items": [
+                                {
+                                    "q": "12 x 11",
+                                    "a": "132"
+                                },
+                                {
+                                    "q": "13 x 4",
+                                    "a": "52"
+                                },
+                                {
+                                    "q": "14 x 5",
+                                    "a": "70"
+                                },
+                                {
+                                    "q": "15 x 6",
+                                    "a": "90"
+                                },
+                                {
+                                    "q": "12 x 12",
+                                    "a": "144"
+                                }
+                            ]
                         }
                     ]
                 }
@@ -1074,40 +1579,32 @@
             "practice": {
                 "questions": [
                     {
-                        "id": "d8q1",
                         "q": "35 x 11",
-                        "a": "385",
-                        "type": "mcq",
-                        "options": [
-                            "375",
-                            "385",
-                            "395",
-                            "405"
-                        ]
+                        "a": "385"
                     },
                     {
-                        "id": "d8q2",
                         "q": "72 x 11",
-                        "a": "792",
-                        "type": "mcq",
-                        "options": [
-                            "782",
-                            "792",
-                            "802",
-                            "772"
-                        ]
+                        "a": "792"
                     },
                     {
-                        "id": "d8q3",
+                        "q": "42 x 101",
+                        "a": "4242"
+                    },
+                    {
+                        "q": "123 x 1001",
+                        "a": "123123"
+                    },
+                    {
+                        "q": "14 x 22",
+                        "a": "308"
+                    },
+                    {
+                        "q": "13 x 33",
+                        "a": "429"
+                    },
+                    {
                         "q": "22 x 6",
-                        "a": "132",
-                        "type": "mcq",
-                        "options": [
-                            "122",
-                            "132",
-                            "142",
-                            "112"
-                        ]
+                        "a": "132"
                     }
                 ]
             },
@@ -1118,40 +1615,90 @@
         },
         {
             "day": 9,
-            "title": "The '9' Family",
+            "title": "The '9' Family & Review",
             "unlockDate": "2025-01-09",
             "content": {
-                "concept": {
-                    "title": "Multiply by 9, 99, 999",
-                    "description": "Multiplying by 9s is just 'multiply by 10/100/1000 - 1'.\n\n### The Trick (Base Complement)\nFor 99 x 45:\n1. Subtract 1 from 45 -> 44.\n2. Find complement of 45 to 100 -> 55.\n3. Combine: 4455.\n\nWorks when digits match 9s!",
-                    "example": {
-                        "problem": "99 x 68",
-                        "solution": "6732",
-                        "steps": "1. 68 - 1 = 67\n2. Comp of 68 to 100 = 32\n3. Result: 6732"
+                "concept": [
+                    {
+                        "title": "Multiply by 9",
+                        "description": "Multiply by 10, then subtract the number.\n\n### The Trick\n* **x 9**: `x * 10 - x`\n  * `45 x 9` -> `450 - 45` -> `405`\n* Alternatively, use the finger trick for single digits!",
+                        "example": {
+                            "problem": "18 x 9",
+                            "solution": "162",
+                            "steps": "180 - 18 = 162"
+                        }
+                    },
+                    {
+                        "title": "Multiply by 99",
+                        "description": "The 'One Less' Method (Vedic Math).\n\n### The Trick\nFor 2-digit number `N`: \n1. First part: `N - 1`\n2. Second part: `99 - (N - 1)` (Complement to 99)\n\nE.g. 45 x 99\n* Part 1: 45 - 1 = 44\n* Part 2: 99 - 44 = 55\n* Result: 4455",
+                        "example": {
+                            "problem": "68 x 99",
+                            "solution": "6732",
+                            "steps": "1. 68-1=67\n2. 99-67=32 -> 6732"
+                        }
+                    },
+                    {
+                        "title": "Multiply by 999",
+                        "description": "Same logic extends to 999.\n\n### The Trick\nFor 3-digit number `N`:\n1. First part: `N - 1`\n2. Second part: `999 - (N - 1)`\n\nE.g. 123 x 999\n* Part 1: 122\n* Part 2: 999 - 122 = 877\n* Result: 122877",
+                        "example": {
+                            "problem": "345 x 999",
+                            "solution": "344655",
+                            "steps": "1. 345-1=344\n2. 999-344=655"
+                        }
                     }
-                },
+                ],
                 "rote": {
-                    "title": "Daily Vitamin: Tables 23-24 & Squares 71-80",
-                    "items": [
+                    "title": "Mega Review: Tables 16-25",
+                    "groups": [
                         {
-                            "front": "23 x 3",
-                            "back": "69"
+                            "title": "Tables 16-20 (Review)",
+                            "items": [
+                                {
+                                    "q": "16 x 8",
+                                    "a": "128"
+                                },
+                                {
+                                    "q": "17 x 7",
+                                    "a": "119"
+                                },
+                                {
+                                    "q": "18 x 6",
+                                    "a": "108"
+                                },
+                                {
+                                    "q": "19 x 9",
+                                    "a": "171"
+                                },
+                                {
+                                    "q": "20 x 8",
+                                    "a": "160"
+                                }
+                            ]
                         },
                         {
-                            "front": "24 x 4",
-                            "back": "96"
-                        },
-                        {
-                            "front": "Square of 71",
-                            "back": "5041"
-                        },
-                        {
-                            "front": "Square of 75",
-                            "back": "5625"
-                        },
-                        {
-                            "front": "Square of 80",
-                            "back": "6400"
+                            "title": "Tables 21-25 (Review)",
+                            "items": [
+                                {
+                                    "q": "21 x 4",
+                                    "a": "84"
+                                },
+                                {
+                                    "q": "22 x 6",
+                                    "a": "132"
+                                },
+                                {
+                                    "q": "23 x 3",
+                                    "a": "69"
+                                },
+                                {
+                                    "q": "24 x 5",
+                                    "a": "120"
+                                },
+                                {
+                                    "q": "25 x 4",
+                                    "a": "100"
+                                }
+                            ]
                         }
                     ]
                 }
@@ -1159,40 +1706,32 @@
             "practice": {
                 "questions": [
                     {
-                        "id": "d9q1",
-                        "q": "99 x 54",
-                        "a": "5346",
-                        "type": "mcq",
-                        "options": [
-                            "5346",
-                            "5446",
-                            "5356",
-                            "5246"
-                        ]
+                        "q": "45 x 9",
+                        "a": "405"
                     },
                     {
-                        "id": "d9q2",
-                        "q": "99 x 23",
-                        "a": "2277",
-                        "type": "mcq",
-                        "options": [
-                            "2267",
-                            "2277",
-                            "2377",
-                            "2177"
-                        ]
+                        "q": "68 x 99",
+                        "a": "6732"
                     },
                     {
-                        "id": "d9q3",
-                        "q": "Square of 75",
-                        "a": "5625",
-                        "type": "mcq",
-                        "options": [
-                            "5525",
-                            "5625",
-                            "5725",
-                            "5650"
-                        ]
+                        "q": "23 x 99",
+                        "a": "2277"
+                    },
+                    {
+                        "q": "123 x 999",
+                        "a": "122877"
+                    },
+                    {
+                        "q": "18 x 9",
+                        "a": "162"
+                    },
+                    {
+                        "q": "24 x 5",
+                        "a": "120"
+                    },
+                    {
+                        "q": "19 x 7",
+                        "a": "133"
                     }
                 ]
             },

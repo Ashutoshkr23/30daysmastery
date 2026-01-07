@@ -167,6 +167,200 @@ const gen_sub_close_100 = () => {
 };
 
 
+// 14. Multiply by 5
+const gen_mult_5 = () => {
+    // Generate even numbers often for easier "half" step, but can be odd too
+    const a = Math.floor(Math.random() * 90) + 10; // 10-99
+    return {
+        operands: [a, 5],
+        operator: "×",
+        answer: a * 5,
+        type: "MULT_5"
+    } as Question;
+};
+
+// 15. Multiply by 50
+const gen_mult_50 = () => {
+    const a = Math.floor(Math.random() * 90) + 10; // 10-99
+    return {
+        operands: [a, 50],
+        operator: "×",
+        answer: a * 50,
+        type: "MULT_50"
+    } as Question;
+};
+
+// 16. Multiply by 0.5
+const gen_mult_0_5 = () => {
+    // Even numbers preferred for integer results
+    const a = (Math.floor(Math.random() * 45) + 5) * 2; // 10-98 even
+    return {
+        operands: [a, 0.5],
+        operator: "×",
+        answer: a * 0.5,
+        type: "MULT_0_5"
+    } as Question;
+};
+
+// 17. Even Number x Number ending in 5
+const gen_even_x_ends_5 = () => {
+    // Even number: 2-24 (small enough to be manageable after halving)
+    const even = (Math.floor(Math.random() * 12) + 1) * 2;
+    // Number ending in 5: 5, 15, 25, 35, 45, 55...
+    const ends5 = (Math.floor(Math.random() * 10) * 10) + 5;
+
+    return {
+        operands: [even, ends5],
+        operator: "×",
+        answer: even * ends5,
+        type: "EVEN_X_ENDS_5"
+    } as Question;
+};
+
+
+// 18. Multiply by 25
+const gen_mult_25 = () => {
+    // Ideally numbers divisible by 4 for integers, but trick works regardless
+    const a = Math.floor(Math.random() * 80) + 4; // 4-84
+    return {
+        operands: [a, 25],
+        operator: "×",
+        answer: a * 25,
+        type: "MULT_25"
+    } as Question;
+};
+
+// 19. Multiply by 125
+const gen_mult_125 = () => {
+    // Numbers divisible by 8 preferred for clean start but random is fine too
+    const a = (Math.floor(Math.random() * 20) + 1) * 2; // smallish even numbers
+    return {
+        operands: [a, 125],
+        operator: "×",
+        answer: a * 125,
+        type: "MULT_125"
+    } as Question;
+};
+
+// 20. Multiply by Decimals (0.25, 1.25, 12.5)
+const gen_decimals_25 = () => {
+    const decimals = [0.25, 1.25, 12.5];
+    const decimal = decimals[Math.floor(Math.random() * decimals.length)];
+
+    // Choose operand divisible by 4 for cleaner results usually
+    const a = (Math.floor(Math.random() * 24) + 1) * 4;
+
+    return {
+        operands: [a, decimal],
+        operator: "×",
+        answer: a * decimal,
+        type: "MULT_DECIMALS_25"
+    } as Question;
+};
+
+
+// 21. Div by 5, 50, 0.5
+const gen_div_5 = () => {
+    const type = Math.random();
+    if (type < 0.33) {
+        // Divide by 5 (Mult by 2, div 10)
+        // Pick number where doubling doesn't necessarily result in integer, but let's keep it simple-ish or 1 decimal.
+        const a = Math.floor(Math.random() * 900) + 10;
+        return { operands: [a, 5], operator: "÷", answer: a / 5, type: "DIV_5" } as Question;
+    } else if (type < 0.66) {
+        // Divide by 50 (Mult by 2, div 100)
+        const a = (Math.floor(Math.random() * 90) + 10) * 10; // Multiples of 10 for cleaner results
+        return { operands: [a, 50], operator: "÷", answer: a / 50, type: "DIV_50" } as Question;
+    } else {
+        // Divide by 0.5 (Mult by 2)
+        const a = Math.floor(Math.random() * 90) + 10;
+        return { operands: [a, 0.5], operator: "÷", answer: a / 0.5, type: "DIV_0_5" } as Question;
+    }
+};
+
+// 22. Div by 25, 0.25
+const gen_div_25 = () => {
+    if (Math.random() > 0.5) {
+        // Divide by 25 (Mult by 4, div 100)
+        // Use multiples of 25 for integers
+        const a = (Math.floor(Math.random() * 40) + 1) * 25;
+        return { operands: [a, 25], operator: "÷", answer: a / 25, type: "DIV_25" } as Question;
+    } else {
+        // Divide by 0.25 (Mult by 4)
+        const a = Math.floor(Math.random() * 50) + 4;
+        return { operands: [a, 0.25], operator: "÷", answer: a / 0.25, type: "DIV_0_25" } as Question;
+    }
+};
+
+// 23. Div by 125, 0.125
+const gen_div_125 = () => {
+    if (Math.random() > 0.5) {
+        // Divide by 125 (Mult by 8, div 1000)
+        // Multiples of 125
+        const a = (Math.floor(Math.random() * 40) + 1) * 125;
+        return { operands: [a, 125], operator: "÷", answer: a / 125, type: "DIV_125" } as Question;
+    } else {
+        // Divide by 0.125 (Mult by 8)
+        const a = Math.floor(Math.random() * 20) + 2;
+        return { operands: [a, 0.125], operator: "÷", answer: a / 0.125, type: "DIV_0_125" } as Question;
+    }
+};
+
+
+// 24. Multiply by 11
+const gen_mult_11 = () => {
+    // 2-digit number x 11
+    const a = Math.floor(Math.random() * 90) + 10;
+    return { operands: [a, 11], operator: "×", answer: a * 11, type: "MULT_11" } as Question;
+};
+
+// 25. Multiply by 101, 1001
+const gen_mult_101 = () => {
+    if (Math.random() > 0.5) {
+        // 2-digit x 101 = abab
+        const a = Math.floor(Math.random() * 90) + 10;
+        return { operands: [a, 101], operator: "×", answer: a * 101, type: "MULT_101" } as Question;
+    } else {
+        // 3-digit x 1001 = abcabc
+        const a = Math.floor(Math.random() * 900) + 100;
+        return { operands: [a, 1001], operator: "×", answer: a * 1001, type: "MULT_1001" } as Question;
+    }
+};
+
+// 26. Repeating Numbers (22, 33...) x Single Digit
+const gen_mult_repeating_1d = () => {
+    const digit = Math.floor(Math.random() * 9) + 1; // 1-9
+    const repeating = digit * 11; // 11, 22... 99
+
+    // Multiplier 2-9
+    const multiplier = Math.floor(Math.random() * 8) + 2;
+
+    return {
+        operands: [repeating, multiplier],
+        operator: "×",
+        answer: repeating * multiplier,
+        type: "MULT_REPEATING_1D"
+    } as Question;
+};
+
+
+// 27. Multiply by 9, 99, 999 (Base complement)
+const gen_mult_9 = () => {
+    const a = Math.floor(Math.random() * 90) + 10;
+    return { operands: [a, 9], operator: "×", answer: a * 9, type: "MULT_9" } as Question;
+};
+
+const gen_mult_99 = () => {
+    const a = Math.floor(Math.random() * 90) + 10; // 2 digit usually for the trick
+    return { operands: [a, 99], operator: "×", answer: a * 99, type: "MULT_99" } as Question;
+};
+
+const gen_mult_999 = () => {
+    const a = Math.floor(Math.random() * 900) + 100; // 3 digit usually
+    return { operands: [a, 999], operator: "×", answer: a * 999, type: "MULT_999" } as Question;
+};
+
+
 // --- Generator Registry ---
 export const GeneratorRegistry: Record<string, QuestionGenerator> = {
     "ADD_1D_1D": gen_add_1d_1d,
@@ -182,6 +376,22 @@ export const GeneratorRegistry: Record<string, QuestionGenerator> = {
     "SUB_2D_2D": gen_sub_2d_2d,
     "SUB_FROM_BASE": gen_sub_from_base,
     "SUB_CLOSE_100": gen_sub_close_100,
+    "MULT_5": gen_mult_5,
+    "MULT_50": gen_mult_50,
+    "MULT_0_5": gen_mult_0_5,
+    "EVEN_X_ENDS_5": gen_even_x_ends_5,
+    "MULT_25": gen_mult_25,
+    "MULT_125": gen_mult_125,
+    "MULT_DECIMALS_25": gen_decimals_25,
+    "DIV_5_FAMILY": gen_div_5,
+    "DIV_25_FAMILY": gen_div_25,
+    "DIV_125_FAMILY": gen_div_125,
+    "MULT_11": gen_mult_11,
+    "MULT_101": gen_mult_101,
+    "MULT_REPEATING_1D": gen_mult_repeating_1d,
+    "MULT_9": gen_mult_9,
+    "MULT_99": gen_mult_99,
+    "MULT_999": gen_mult_999,
 };
 
 // --- Day Configurations ---
@@ -325,6 +535,211 @@ export const daysConfig: Record<number, DayConfig> = {
         unlockedGenerators: [
             { id: "SUB_CLOSE_100" },
             { id: "TABLES", config: { min: 13, max: 15 } }
+        ]
+    },
+    5: {
+        id: 5,
+        title: "The '5' Family & Tables 16-18",
+        linearTasks: [
+            {
+                id: "d5_mult_5",
+                title: "Multiply by 5",
+                description: "The classic half and add zero trick.",
+                generatorId: "MULT_5",
+                targetCount: 10
+            },
+            {
+                id: "d5_mult_50",
+                title: "Multiply by 50",
+                description: "Same as x5 but add two zeros.",
+                generatorId: "MULT_50",
+                targetCount: 10
+            },
+            {
+                id: "d5_even_ends_5",
+                title: "Even x Ends in 5",
+                description: "Double one, halve the other.",
+                generatorId: "EVEN_X_ENDS_5",
+                targetCount: 10
+            },
+            {
+                id: "d5_tables",
+                title: "Tables 16-18",
+                description: "Multiplication tables 16, 17, 18.",
+                generatorId: "TABLES",
+                generatorConfig: { min: 16, max: 18 },
+                targetCount: 10
+            }
+        ],
+        unlockedGenerators: [
+            { id: "MULT_5" },
+            { id: "MULT_50" },
+            { id: "EVEN_X_ENDS_5" },
+            { id: "TABLES", config: { min: 16, max: 18 } }
+        ]
+    },
+    6: {
+        id: 6,
+        title: "The '25' Family & Tables 19-21",
+        linearTasks: [
+            {
+                id: "d6_mult_25",
+                title: "Multiply by 25",
+                description: "Divide by 4, add two zeros.",
+                generatorId: "MULT_25",
+                targetCount: 10
+            },
+            {
+                id: "d6_mult_125",
+                title: "Multiply by 125",
+                description: "Divide by 8, add three zeros.",
+                generatorId: "MULT_125",
+                targetCount: 10
+            },
+            {
+                id: "d6_decimals",
+                title: "Decimal Mults",
+                description: "x0.25, x1.25, x12.5 tricks.",
+                generatorId: "MULT_DECIMALS_25",
+                targetCount: 10
+            },
+            {
+                id: "d6_tables",
+                title: "Tables 19-21",
+                description: "Multiplication tables 19, 20, 21.",
+                generatorId: "TABLES",
+                generatorConfig: { min: 19, max: 21 },
+                targetCount: 10
+            }
+        ],
+        unlockedGenerators: [
+            { id: "MULT_25" },
+            { id: "MULT_125" },
+            { id: "MULT_DECIMALS_25" },
+            { id: "TABLES", config: { min: 19, max: 21 } }
+        ]
+    },
+    7: {
+        id: 7,
+        title: "Division Mastery & Tables 22-25",
+        linearTasks: [
+            {
+                id: "d7_div_5",
+                title: "Div by 5, 50, 0.5",
+                description: "Double the number, then adjust decimal.",
+                generatorId: "DIV_5_FAMILY",
+                targetCount: 10
+            },
+            {
+                id: "d7_div_25",
+                title: "Div by 25, 0.25",
+                description: "Mult by 4, then adjust decimal.",
+                generatorId: "DIV_25_FAMILY",
+                targetCount: 10
+            },
+            {
+                id: "d7_div_125",
+                title: "Div by 125, 0.125",
+                description: "Mult by 8, then adjust decimal.",
+                generatorId: "DIV_125_FAMILY",
+                targetCount: 10
+            },
+            {
+                id: "d7_tables",
+                title: "Tables 22-25",
+                description: "Multiplication tables 22, 23, 24, 25.",
+                generatorId: "TABLES",
+                generatorConfig: { min: 22, max: 25 },
+                targetCount: 10
+            }
+        ],
+        unlockedGenerators: [
+            { id: "DIV_5_FAMILY" },
+            { id: "DIV_25_FAMILY" },
+            { id: "DIV_125_FAMILY" },
+            { id: "TABLES", config: { min: 22, max: 25 } }
+        ]
+    },
+    8: {
+        id: 8,
+        title: "The '1' Family & Review",
+        linearTasks: [
+            {
+                id: "d8_mult_11",
+                title: "Multiply by 11",
+                description: "Add neighbors trick.",
+                generatorId: "MULT_11",
+                targetCount: 10
+            },
+            {
+                id: "d8_mult_101",
+                title: "Mult by 101/1001",
+                description: "Repeating digit patterns.",
+                generatorId: "MULT_101",
+                targetCount: 10
+            },
+            {
+                id: "d8_repeating",
+                title: "Repeating Digits",
+                description: "Tricks for 22x, 33x etc.",
+                generatorId: "MULT_REPEATING_1D",
+                targetCount: 10
+            },
+            {
+                id: "d8_tables_review",
+                title: "Review Tables 1-15",
+                description: "Rapid review of tables 1 to 15.",
+                generatorId: "TABLES",
+                generatorConfig: { min: 2, max: 15 },
+                targetCount: 15
+            }
+        ],
+        unlockedGenerators: [
+            { id: "MULT_11" },
+            { id: "MULT_101" },
+            { id: "MULT_REPEATING_1D" },
+            { id: "TABLES", config: { min: 2, max: 15 } }
+        ]
+    },
+    9: {
+        id: 9,
+        title: "The '9' Family & Review",
+        linearTasks: [
+            {
+                id: "d9_mult_9",
+                title: "Multiply by 9",
+                description: "Mult by 10 minus 1.",
+                generatorId: "MULT_9",
+                targetCount: 10
+            },
+            {
+                id: "d9_mult_99",
+                title: "Multiply by 99",
+                description: "The 1-less and complement trick.",
+                generatorId: "MULT_99",
+                targetCount: 10
+            },
+            {
+                id: "d9_mult_999",
+                title: "Multiply by 999",
+                description: "Same trick for 3-digit numbers.",
+                generatorId: "MULT_999",
+                targetCount: 10
+            },
+            {
+                id: "d9_tables_review",
+                title: "Review Tables 16-25",
+                description: "Rapid review of higher tables.",
+                generatorId: "TABLES",
+                generatorConfig: { min: 16, max: 25 },
+                targetCount: 15
+            }
+        ],
+        unlockedGenerators: [
+            { id: "MULT_9" },
+            { id: "MULT_99" },
+            { id: "MULT_999" },
+            { id: "TABLES", config: { min: 16, max: 25 } }
         ]
     }
 };

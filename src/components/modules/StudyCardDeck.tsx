@@ -136,7 +136,7 @@ export function StudyCardDeck({ content, onComplete, courseId = "speed-maths", d
     const handleDragEnd = async (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
         const offset = info.offset.x;
         const velocity = info.velocity.x;
-        const swipeThreshold = 100;
+        const swipeThreshold = 50; // reduced from 100 for better sensitivity
 
         // Swipe Left (<-) : Next
         if (offset < -swipeThreshold || velocity < -500) {
@@ -197,15 +197,16 @@ export function StudyCardDeck({ content, onComplete, courseId = "speed-maths", d
                         key={currentCardIndex}
                         drag="x"
                         dragConstraints={{ left: 0, right: 0 }}
-                        dragElastic={0.05} // Stiff resistance once constraint hit, but we handle logic in onDragEnd
+                        dragElastic={0.05}
+                        dragDirectionLock={true}
                         onDragEnd={handleDragEnd}
                         style={{ x, rotate, opacity }}
                         animate={controls}
-                        initial={{ opacity: 0, scale: 0.9, x: direction === 1 ? 100 : -100 }} // Enter animation based on direction
+                        initial={{ opacity: 0, scale: 0.9, x: direction === 1 ? 100 : -100 }}
                         whileInView={{ opacity: 1, scale: 1, x: 0 }}
-                        exit={{ opacity: 0, scale: 0.9 }} // Exit animation handled by Animate Presence? Actually handled by manual controls mostly
+                        exit={{ opacity: 0, scale: 0.9 }}
                         transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                        className="h-full w-full cursor-grab active:cursor-grabbing touch-pan-y" // allow vertical scroll
+                        className="h-full w-full cursor-grab active:cursor-grabbing touch-pan-y"
                     >
                         {/* Reduced padding for mobile from p-8 to p-4 md:p-12 */}
                         <GlassCard className="h-full p-4 md:p-12 relative w-full select-none">
@@ -213,7 +214,7 @@ export function StudyCardDeck({ content, onComplete, courseId = "speed-maths", d
                             {/* Bookmark Button */}
                             <div className="absolute top-4 right-4 z-10">
                                 <button
-                                    onPointerDown={(e) => e.stopPropagation()} // Prevent drag start on button click
+                                    onPointerDown={(e) => e.stopPropagation()}
                                     onClick={handleToggleBookmark}
                                     className={cn(
                                         "px-3 py-1.5 rounded-full text-xs font-medium transition-all flex items-center gap-2 border",
@@ -242,11 +243,8 @@ export function StudyCardDeck({ content, onComplete, courseId = "speed-maths", d
                                         </div>
                                     </div>
 
-                                    <div className="flex-1 space-y-6 overflow-y-auto pr-2 md:pr-4 custom-scrollbar" onPointerDown={(e) => e.stopPropagation()}>
-                                        {/* Stop propagation on scroll area to allow text selection / scrolling without dragging card? 
-                                            Actually tough balance. For Tinder-cards usually content is static. 
-                                            Let's try standard touch-action CSS first. 
-                                        */}
+                                    <div className="flex-1 space-y-6 overflow-y-auto pr-2 md:pr-4 custom-scrollbar">
+                                        {/* Content */}
                                         <div>
                                             <div className="prose prose-invert max-w-none text-muted-foreground leading-relaxed text-base md:text-lg">
                                                 {currentConcept.description.split('\n').map((line: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined, i: Key | null | undefined) => (
@@ -296,7 +294,7 @@ export function StudyCardDeck({ content, onComplete, courseId = "speed-maths", d
                                         </div>
                                     </div>
 
-                                    <div className="flex-1 overflow-y-auto custom-scrollbar" onPointerDown={(e) => e.stopPropagation()}>
+                                    <div className="flex-1 overflow-y-auto custom-scrollbar">
                                         <div className={cn(
                                             "grid gap-3 md:gap-4",
                                             currentRoteGroup.items.length === 1 ? "grid-cols-1" : "grid-cols-1 md:grid-cols-2"

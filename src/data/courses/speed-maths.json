@@ -2294,36 +2294,256 @@
         },
         {
             "day": 14,
-            "title": "General Multiplication",
+            "title": "General Multiplication I",
             "unlockDate": "2025-01-14",
             "content": {
-                "concept": {
-                    "title": "Criss-Cross Method (2x2)",
-                    "description": "The universal method for any 2-digit multiplication.\n\n### The Steps (Unit to Left)\nExample: 23 x 12\n1. Right Vertical: 3x2 = 6\n2. Criss-Cross and Add: (2x2) + (3x1) = 4+3=7\n3. Left Vertical: 2x1 = 2\nResult: 276",
-                    "example": {
-                        "problem": "21 x 13",
-                        "solution": "273",
-                        "steps": "1. 1x3=3\n2. (2x3)+(1x1)=7\n3. 2x1=2\n-> 273"
+                "concept": [
+                    {
+                        "title": "Criss-Cross Method (2x2)",
+                        "description": "The universal vertical and crosswise method for any 2-digit multiplication.\n\n### The Steps (Right to Left)\n1. **Right Vertical**: Multiply unit digits.\n2. **Criss-Cross**: Cross multiply and add products.\n3. **Left Vertical**: Multiply tens digits.\n*Remember to carry over!*\n\nE.g. 23 x 12\n1. `3x2=6`\n2. `(2x2)+(3x1) = 4+3=7`\n3. `2x1=2`\nResult: `276`",
+                        "example": {
+                            "problem": "21 x 13",
+                            "solution": "273",
+                            "steps": "1. 1x3=3\n2. (2x3)+(1x1)=7\n3. 2x1=2\n-> 273"
+                        }
+                    },
+                    {
+                        "title": "Product Partition (Split & Multiply)",
+                        "description": "Break one number into easy parts (tens + units) and multiply separately. Best for 2-digit x 1-digit.\n\n### The Trick\n`42 x 7` -> `(40 + 2) x 7`\n\n1. `40 x 7 = 280`\n2. `2 x 7 = 14`\n3. `280 + 14 = 294`",
+                        "example": {
+                            "problem": "32 x 6",
+                            "solution": "192",
+                            "steps": "30x6=180. 2x6=12. 180+12=192."
+                        }
                     }
-                },
+                ],
                 "rote": {
-                    "title": "Review Week 2",
-                    "items": [
+                    "title": "Daily Vitamin: Squares 1-50",
+                    "groups": [
                         {
-                            "front": "Review 45x11",
-                            "back": "495"
+                            "title": "Squares 1-10",
+                            "items": [
+                                {
+                                    "q": "1²",
+                                    "a": "1"
+                                },
+                                {
+                                    "q": "2²",
+                                    "a": "4"
+                                },
+                                {
+                                    "q": "3²",
+                                    "a": "9"
+                                },
+                                {
+                                    "q": "4²",
+                                    "a": "16"
+                                },
+                                {
+                                    "q": "5²",
+                                    "a": "25"
+                                },
+                                {
+                                    "q": "6²",
+                                    "a": "36"
+                                },
+                                {
+                                    "q": "7²",
+                                    "a": "49"
+                                },
+                                {
+                                    "q": "8²",
+                                    "a": "64"
+                                },
+                                {
+                                    "q": "9²",
+                                    "a": "81"
+                                },
+                                {
+                                    "q": "10²",
+                                    "a": "100"
+                                }
+                            ]
                         },
                         {
-                            "front": "Review 99x45",
-                            "back": "4455"
+                            "title": "Squares 11-20",
+                            "items": [
+                                {
+                                    "q": "11²",
+                                    "a": "121"
+                                },
+                                {
+                                    "q": "12²",
+                                    "a": "144"
+                                },
+                                {
+                                    "q": "13²",
+                                    "a": "169"
+                                },
+                                {
+                                    "q": "14²",
+                                    "a": "196"
+                                },
+                                {
+                                    "q": "15²",
+                                    "a": "225"
+                                },
+                                {
+                                    "q": "16²",
+                                    "a": "256"
+                                },
+                                {
+                                    "q": "17²",
+                                    "a": "289"
+                                },
+                                {
+                                    "q": "18²",
+                                    "a": "324"
+                                },
+                                {
+                                    "q": "19²",
+                                    "a": "361"
+                                },
+                                {
+                                    "q": "20²",
+                                    "a": "400"
+                                }
+                            ]
                         },
                         {
-                            "front": "Review Cube of 8",
-                            "back": "512"
+                            "title": "Squares 21-30",
+                            "items": [
+                                {
+                                    "q": "21²",
+                                    "a": "441"
+                                },
+                                {
+                                    "q": "22²",
+                                    "a": "484"
+                                },
+                                {
+                                    "q": "23²",
+                                    "a": "529"
+                                },
+                                {
+                                    "q": "24²",
+                                    "a": "576"
+                                },
+                                {
+                                    "q": "25²",
+                                    "a": "625"
+                                },
+                                {
+                                    "q": "26²",
+                                    "a": "676"
+                                },
+                                {
+                                    "q": "27²",
+                                    "a": "729"
+                                },
+                                {
+                                    "q": "28²",
+                                    "a": "784"
+                                },
+                                {
+                                    "q": "29²",
+                                    "a": "841"
+                                },
+                                {
+                                    "q": "30²",
+                                    "a": "900"
+                                }
+                            ]
                         },
                         {
-                            "front": "Review 37x21",
-                            "back": "777"
+                            "title": "Squares 31-40",
+                            "items": [
+                                {
+                                    "q": "31²",
+                                    "a": "961"
+                                },
+                                {
+                                    "q": "32²",
+                                    "a": "1024"
+                                },
+                                {
+                                    "q": "33²",
+                                    "a": "1089"
+                                },
+                                {
+                                    "q": "34²",
+                                    "a": "1156"
+                                },
+                                {
+                                    "q": "35²",
+                                    "a": "1225"
+                                },
+                                {
+                                    "q": "36²",
+                                    "a": "1296"
+                                },
+                                {
+                                    "q": "37²",
+                                    "a": "1369"
+                                },
+                                {
+                                    "q": "38²",
+                                    "a": "1444"
+                                },
+                                {
+                                    "q": "39²",
+                                    "a": "1521"
+                                },
+                                {
+                                    "q": "40²",
+                                    "a": "1600"
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Squares 41-50",
+                            "items": [
+                                {
+                                    "q": "41²",
+                                    "a": "1681"
+                                },
+                                {
+                                    "q": "42²",
+                                    "a": "1764"
+                                },
+                                {
+                                    "q": "43²",
+                                    "a": "1849"
+                                },
+                                {
+                                    "q": "44²",
+                                    "a": "1936"
+                                },
+                                {
+                                    "q": "45²",
+                                    "a": "2025"
+                                },
+                                {
+                                    "q": "46²",
+                                    "a": "2116"
+                                },
+                                {
+                                    "q": "47²",
+                                    "a": "2209"
+                                },
+                                {
+                                    "q": "48²",
+                                    "a": "2304"
+                                },
+                                {
+                                    "q": "49²",
+                                    "a": "2401"
+                                },
+                                {
+                                    "q": "50²",
+                                    "a": "2500"
+                                }
+                            ]
                         }
                     ]
                 }
@@ -2331,40 +2551,32 @@
             "practice": {
                 "questions": [
                     {
-                        "id": "d14q1",
+                        "q": "21 x 13",
+                        "a": "273"
+                    },
+                    {
                         "q": "23 x 12",
-                        "a": "276",
-                        "type": "mcq",
-                        "options": [
-                            "276",
-                            "266",
-                            "286",
-                            "256"
-                        ]
+                        "a": "276"
                     },
                     {
-                        "id": "d14q2",
-                        "q": "31 x 21",
-                        "a": "651",
-                        "type": "mcq",
-                        "options": [
-                            "641",
-                            "651",
-                            "661",
-                            "621"
-                        ]
+                        "q": "32 x 6",
+                        "a": "192"
                     },
                     {
-                        "id": "d14q3",
-                        "q": "Review: Cube of 9",
-                        "a": "729",
-                        "type": "mcq",
-                        "options": [
-                            "729",
-                            "512",
-                            "1000",
-                            "800"
-                        ]
+                        "q": "42 x 7",
+                        "a": "294"
+                    },
+                    {
+                        "q": "12 x 13",
+                        "a": "156"
+                    },
+                    {
+                        "q": "Square of 49",
+                        "a": "2401"
+                    },
+                    {
+                        "q": "Square of 38",
+                        "a": "1444"
                     }
                 ]
             },
@@ -2375,21 +2587,659 @@
         },
         {
             "day": 15,
-            "title": "Squares: The Basics",
+            "title": "Squares: The Basics & 50-60",
             "unlockDate": "2025-01-15",
             "content": {
-                "concept": {
-                    "title": "Squares Ending in 5",
-                    "description": "Squaring numbers ending in 5 is instant.\n\n### The Trick\n1. Take the digit before 5 (n).\n2. Multiply it by its next number (n x n+1).\n3. Append '25' at the end.\n\nE.g. 35^2\n* n = 3\n* 3 x 4 = 12\n* Append 25 -> 1225",
+                "concept": [
+                    {
+                        "title": "Squares Ending in 5",
+                        "description": "Squaring numbers ending in 5 is instant.\n\n### The Trick\n1. Take the digit before 5 (n).\n2. Multiply it by its next number (n x n+1).\n3. Append '25' at the end.\n\nE.g. 35²\n* n = 3\n* 3 x 4 = 12\n* Append 25 -> 1225\n\n*Works for larger numbers too!* 105² -> 10x11=110 -> 11025.",
+                        "example": {
+                            "problem": "65²",
+                            "solution": "4225",
+                            "steps": "1. 6 x 7 = 42\n2. Append 25 -> 4225"
+                        }
+                    },
+                    {
+                        "title": "Squares 51-60 (Base 50)",
+                        "description": "Numbers near 50 are easy.\n\n### The Trick\nFor 50 + d:\n1. First part: 25 + d\n2. Second part: d² (2 digits)\n\nE.g. 54²\n* d = 4\n* 25 + 4 = 29\n* 4² = 16\n* Result: 2916",
+                        "example": {
+                            "problem": "57²",
+                            "solution": "3249",
+                            "steps": "25+7=32. 7²=49. -> 3249"
+                        }
+                    }
+                ],
+                "rote": {
+                    "title": "Daily Vitamin: Squares 51-60",
+                    "items": [
+                        {
+                            "q": "51²",
+                            "a": "2601"
+                        },
+                        {
+                            "q": "52²",
+                            "a": "2704"
+                        },
+                        {
+                            "q": "53²",
+                            "a": "2809"
+                        },
+                        {
+                            "q": "54²",
+                            "a": "2916"
+                        },
+                        {
+                            "q": "55²",
+                            "a": "3025"
+                        },
+                        {
+                            "q": "56²",
+                            "a": "3136"
+                        },
+                        {
+                            "q": "57²",
+                            "a": "3249"
+                        },
+                        {
+                            "q": "58²",
+                            "a": "3364"
+                        },
+                        {
+                            "q": "59²",
+                            "a": "3481"
+                        },
+                        {
+                            "q": "60²",
+                            "a": "3600"
+                        }
+                    ]
+                }
+            },
+            "practice": {
+                "questions": [
+                    {
+                        "q": "35²",
+                        "a": "1225"
+                    },
+                    {
+                        "q": "65²",
+                        "a": "4225"
+                    },
+                    {
+                        "q": "95²",
+                        "a": "9025"
+                    },
+                    {
+                        "q": "105²",
+                        "a": "11025"
+                    },
+                    {
+                        "q": "52²",
+                        "a": "2704"
+                    },
+                    {
+                        "q": "56²",
+                        "a": "3136"
+                    },
+                    {
+                        "q": "59²",
+                        "a": "3481"
+                    }
+                ]
+            },
+            "compete": {
+                "targetScore": 1000,
+                "leaderboardId": "day_15_battle"
+            }
+        },
+        {
+            "day": 16,
+            "title": "Squares: Base 50 & Halving",
+            "unlockDate": "2025-01-16",
+            "content": {
+                "concept": [
+                    {
+                        "title": "Squaring 40-50 (Base 50 Below)",
+                        "description": "For numbers slightly less than 50 (e.g., 46, 42).\n\n### The Trick\n1. Find difference D from 50.\n2. Subtract D from 25.\n3. Append D² (2 digits).\n\nE.g. 46²\n* Diff = 4 (50-46)\n* 25 - 4 = 21\n* 4² = 16\n* Result: 2116",
+                        "example": {
+                            "problem": "42²",
+                            "solution": "1764",
+                            "steps": "1. Diff = 8\n2. 25 - 8 = 17\n3. 8² = 64 -> 1764"
+                        }
+                    },
+                    {
+                        "title": "Multiplying by 0.5",
+                        "description": "Multiplying by 0.5 is exactly the same as dividing by 2.\n\n### The Insight\n* N × 0.5 = N / 2\n* Just halve the number.\n\nE.g. 84 × 0.5 = 42\nE.g. 17 × 0.5 = 8.5",
+                        "example": {
+                            "problem": "48 × 0.5",
+                            "solution": "24",
+                            "steps": "Half of 48 is 24."
+                        }
+                    }
+                ],
+                "rote": {
+                    "title": "Daily Vitamin: Squares 61-70",
+                    "items": [
+                        {
+                            "front": "Square of 61",
+                            "back": "3721"
+                        },
+                        {
+                            "front": "Square of 62",
+                            "back": "3844"
+                        },
+                        {
+                            "front": "Square of 63",
+                            "back": "3969"
+                        },
+                        {
+                            "front": "Square of 64",
+                            "back": "4096"
+                        },
+                        {
+                            "front": "Square of 65",
+                            "back": "4225"
+                        },
+                        {
+                            "front": "Square of 66",
+                            "back": "4356"
+                        },
+                        {
+                            "front": "Square of 67",
+                            "back": "4489"
+                        },
+                        {
+                            "front": "Square of 68",
+                            "back": "4624"
+                        },
+                        {
+                            "front": "Square of 69",
+                            "back": "4761"
+                        },
+                        {
+                            "front": "Square of 70",
+                            "back": "4900"
+                        }
+                    ]
+                }
+            },
+            "practice": {
+                "questions": [
+                    {
+                        "id": "d16q1",
+                        "q": "44²",
+                        "a": "1936",
+                        "type": "mcq",
+                        "options": [
+                            "1936",
+                            "1836",
+                            "2036",
+                            "1916"
+                        ]
+                    },
+                    {
+                        "id": "d16q2",
+                        "q": "88 × 0.5",
+                        "a": "44",
+                        "type": "mcq",
+                        "options": [
+                            "44",
+                            "42",
+                            "40",
+                            "46"
+                        ]
+                    },
+                    {
+                        "id": "d16q3",
+                        "q": "47²",
+                        "a": "2209",
+                        "type": "mcq",
+                        "options": [
+                            "2209",
+                            "2109",
+                            "2309",
+                            "2219"
+                        ]
+                    }
+                ]
+            },
+            "compete": {
+                "targetScore": 1000,
+                "leaderboardId": "day_16_battle"
+            }
+        },
+        {
+            "day": 17,
+            "title": "Universal Base Method",
+            "unlockDate": "2025-01-17",
+            "content": {
+                "concept": [
+                    {
+                        "title": "Universal Base Method (Base 100)",
+                        "description": "For numbers near 100. The concept generalizes to any base.\n\n### The Trick\n1. Find difference D from Base (100).\n2. Add D to the Number itself.\n3. Multiply result by (Base/100).\n4. Append D².\n\nFor Base 100, step 3 is x1, so we skip it.\nE.g. 106²\n* D = +6\n* 106 + 6 = 112\n* 6² = 36\n* Result: 11236",
+                        "example": {
+                            "problem": "94²",
+                            "solution": "8836",
+                            "steps": "1. D = -6\n2. 94 - 6 = 88\n3. 6² = 36 -> 8836"
+                        }
+                    },
+                    {
+                        "title": "Base 150 & 200",
+                        "description": "Same steps, just multiply the intermediate sum.\n\n### Base 200 (2x Base 100)\n* (Number + Diff) x 2 | Diff²\nE.g. 204²: (208 x 2) | 16 -> 41616\n\n### Base 150 (1.5x Base 100)\n* (Number + Diff) x 1.5 | Diff²\nE.g. 154²: (158 x 1.5) | 16 -> 23716",
+                        "example": {
+                            "problem": "203²",
+                            "solution": "41209",
+                            "steps": "1. D = +3\n2. 203+3=206\n3. 206x2=412\n4. 3²=09 -> 41209"
+                        }
+                    },
+                    {
+                        "title": "Multiplying Numbers Near Base",
+                        "description": "Multiply two different numbers near a base.\n\n### The Trick\n1. Write diffs D1, D2.\n2. Cross-add: (N1 + D2) or (N2 + D1). This is LHS.\n3. Multiply D1 x D2. This is RHS.\n\nE.g. 92 x 97 (Base 100)\n* D1 = -8, D2 = -3\n* LHS: 92 - 3 = 89\n* RHS: (-8)x(-3) = 24\n* Result: 8924",
+                        "example": {
+                            "problem": "104 x 103",
+                            "solution": "10712",
+                            "steps": "D1=+4, D2=+3\nLHS: 104+3=107\nRHS: 4x3=12\nAns: 10712"
+                        }
+                    }
+                ],
+                "rote": {
+                    "title": "Daily Vitamin: Squares 71-80",
+                    "items": [
+                        {
+                            "front": "Square of 71",
+                            "back": "5041"
+                        },
+                        {
+                            "front": "Square of 72",
+                            "back": "5184"
+                        },
+                        {
+                            "front": "Square of 73",
+                            "back": "5329"
+                        },
+                        {
+                            "front": "Square of 74",
+                            "back": "5476"
+                        },
+                        {
+                            "front": "Square of 75",
+                            "back": "5625"
+                        },
+                        {
+                            "front": "Square of 76",
+                            "back": "5776"
+                        },
+                        {
+                            "front": "Square of 77",
+                            "back": "5929"
+                        },
+                        {
+                            "front": "Square of 78",
+                            "back": "6084"
+                        },
+                        {
+                            "front": "Square of 79",
+                            "back": "6241"
+                        },
+                        {
+                            "front": "Square of 80",
+                            "back": "6400"
+                        }
+                    ]
+                },
+                "old_concept": {
+                    "title": "Squaring near 100",
+                    "description": "For numbers near 100 (96, 104, etc.), use the number itself.\n\n### The Trick\n1. Find difference D from 100.\n2. Add D to the Number itself.\n3. Append D^2.\n\nE.g. 106^2\n* D = +6\n* 106 + 6 = 112\n* 6^2 = 36\n* Result: 11236",
                     "example": {
-                        "problem": "65^2",
-                        "solution": "4225",
-                        "steps": "1. 6 x 7 = 42\n2. Append 25 -> 4225"
+                        "problem": "94^2",
+                        "solution": "8836",
+                        "steps": "1. Diff = -6\n2. 94 - 6 = 88\n3. 6^2 = 36 -> 8836"
                     }
                 },
-                "rote": {
-                    "title": "Daily Vitamin: Cubes 16-20",
+                "old_rote": {
+                    "title": "Daily Vitamin: Cubes 26-30",
                     "items": [
+                        {
+                            "front": "Cube of 26",
+                            "back": "17576"
+                        },
+                        {
+                            "front": "Cube of 27",
+                            "back": "19683"
+                        },
+                        {
+                            "front": "Cube of 30",
+                            "back": "27000"
+                        }
+                    ]
+                }
+            },
+            "practice": {
+                "questions": [
+                    {
+                        "id": "d17q1",
+                        "q": "204²",
+                        "a": "41616",
+                        "type": "mcq",
+                        "options": [
+                            "41616",
+                            "40816",
+                            "41216",
+                            "42016"
+                        ]
+                    },
+                    {
+                        "id": "d17q2",
+                        "q": "92 × 97",
+                        "a": "8924",
+                        "type": "mcq",
+                        "options": [
+                            "8924",
+                            "8824",
+                            "9024",
+                            "8914"
+                        ]
+                    },
+                    {
+                        "id": "d17q3",
+                        "q": "152²",
+                        "a": "23104",
+                        "type": "mcq",
+                        "options": [
+                            "23104",
+                            "22504",
+                            "23004",
+                            "23204"
+                        ]
+                    }
+                ]
+            },
+            "compete": {
+                "targetScore": 800,
+                "leaderboardId": "day_17_battle"
+            }
+        },
+        {
+            "day": 18,
+            "title": "Square Roots",
+            "unlockDate": "2025-01-18",
+            "content": {
+                "concept": [
+                    {
+                        "title": "Square Roots Ending in 25",
+                        "description": "If a number ends in 25, its square root ends in 5.\n\n### The Trick\n1. Ignore 25. The root ends in 5.\n2. Factor the remaining part into n(n+1).\n3. The answer is n5.\n\nE.g. √3025\n* Ends in 25 -> 5.\n* 30 = 5 x 6. Smaller is 5.\n* Answer: 55",
+                        "example": {
+                            "problem": "√7225",
+                            "solution": "85",
+                            "steps": "1. 25 -> 5\n2. 72 = 8 x 9 -> 8\n3. Ans: 85"
+                        }
+                    },
+                    {
+                        "title": "Finding Square Roots (Perfect Squares)",
+                        "description": "Find the root of any Perfect Square (up to 10000).\n\n### The Trick\n1. Check Unit Digit -> Possible Roots.\n   1->1,9; 4->2,8; 5->5; 6->4,6; 9->3,7.\n2. Strike last 2 digits.\n3. Find square below the remaining part (First Digit).\n4. Decide between options by checking 'Middle 5' (e.g. 35²) or closer estimate.\n\nE.g. √1444\n* Ends 4 -> 2 or 8.\n* Strike 44. Left 14. 3²=9 < 14 < 4²=16. So 30s. (32 or 38).\n* 3x4=12. 14 > 12 -> Pick Big (38).",
+                        "example": {
+                            "problem": "√2209",
+                            "solution": "47",
+                            "steps": "Ends 9 -> 3 or 7.\nStrike 09. 22 left.\n4²=16. So 43 or 47.\n4x5=20. 22 > 20 -> Big (47)."
+                        }
+                    }
+                ],
+                "rote": {
+                    "title": "Daily Vitamin: Squares 81-90",
+                    "items": [
+                        {
+                            "front": "Square of 81",
+                            "back": "6561"
+                        },
+                        {
+                            "front": "Square of 82",
+                            "back": "6724"
+                        },
+                        {
+                            "front": "Square of 83",
+                            "back": "6889"
+                        },
+                        {
+                            "front": "Square of 84",
+                            "back": "7056"
+                        },
+                        {
+                            "front": "Square of 85",
+                            "back": "7225"
+                        },
+                        {
+                            "front": "Square of 86",
+                            "back": "7396"
+                        },
+                        {
+                            "front": "Square of 87",
+                            "back": "7569"
+                        },
+                        {
+                            "front": "Square of 88",
+                            "back": "7744"
+                        },
+                        {
+                            "front": "Square of 89",
+                            "back": "7921"
+                        },
+                        {
+                            "front": "Square of 90",
+                            "back": "8100"
+                        }
+                    ]
+                }
+            },
+            "practice": {
+                "questions": [
+                    {
+                        "id": "d18q1",
+                        "q": "√5625",
+                        "a": "75",
+                        "type": "mcq",
+                        "options": [
+                            "75",
+                            "65",
+                            "85",
+                            "70"
+                        ]
+                    },
+                    {
+                        "id": "d18q2",
+                        "q": "√3364",
+                        "a": "58",
+                        "type": "mcq",
+                        "options": [
+                            "58",
+                            "52",
+                            "62",
+                            "48"
+                        ]
+                    },
+                    {
+                        "id": "d18q3",
+                        "q": "√7921",
+                        "a": "89",
+                        "type": "mcq",
+                        "options": [
+                            "89",
+                            "81",
+                            "79",
+                            "99"
+                        ]
+                    }
+                ]
+            },
+            "compete": {
+                "targetScore": 800,
+                "leaderboardId": "day_18_battle"
+            }
+        },
+        {
+            "day": 19,
+            "title": "Cubes & Cube Roots",
+            "unlockDate": "2025-01-19",
+            "content": {
+                "concept": [
+                    {
+                        "title": "Perfect Cube Roots (Estimation Technique)",
+                        "description": "Find the cube root of any perfect cube (up to ~1,000,000).\n\n### The Trick\n1. Check Last Digit -> Last Digit of Root.\n   * Same: 1, 4, 5, 6, 9, 0\n   * Flip: 2<->8, 3<->7\n2. Strike Last 3 Digits.\n3. Find Cube below remaining part -> First Digit of Root.\n\nE.g. ∛12167\n* Ends in 7 -> Root ends in 3.\n* Strike 167. Left 12.\n* 2³=8 < 12 < 3³=27. So 2.\n* Ans: 23.",
+                        "example": {
+                            "problem": "∛175616",
+                            "solution": "56",
+                            "steps": "1. Ends 6 -> 6.\n2. Strike 616. Left 175.\n3. 5³=125 < 175 < 6³=216. So 5.\n4. Ans: 56."
+                        }
+                    }
+                ],
+                "rote": {
+                    "title": "Daily Vitamin: Cubes 1-10",
+                    "items": [
+                        {
+                            "front": "Cube of 1",
+                            "back": "1"
+                        },
+                        {
+                            "front": "Cube of 2",
+                            "back": "8"
+                        },
+                        {
+                            "front": "Cube of 3",
+                            "back": "27"
+                        },
+                        {
+                            "front": "Cube of 4",
+                            "back": "64"
+                        },
+                        {
+                            "front": "Cube of 5",
+                            "back": "125"
+                        },
+                        {
+                            "front": "Cube of 6",
+                            "back": "216"
+                        },
+                        {
+                            "front": "Cube of 7",
+                            "back": "343"
+                        },
+                        {
+                            "front": "Cube of 8",
+                            "back": "512"
+                        },
+                        {
+                            "front": "Cube of 9",
+                            "back": "729"
+                        },
+                        {
+                            "front": "Cube of 10",
+                            "back": "1000"
+                        }
+                    ]
+                }
+            },
+            "practice": {
+                "questions": [
+                    {
+                        "id": "d19q1",
+                        "q": "∛39304",
+                        "a": "34",
+                        "type": "mcq",
+                        "options": [
+                            "34",
+                            "36",
+                            "24",
+                            "44"
+                        ]
+                    },
+                    {
+                        "id": "d19q2",
+                        "q": "∛17576",
+                        "a": "26",
+                        "type": "mcq",
+                        "options": [
+                            "26",
+                            "16",
+                            "36",
+                            "24"
+                        ]
+                    },
+                    {
+                        "id": "d19q3",
+                        "q": "∛35937",
+                        "a": "33",
+                        "type": "mcq",
+                        "options": [
+                            "33",
+                            "37",
+                            "23",
+                            "43"
+                        ]
+                    }
+                ]
+            },
+            "compete": {
+                "targetScore": 900,
+                "leaderboardId": "day_19_battle"
+            }
+        },
+        {
+            "day": 20,
+            "title": "Advanced Division I",
+            "unlockDate": "2025-01-20",
+            "content": {
+                "concept": [
+                    {
+                        "title": "Division by 9",
+                        "description": "Rule: If the sum of digits is divisible by 9, the number is divisible by 9.\n\n### Mental Division Trick\nFor simple division of N by 9:\n1. Copy the first digit.\n2. Add the next digit to the previous result.\n3. Repeat.\n\nE.g. 1233 / 9\n* 1st digit: 1\n* 1+2 = 3\n* 3+3 = 6\n* 6+3 = 9 (If last sum is 9, add 1 to previous quotient and remainder is 0).\n* Adjusted: 136 + 1 = 137.",
+                        "example": {
+                            "problem": "414 / 9",
+                            "solution": "46",
+                            "steps": "1. 1st: 4\n2. 4+1 = 5\n3. 5+4 = 9 -> Remainder 0, Add 1 to 45 -> 46."
+                        }
+                    },
+                    {
+                        "title": "Division by 11",
+                        "description": "Rule: Difference of alternate items is 0 or multiple of 11.\n\n### Division Trick\n1. Copy 1st digit.\n2. Subtract next digit from previous result? No, simpler:\nQuotient digits are found by 'Subtracting Neighbor'.\n\nE.g. 1353 / 11\n* 1st: 1\n* 3-1 = 2\n* 5-2 = 3\n* 3-3 = 0 (Check Remainder)\n* Ans: 123.",
+                        "example": {
+                            "problem": "2728 / 11",
+                            "solution": "248",
+                            "steps": "1. 2\n2. 7-2=4? Wait. 2.. (7-2)=5.. (2-5)=-3? No.\nBetter: 2.. (7-2)=5.. then? \nLet's stick to standard short division for 11 or Factor method if big."
+                        }
+                    },
+                    {
+                        "title": "Division by 22",
+                        "description": "Factorize 22 as 2 x 11.\n\n1. Divide by 2 (Halve it).\n2. Divide the result by 11.\n\nE.g. 5324 / 22\n* /2 -> 2662\n* /11 -> 242.",
+                        "example": {
+                            "problem": "1056 / 22",
+                            "solution": "48",
+                            "steps": "1. 1056 / 2 = 528\n2. 528 / 11 = 48"
+                        }
+                    }
+                ],
+                "rote": {
+                    "title": "Daily Vitamin: Cubes 11-20",
+                    "items": [
+                        {
+                            "front": "Cube of 11",
+                            "back": "1331"
+                        },
+                        {
+                            "front": "Cube of 12",
+                            "back": "1728"
+                        },
+                        {
+                            "front": "Cube of 13",
+                            "back": "2197"
+                        },
+                        {
+                            "front": "Cube of 14",
+                            "back": "2744"
+                        },
+                        {
+                            "front": "Cube of 15",
+                            "back": "3375"
+                        },
                         {
                             "front": "Cube of 16",
                             "back": "4096"
@@ -2416,490 +3266,132 @@
             "practice": {
                 "questions": [
                     {
-                        "id": "d15q1",
-                        "q": "75^2",
-                        "a": "5625",
-                        "type": "mcq",
-                        "options": [
-                            "5525",
-                            "5625",
-                            "5725",
-                            "4925"
-                        ]
-                    },
-                    {
-                        "id": "d15q2",
-                        "q": "95^2",
-                        "a": "9025",
-                        "type": "mcq",
-                        "options": [
-                            "9025",
-                            "8025",
-                            "9050",
-                            "9125"
-                        ]
-                    },
-                    {
-                        "id": "d15q3",
-                        "q": "Cube of 16",
-                        "a": "4096",
-                        "type": "mcq",
-                        "options": [
-                            "4096",
-                            "3896",
-                            "4196",
-                            "4000"
-                        ]
-                    }
-                ]
-            },
-            "compete": {
-                "targetScore": 800,
-                "leaderboardId": "day_15_battle"
-            }
-        },
-        {
-            "day": 16,
-            "title": "Base Method Squares",
-            "unlockDate": "2025-01-16",
-            "content": {
-                "concept": {
-                    "title": "Squaring near 50",
-                    "description": "50 is Half of a 100. So we use that.\n\n### The Trick\nFor N near 50:\n1. Compare N with 50 (Diff D).\n2. Add D to 25.\n3. Append D^2 (2 digits).\n\nE.g. 54^2\n* Diff = +4\n* 25 + 4 = 29\n* 4^2 = 16\n* Result: 2916",
-                    "example": {
-                        "problem": "48^2",
-                        "solution": "2304",
-                        "steps": "1. Diff = -2\n2. 25 - 2 = 23\n3. 2^2 = 04 -> 2304"
-                    }
-                },
-                "rote": {
-                    "title": "Daily Vitamin: Cubes 21-25",
-                    "items": [
-                        {
-                            "front": "Cube of 21",
-                            "back": "9261"
-                        },
-                        {
-                            "front": "Cube of 22",
-                            "back": "10648"
-                        },
-                        {
-                            "front": "Cube of 23",
-                            "back": "12167"
-                        },
-                        {
-                            "front": "Cube of 24",
-                            "back": "13824"
-                        },
-                        {
-                            "front": "Cube of 25",
-                            "back": "15625"
-                        }
-                    ]
-                }
-            },
-            "practice": {
-                "questions": [
-                    {
-                        "id": "d16q1",
-                        "q": "56^2",
-                        "a": "3136",
-                        "type": "mcq",
-                        "options": [
-                            "3036",
-                            "3136",
-                            "3236",
-                            "3146"
-                        ]
-                    },
-                    {
-                        "id": "d16q2",
-                        "q": "46^2",
-                        "a": "2116",
-                        "type": "mcq",
-                        "options": [
-                            "2116",
-                            "2216",
-                            "2016",
-                            "2136"
-                        ]
-                    },
-                    {
-                        "id": "d16q3",
-                        "q": "Cube of 21",
-                        "a": "9261",
-                        "type": "mcq",
-                        "options": [
-                            "9261",
-                            "9161",
-                            "9361",
-                            "9000"
-                        ]
-                    }
-                ]
-            },
-            "compete": {
-                "targetScore": 800,
-                "leaderboardId": "day_16_battle"
-            }
-        },
-        {
-            "day": 17,
-            "title": "Universal Base Method",
-            "unlockDate": "2025-01-17",
-            "content": {
-                "concept": {
-                    "title": "Squaring near 100",
-                    "description": "For numbers near 100 (96, 104, etc.), use the number itself.\n\n### The Trick\n1. Find difference D from 100.\n2. Add D to the Number itself.\n3. Append D^2.\n\nE.g. 106^2\n* D = +6\n* 106 + 6 = 112\n* 6^2 = 36\n* Result: 11236",
-                    "example": {
-                        "problem": "94^2",
-                        "solution": "8836",
-                        "steps": "1. Diff = -6\n2. 94 - 6 = 88\n3. 6^2 = 36 -> 8836"
-                    }
-                },
-                "rote": {
-                    "title": "Daily Vitamin: Cubes 26-30",
-                    "items": [
-                        {
-                            "front": "Cube of 26",
-                            "back": "17576"
-                        },
-                        {
-                            "front": "Cube of 27",
-                            "back": "19683"
-                        },
-                        {
-                            "front": "Cube of 30",
-                            "back": "27000"
-                        }
-                    ]
-                }
-            },
-            "practice": {
-                "questions": [
-                    {
-                        "id": "d17q1",
-                        "q": "104^2",
-                        "a": "10816",
-                        "type": "mcq",
-                        "options": [
-                            "10816",
-                            "10716",
-                            "10916",
-                            "10806"
-                        ]
-                    },
-                    {
-                        "id": "d17q2",
-                        "q": "98^2",
-                        "a": "9604",
-                        "type": "mcq",
-                        "options": [
-                            "9604",
-                            "9504",
-                            "9704",
-                            "9804"
-                        ]
-                    },
-                    {
-                        "id": "d17q3",
-                        "q": "Cube of 30",
-                        "a": "27000",
-                        "type": "mcq",
-                        "options": [
-                            "2700",
-                            "27000",
-                            "9000",
-                            "18000"
-                        ]
-                    }
-                ]
-            },
-            "compete": {
-                "targetScore": 800,
-                "leaderboardId": "day_17_battle"
-            }
-        },
-        {
-            "day": 18,
-            "title": "Square Roots",
-            "unlockDate": "2025-01-18",
-            "content": {
-                "concept": {
-                    "title": "Estimating Square Roots",
-                    "description": "Look at the Last Digit (Unit Digit).\n\n* Ends in 1 -> Roots end in 1 or 9\n* Ends in 4 -> Roots end in 2 or 8\n* Ends in 5 -> Roots end in 5\n* Ends in 6 -> Roots end in 4 or 6\n* Ends in 9 -> Roots end in 3 or 7\n\nStrike the last 2 digits. Find the square below the remainder.\nE.g. 1444\n* Ends in 4 -> 2 or 8.\n* Strike 44. Left 14. Square below is 9 (3^2). So 3_.\n* 3x4=12. 14>12 -> Pick Big (8).\n* Ans: 38.",
-                    "example": {
-                        "problem": "Sqrt(2025)",
-                        "solution": "45",
-                        "steps": "Ends in 5 -> 5.\nStrike 25. 20 left.\nSquare below 20 is 16 (4^2).\nAns: 45"
-                    }
-                },
-                "rote": {
-                    "title": "Daily Vitamin: Cubes 31-35",
-                    "items": [
-                        {
-                            "front": "Cube of 31",
-                            "back": "29791"
-                        },
-                        {
-                            "front": "Cube of 35",
-                            "back": "42875"
-                        }
-                    ]
-                }
-            },
-            "practice": {
-                "questions": [
-                    {
-                        "id": "d18q1",
-                        "q": "Sqrt(7921)",
-                        "a": "89",
-                        "type": "mcq",
-                        "options": [
-                            "89",
-                            "81",
-                            "79",
-                            "99"
-                        ]
-                    },
-                    {
-                        "id": "d18q2",
-                        "q": "Sqrt(2601)",
-                        "a": "51",
-                        "type": "mcq",
-                        "options": [
-                            "51",
-                            "49",
-                            "59",
-                            "41"
-                        ]
-                    },
-                    {
-                        "id": "d18q3",
-                        "q": "Cube of 35",
-                        "a": "42875",
-                        "type": "mcq",
-                        "options": [
-                            "42875",
-                            "40000",
-                            "45000",
-                            "35000"
-                        ]
-                    }
-                ]
-            },
-            "compete": {
-                "targetScore": 800,
-                "leaderboardId": "day_18_battle"
-            }
-        },
-        {
-            "day": 19,
-            "title": "Cubes & Cube Roots",
-            "unlockDate": "2025-01-19",
-            "content": {
-                "concept": {
-                    "title": "Cube Root Trick",
-                    "description": "Easier than Square Roots! Each digit maps uniquely.\n\n1->1, 4->4, 5->5, 6->6, 9->9, 0->0\n2<->8 flip.\n3<->7 flip.\n\nStrike Last 3 digits.\nE.g. 1728.\n* Ends 8 -> Flip to 2.\n* Strike 728. Left 1. Cube below 1 is 1.\n* Ans: 12.",
-                    "example": {
-                        "problem": "Cube Root of 9261",
-                        "solution": "21",
-                        "steps": "Ends 1 -> 1.\nStrike 261. Left 9.\nCube below 9 is 8 (2^3).\nAns: 21."
-                    }
-                },
-                "rote": {
-                    "title": "Daily Vitamin: Cubes 36-40",
-                    "items": [
-                        {
-                            "front": "Cube of 36",
-                            "back": "46656"
-                        },
-                        {
-                            "front": "Cube of 40",
-                            "back": "64000"
-                        }
-                    ]
-                }
-            },
-            "practice": {
-                "questions": [
-                    {
-                        "id": "d19q1",
-                        "q": "Cube Root 15625",
-                        "a": "25",
-                        "type": "mcq",
-                        "options": [
-                            "25",
-                            "35",
-                            "15",
-                            "45"
-                        ]
-                    },
-                    {
-                        "id": "d19q2",
-                        "q": "Cube Root 4096",
-                        "a": "16",
-                        "type": "mcq",
-                        "options": [
-                            "16",
-                            "26",
-                            "14",
-                            "24"
-                        ]
-                    },
-                    {
-                        "id": "d19q3",
-                        "q": "Cube of 40",
-                        "a": "64000",
-                        "type": "mcq",
-                        "options": [
-                            "64000",
-                            "16000",
-                            "4000",
-                            "8000"
-                        ]
-                    }
-                ]
-            },
-            "compete": {
-                "targetScore": 900,
-                "leaderboardId": "day_19_battle"
-            }
-        },
-        {
-            "day": 20,
-            "title": "Advanced Division I",
-            "unlockDate": "2025-01-20",
-            "content": {
-                "concept": {
-                    "title": "Divisibiltiy by 9, 11 (Advanced)",
-                    "description": "Quickly check divisors.\n\n* By 9: Sum of digits must be 9.\n* By 11: Alt sum (Odd - Even) must be 0 or 11.\n\nE.g. Is 9174 div by 9?\n9+1+7+4 = 21 -> No.\nIs 2728 div by 11?\n(2+2) - (7+8) = 4 - 15 = -11 -> Yes!",
-                    "example": {
-                        "problem": "Is 1331 divisible by 11?",
-                        "solution": "Yes",
-                        "steps": "(1+3) - (3+1) = 4-4 = 0.\nYes."
-                    }
-                },
-                "rote": {
-                    "title": "Review Cubes",
-                    "items": [
-                        {
-                            "front": "Review Cube 9",
-                            "back": "729"
-                        },
-                        {
-                            "front": "Review Cube 12",
-                            "back": "1728"
-                        },
-                        {
-                            "front": "Review Cube 15",
-                            "back": "3375"
-                        }
-                    ]
-                }
-            },
-            "practice": {
-                "questions": [
-                    {
                         "id": "d20q1",
-                        "q": "Is 729 div by 9?",
-                        "a": "Yes",
+                        "q": "324 / 9",
+                        "a": "36",
                         "type": "mcq",
                         "options": [
-                            "Yes",
-                            "No"
+                            "36",
+                            "38",
+                            "34",
+                            "46"
                         ]
                     },
                     {
-                        "id": "d20q2",
-                        "q": "Is 121 div by 11?",
-                        "a": "Yes",
-                        "type": "mcq",
-                        "options": [
-                            "Yes",
-                            "No"
-                        ]
-                    },
-                    {
-                        "id": "d20q3",
-                        "q": "Cube 12",
-                        "a": "1728",
-                        "type": "mcq",
-                        "options": [
-                            "1728",
-                            "1444",
-                            "1228",
-                            "1600"
-                        ]
-                    }
-                ]
-            },
-            "compete": {
-                "targetScore": 800,
-                "leaderboardId": "day_20_battle"
-            }
-        },
-        {
-            "day": 21,
-            "title": "Advanced Division II",
-            "unlockDate": "2025-01-21",
-            "content": {
-                "concept": {
-                    "title": "Broken Heart Method (Splitting)",
-                    "description": "Simplify division by breaking the numerator.\n\nE.g. 624 / 4\nBreak 624 into friendly parts for 4: 400 + 200 + 24.\n* 400/4 = 100\n* 200/4 = 50\n* 24/4 = 6\n* Total: 156.\n\nMuch faster than long division in your head.",
-                    "example": {
-                        "problem": "848 / 8",
-                        "solution": "106",
-                        "steps": "800 + 48.\n100 + 6\n-> 106"
-                    }
-                },
-                "rote": {
-                    "title": "Review All Tables",
-                    "items": [
-                        {
-                            "front": "Review 19x6",
-                            "back": "114"
+                        "day": 21,
+                        "title": "Advanced Division II",
+                        "unlockDate": "2025-01-21",
+                        "content": {
+                            "concept": [
+                                {
+                                    "title": "The \"Broken Heart\" Method",
+                                    "description": "Split the numerator into parts that are easy to divide.\n\n### The Trick\n1. Break Numerator -> (Multiple of Divisor) + Remainder.\n2. Divide parts separately.\n3. Add results.\n\nE.g. 648 / 6\n* Break 648 -> 600 + 48\n* 600/6 = 100\n* 48/6 = 8\n* Ans: 108\n\nE.g. 132 / 12\n* 132 -> 120 + 12\n* 10 + 1 = 11.",
+                                    "example": {
+                                        "problem": "864 / 8",
+                                        "solution": "108",
+                                        "steps": "1. 864 -> 800 + 64\n2. 800/8 = 100\n3. 64/8 = 8\n4. Ans: 108"
+                                    }
+                                },
+                                {
+                                    "title": "Division Approximation",
+                                    "description": "Round numbers to estimate the result.\n\n### The Trick\n1. Round Divisor to nearest 10 or 50.\n2. Adjust Dividend to be a multiple of new Divisor.\n3. Cancel zeros and divide.\n\nE.g. 396 / 19\n* 19 -> 20.\n* 396 -> 400.\n* 400 / 20 = 20.\n* Estimate: ~20.",
+                                    "example": {
+                                        "problem": "980 / 49",
+                                        "solution": "~20",
+                                        "steps": "1. 49 -> 50\n2. 980 -> 1000\n3. 1000 / 50 = 20."
+                                    }
+                                }
+                            ],
+                            "rote": {
+                                "title": "Daily Vitamin: Cubes 21-30",
+                                "items": [
+                                    {
+                                        "front": "Cube of 21",
+                                        "back": "9261"
+                                    },
+                                    {
+                                        "front": "Cube of 22",
+                                        "back": "10648"
+                                    },
+                                    {
+                                        "front": "Cube of 23",
+                                        "back": "12167"
+                                    },
+                                    {
+                                        "front": "Cube of 24",
+                                        "back": "13824"
+                                    },
+                                    {
+                                        "front": "Cube of 25",
+                                        "back": "15625"
+                                    },
+                                    {
+                                        "front": "Cube of 26",
+                                        "back": "17576"
+                                    },
+                                    {
+                                        "front": "Cube of 27",
+                                        "back": "19683"
+                                    },
+                                    {
+                                        "front": "Cube of 28",
+                                        "back": "21952"
+                                    },
+                                    {
+                                        "front": "Cube of 29",
+                                        "back": "24389"
+                                    },
+                                    {
+                                        "front": "Cube of 30",
+                                        "back": "27000"
+                                    }
+                                ]
+                            }
                         },
-                        {
-                            "front": "Review 23x4",
-                            "back": "92"
+                        "practice": {
+                            "questions": [
+                                {
+                                    "id": "d21q1",
+                                    "q": "848 / 8",
+                                    "a": "106",
+                                    "type": "mcq",
+                                    "options": [
+                                        "106",
+                                        "116",
+                                        "104",
+                                        "108"
+                                    ]
+                                },
+                                {
+                                    "id": "d21q2",
+                                    "q": "639 / 3",
+                                    "a": "213",
+                                    "type": "mcq",
+                                    "options": [
+                                        "213",
+                                        "223",
+                                        "203",
+                                        "233"
+                                    ]
+                                },
+                                {
+                                    "id": "d21q3",
+                                    "q": "980 / 49 (Approx)",
+                                    "a": "20",
+                                    "type": "mcq",
+                                    "options": [
+                                        "20",
+                                        "25",
+                                        "15",
+                                        "10"
+                                    ]
+                                }
+                            ]
                         },
-                        {
-                            "front": "Review 13x9",
-                            "back": "117"
-                        },
-                        {
-                            "front": "Review 17x8",
-                            "back": "136"
+                        "compete": {
+                            "targetScore": 800,
+                            "leaderboardId": "day_20_battle"
                         }
-                    ]
-                }
-            },
-            "practice": {
-                "questions": [
-                    {
-                        "id": "d21q1",
-                        "q": "936 / 3",
-                        "a": "312",
-                        "type": "mcq",
-                        "options": [
-                            "312",
-                            "302",
-                            "322",
-                            "332"
-                        ]
-                    },
-                    {
-                        "id": "d21q2",
-                        "q": "426 / 2",
-                        "a": "213",
-                        "type": "mcq",
-                        "options": [
-                            "213",
-                            "203",
-                            "223",
-                            "210"
-                        ]
                     },
                     {
                         "id": "d21q3",

@@ -494,6 +494,273 @@ const gen_mult_2_5 = () => {
     } as Question;
 };
 
+// 38. General 2x2 Multiplication (Criss-Cross)
+const gen_mult_criss_cross = () => {
+    // Random 2-digit numbers, avoiding trivial ones (like x10)
+    const a = Math.floor(Math.random() * 80) + 11; // 11 to 90
+    const b = Math.floor(Math.random() * 80) + 11;
+    return {
+        operands: [a, b],
+        operator: "×",
+        answer: a * b,
+        type: "MULT_CRISS_CROSS"
+    } as Question;
+};
+
+// 39. Product Partition (Split & Multiply) - 2D x 1D
+const gen_mult_split = () => {
+    // E.g. 42 x 7 -> (40+2)x7
+    const a = Math.floor(Math.random() * 80) + 12; // 12 to 91
+    const b = Math.floor(Math.random() * 7) + 3;  // 3 to 9 (single digit)
+    return {
+        operands: [a, b],
+        operator: "×",
+        answer: a * b,
+        type: "MULT_SPLIT"
+    } as Question;
+};
+
+
+// 40. Square of numbers ending in 5 (2-digit)
+const gen_square_ends_5 = () => {
+    // 15, 25, ... 95
+    const tens = Math.floor(Math.random() * 9) + 1; // 1-9
+    const val = tens * 10 + 5;
+    return {
+        operands: [val],
+        operator: "sq",
+        answer: val * val,
+        type: "SQUARE_ENDS_5"
+    } as unknown as Question;
+};
+
+// 41. Square of 3-digit numbers ending in 5
+const gen_square_ends_5_3d = () => {
+    // 105, 115, ... 195 (or larger, but basic n(n+1) is good for low 3 digits)
+    const tens = Math.floor(Math.random() * 10) + 10; // 10-19 (for 105-195)
+    const val = tens * 10 + 5;
+    return {
+        operands: [val],
+        operator: "sq",
+        answer: val * val,
+        type: "SQUARE_ENDS_5_3D"
+    } as unknown as Question;
+};
+
+// 42. Squares numbers between 50 and 60
+const gen_square_50_60 = () => {
+    // 51 to 59
+    const val = Math.floor(Math.random() * 9) + 51;
+    return {
+        operands: [val],
+        operator: "sq",
+        answer: val * val,
+        type: "SQUARE_50_60"
+    } as unknown as Question;
+};
+
+// --- Generator Registry ---
+
+
+// 43. Squares numbers between 40 and 50 (Base 50 Below)
+const gen_square_40_50 = () => {
+    // 41 to 49
+    const val = Math.floor(Math.random() * 9) + 41;
+    return {
+        operands: [val],
+        operator: "sq",
+        answer: val * val,
+        type: "SQUARE_40_50"
+    } as unknown as Question;
+};
+
+// 44. Squares near 100 (90-110)
+const gen_square_near_100 = () => {
+    // 91-109, excluding 100
+    let val = Math.floor(Math.random() * 19) + 91;
+    if (val === 100) val = 101;
+    return {
+        operands: [val],
+        operator: "sq",
+        answer: val * val,
+        type: "SQUARE_NEAR_100"
+    } as unknown as Question;
+};
+
+// 45. Squares near 150 (145-155)
+const gen_square_near_150 = () => {
+    const val = Math.floor(Math.random() * 11) + 145;
+    return {
+        operands: [val],
+        operator: "sq",
+        answer: val * val,
+        type: "SQUARE_NEAR_150"
+    } as unknown as Question;
+};
+
+// 46. Squares near 200 (195-205)
+const gen_square_near_200 = () => {
+    const val = Math.floor(Math.random() * 11) + 195;
+    return {
+        operands: [val],
+        operator: "sq",
+        answer: val * val,
+        type: "SQUARE_NEAR_200"
+    } as unknown as Question;
+};
+
+// 47. Multiplication near base 100 (e.g. 92 x 97)
+const gen_mult_near_base_100 = () => {
+    // Both numbers between 91 and 99 (Below base) or 101-109
+    const a = Math.floor(Math.random() * 9) + 91; // 91-99
+    const b = Math.floor(Math.random() * 9) + 91;
+
+    return {
+        operands: [a, b],
+        operator: "x",
+        answer: a * b,
+        type: "MULT_NEAR_BASE_100"
+    } as unknown as Question;
+};
+
+// 48. Square Roots of numbers ending in 25 (Result ends in 5)
+const gen_sqrt_ends_5 = () => {
+    // Result is between 15 and 95 (ending in 5)
+    // 15, 25, 35 ... 95
+    const root = (Math.floor(Math.random() * 9) + 1) * 10 + 5;
+    const val = root * root;
+    return {
+        operands: [val],
+        operator: "sqrt",
+        answer: root,
+        type: "SQRT_ENDS_5"
+    } as unknown as Question;
+};
+
+// 49. Square Roots of Perfect Squares (2-digit result)
+const gen_sqrt_perfect_2d = () => {
+    // Result between 11 and 99
+    // Avoiding ends in 5 (covered above) or 0 (trivial) if possible, but randomness is fine.
+    const root = Math.floor(Math.random() * 89) + 11;
+    const val = root * root;
+    return {
+        operands: [val],
+        operator: "sqrt",
+        answer: root,
+        type: "SQRT_PERFECT_2D"
+    } as unknown as Question;
+};
+
+// 50. Cube Roots of Perfect Cubes (2-digit result)
+const gen_cbrt_perfect_2d = () => {
+    // Result between 11 and 99
+    // Limit to smaller range initially if needed, but the trick works for all 2d.
+    // Let's stick to 11-99.
+    const root = Math.floor(Math.random() * 89) + 11;
+    const val = root * root * root;
+    return {
+        operands: [val],
+        operator: "cbrt",
+        answer: root,
+        type: "CBRT_PERFECT_2D"
+    } as unknown as Question;
+};
+
+// 51. Division by 9 (Integers usually, or result with remainder? Focus on perfect division for speed math context or simple decimals)
+// The prompt "Div by 9 family" usually refers to the pattern 1/9=0.111, x/9 = 0.xxx. Or just checking divisibility.
+// Let's assume standard integer division where it divides perfectly for now, or returns "Yes/No" if it was a divisibility check.
+// Given "Div by 11, 22" usually implies calculating the result.
+const gen_div_9_family = () => {
+    // Generates a number divisible by 9.
+    const quotient = Math.floor(Math.random() * 90) + 10; // 10-99
+    const dividend = quotient * 9;
+    return {
+        operands: [dividend, 9],
+        operator: "/",
+        answer: quotient,
+        type: "DIV_BY_9"
+    } as unknown as Question;
+};
+
+// 52. Division by 11
+const gen_div_11 = () => {
+    // Generates a number divisible by 11.
+    const quotient = Math.floor(Math.random() * 90) + 10; // 10-99
+    const dividend = quotient * 11;
+    return {
+        operands: [dividend, 11],
+        operator: "/",
+        answer: quotient,
+        type: "DIV_BY_11"
+    } as unknown as Question;
+};
+
+// 53. Division by 22
+const gen_div_22 = () => {
+    // Generates a number divisible by 22.
+    // Div by 2 then 11.
+    const quotient = Math.floor(Math.random() * 45) + 5; // 5-50 (to keep dividend reasonable)
+    const dividend = quotient * 22;
+    return {
+        operands: [dividend, 22],
+        operator: "/",
+        answer: quotient,
+        type: "DIV_BY_22"
+    } as unknown as Question;
+};
+
+// 54. Broken Heart Division (Splitting Numerator)
+// e.g. 648 / 6 -> 600/6 + 48/6 = 100 + 8 = 108.
+const gen_div_broken_heart = () => {
+    const divisor = Math.floor(Math.random() * 8) + 2; // 2-9
+    // Part A: Multiple of 100 * divisor
+    // Part B: Multiple of divisor
+    const partA = (Math.floor(Math.random() * 9) + 1) * 100 * divisor;
+    const partB = (Math.floor(Math.random() * 20) + 1) * divisor; // Ensure partB is simple enough
+    const dividend = partA + partB;
+    return {
+        operands: [dividend, divisor],
+        operator: "/",
+        answer: dividend / divisor,
+        type: "DIV_BROKEN_HEART"
+    } as unknown as Question;
+};
+
+// 55. Division Approximation
+// e.g. 396 / 19 approx 400 / 20 = 20.
+const gen_div_approx = () => {
+    // Generates questions where operands are close to round numbers
+    const roundDivisor = (Math.floor(Math.random() * 8) + 2) * 10; // 20, 30 ... 90
+    const divisor = roundDivisor + (Math.random() < 0.5 ? -1 : 1); // 19, 21, 29, 31...
+
+    // Dividend is approximately a multiple of roundDivisor
+    const multiple = Math.floor(Math.random() * 10) + 2;
+    const approxDividend = multiple * roundDivisor;
+    const dividend = approxDividend + (Math.floor(Math.random() * 5) - 2); // +/- small amount
+
+    // Question asks for approximate value? 
+    // For MCQ logic, since we usually provide specific answers, maybe I should just calculate the exact integer division?
+    // Or providing options that are spaced out.
+    // For now, let's just make it a standard division where rounding helps find the CLOSEST integer.
+    // Let's stick to "Estimation" type logic logic later or just let the user approximate.
+    // Actually, for speed math, usually "approximate division" questions imply "Find the approximate value".
+    // I'll calculate the exact float and round it for the "answer", and the frontend can handle "approx" display if needed.
+    // But my system compares answers exactly.
+    // So let's make it so the "Approximation" IS the exact answer to the ROUNDED problem?
+    // User Prompt: "Division approximation".
+    // If I show "396 / 19" and expect "20", that's an estimation.
+    // Let's generate operands that map to the "clean calculation".
+    // Display: "396 / 19 ≈ ?"
+    // Answer: 20
+
+    return {
+        operands: [dividend, divisor],
+        operator: "/", // Maybe visual tweak needed later to show approx symbol
+        answer: Math.round(approxDividend / roundDivisor),
+        type: "DIV_APPROX"
+    } as unknown as Question;
+};
+
 // --- Generator Registry ---
 export const GeneratorRegistry: Record<string, QuestionGenerator> = {
     "ADD_1D_1D": gen_add_1d_1d,
@@ -535,7 +802,30 @@ export const GeneratorRegistry: Record<string, QuestionGenerator> = {
     "MULT_1_5": gen_mult_1_5,
     "MULT_15": gen_mult_15,
     "MULT_2_5": gen_mult_2_5,
+    "MULT_CRISS_CROSS": gen_mult_criss_cross,
+    "MULT_SPLIT": gen_mult_split,
+    "SQUARE_ENDS_5": gen_square_ends_5,
+    "SQUARE_50_60": gen_square_50_60,
+    "SQUARE_ENDS_5_3D": gen_square_ends_5_3d,
+    "SQUARE_40_50": gen_square_40_50,
+    "SQUARE_NEAR_100": gen_square_near_100,
+    "SQUARE_NEAR_150": gen_square_near_150,
+    "SQUARE_NEAR_200": gen_square_near_200,
+    "MULT_NEAR_BASE_100": gen_mult_near_base_100,
+    "SQRT_ENDS_5": gen_sqrt_ends_5,
+    "SQRT_PERFECT_2D": gen_sqrt_perfect_2d,
+    "CBRT_PERFECT_2D": gen_cbrt_perfect_2d,
+    "DIV_BY_9": gen_div_9_family,
+    "DIV_BY_11": gen_div_11,
+    "DIV_BY_22": gen_div_22,
+    "DIV_BROKEN_HEART": gen_div_broken_heart,
+    "DIV_APPROX": gen_div_approx,
 };
+
+
+
+
+
 
 // --- Day Configurations ---
 
@@ -1032,6 +1322,243 @@ export const daysConfig: Record<number, DayConfig> = {
             { id: "MULT_2_5" },
             { id: "MULT_15" },
             { id: "SQUARES", config: { min: 41, max: 50 } }
+        ]
+    },
+    14: {
+        id: 14,
+        title: "General Multiplication I",
+        linearTasks: [
+            {
+                id: "d14_criss_cross",
+                title: "Criss-Cross (2x2)",
+                description: "Universal method for 2-digit multiplication.",
+                generatorId: "MULT_CRISS_CROSS",
+                targetCount: 10
+            },
+            {
+                id: "d14_split",
+                title: "Product Partition (Split)",
+                description: "Split one number and multiply separately.",
+                generatorId: "MULT_SPLIT",
+                targetCount: 10
+            },
+            {
+                id: "d14_squares_review",
+                title: "Squares 1-50 Review",
+                description: "Comprehensive review of squares 1-50.",
+                generatorId: "SQUARES",
+                generatorConfig: { min: 1, max: 50 },
+                targetCount: 20
+            }
+        ],
+        unlockedGenerators: [
+            { id: "MULT_CRISS_CROSS" },
+            { id: "MULT_SPLIT" },
+            { id: "SQUARES", config: { min: 1, max: 50 } }
+        ]
+    },
+    15: {
+        id: 15,
+        title: "Squares: The Basics & 50-60",
+        linearTasks: [
+            {
+                id: "d15_ends_5",
+                title: "Squares Ending in 5",
+                description: "Trick: n(n+1) | 25.",
+                generatorId: "SQUARE_ENDS_5",
+                targetCount: 10
+            },
+            {
+                id: "d15_ends_5_3d",
+                title: "Squares Ending in 5 (3-Digit)",
+                description: "Trick: Same, but n is larger (e.g. 10, 11).",
+                generatorId: "SQUARE_ENDS_5_3D",
+                targetCount: 5
+            },
+            {
+                id: "d15_50_60",
+                title: "Squares 51-60",
+                description: "Trick: (25 + d) | d².",
+                generatorId: "SQUARE_50_60",
+                targetCount: 10
+            }
+        ],
+        unlockedGenerators: [
+            { id: "SQUARE_ENDS_5" },
+            { id: "SQUARE_ENDS_5_3D" },
+            { id: "SQUARE_50_60" }
+        ]
+    },
+    16: {
+        id: 16,
+        title: "Squares: Base 50 & Halving",
+        linearTasks: [
+            {
+                id: "d16_40_50",
+                title: "Squares 41-50 (Below Base 50)",
+                description: "Trick: (25 - d) | d².",
+                generatorId: "SQUARE_40_50",
+                targetCount: 10
+            },
+            {
+                id: "d16_mult_0_5",
+                title: "Multiply by 0.5",
+                description: "Recall: Multiplying by 0.5 is just Halving.",
+                generatorId: "MULT_0_5",
+                targetCount: 10
+            }
+        ],
+        unlockedGenerators: [
+            { id: "SQUARE_40_50" },
+            { id: "MULT_0_5" },
+            { id: "SQUARES", config: { min: 41, max: 60 } }
+        ]
+    },
+    17: {
+        id: 17,
+        title: "Universal Base Method",
+        linearTasks: [
+            {
+                id: "d17_sq_base_100",
+                title: "Squares Near 100",
+                description: "Trick: (100 +/- d) | d².",
+                generatorId: "SQUARE_NEAR_100",
+                targetCount: 10
+            },
+            {
+                id: "d17_sq_base_150_200",
+                title: "Squares Near 150 & 200",
+                description: "Base 150 (1.5x) and Base 200 (2x).",
+                generatorId: "SQUARE_NEAR_150", // Start with 150, user can mix later or I can add a mixed generator. 
+                // Let's add 200 as a separate unlocked item or just use Mixed in the future.
+                // Ideally I should have a mixed generator for this task.
+                // For now, I'll just use 150 here and unlock 200.
+                // Actually, let's look at the user request: "Squares near 100, 150, 200".
+                // Maybe I should split this into two tasks?
+                // Task 2: Squares Near 150.
+                // Task 3: Squares Near 200?
+                // Or Task 2: Larger Bases (150 & 200) -> using a mixed generator?
+                // I didn't create a mixed generator. I created specific ones.
+                // Let's add two tasks then.
+                targetCount: 5
+            },
+            {
+                id: "d17_sq_base_200",
+                title: "Squares Near 200",
+                description: "Base 200: Double the Base 100 logic.",
+                generatorId: "SQUARE_NEAR_200",
+                targetCount: 5
+            },
+            {
+                id: "d17_mult_base_100",
+                title: "Base Multiplication",
+                description: "Multiplying numbers near 100 (e.g. 92x97).",
+                generatorId: "MULT_NEAR_BASE_100",
+                targetCount: 10
+            }
+        ],
+        unlockedGenerators: [
+            { id: "SQUARE_NEAR_100" },
+            { id: "SQUARE_NEAR_150" },
+            { id: "SQUARE_NEAR_200" },
+            { id: "MULT_NEAR_BASE_100" }
+        ]
+    },
+    18: {
+        id: 18,
+        title: "Square Roots",
+        linearTasks: [
+            {
+                id: "d18_sqrt_ends_5",
+                title: "Square Roots Ending in 5",
+                description: "Find root of number ending in 25 (e.g. 2025).",
+                generatorId: "SQRT_ENDS_5",
+                targetCount: 10
+            },
+            {
+                id: "d18_sqrt_perfect",
+                title: "Estimating Square Roots",
+                description: "Find the root of Perfect Squares (e.g. 1764).",
+                generatorId: "SQRT_PERFECT_2D",
+                targetCount: 10
+            }
+        ],
+        unlockedGenerators: [
+            { id: "SQRT_ENDS_5" },
+            { id: "SQRT_PERFECT_2D" },
+            { id: "SQUARES", config: { min: 81, max: 90 } }
+        ]
+    },
+    19: {
+        id: 19,
+        title: "Cubes & Cube Roots",
+        linearTasks: [
+            {
+                id: "d19_cbrt_trick",
+                title: "Perfect Cube Roots",
+                description: "Using the Last Digit Trick to find cube roots.",
+                generatorId: "CBRT_PERFECT_2D",
+                targetCount: 10
+            }
+        ],
+        unlockedGenerators: [
+            { id: "CBRT_PERFECT_2D" }
+        ]
+    },
+    20: {
+        id: 20,
+        title: "Advanced Division I",
+        linearTasks: [
+            {
+                id: "d20_div_9",
+                title: "Division by 9",
+                description: "Divisibility rule: Sum of digits.",
+                generatorId: "DIV_BY_9",
+                targetCount: 10
+            },
+            {
+                id: "d20_div_11",
+                title: "Division by 11",
+                description: "Divisibility rule: Alt sum diff is 0 or 11.",
+                generatorId: "DIV_BY_11",
+                targetCount: 10
+            },
+            {
+                id: "d20_div_22",
+                title: "Division by 22",
+                description: "Divide by 2, then by 11.",
+                generatorId: "DIV_BY_22",
+                targetCount: 10
+            }
+        ],
+        unlockedGenerators: [
+            { id: "DIV_BY_9" },
+            { id: "DIV_BY_11" },
+            { id: "DIV_BY_22" }
+        ]
+    },
+    21: {
+        id: 21,
+        title: "Advanced Division II",
+        linearTasks: [
+            {
+                id: "d21_broken_heart",
+                title: "Broken Heart Method",
+                description: "Split the numerator into easy chunks.",
+                generatorId: "DIV_BROKEN_HEART",
+                targetCount: 10
+            },
+            {
+                id: "d21_approx",
+                title: "Approximation",
+                description: "Estimate division by rounding.",
+                generatorId: "DIV_APPROX",
+                targetCount: 10
+            }
+        ],
+        unlockedGenerators: [
+            { id: "DIV_BROKEN_HEART" },
+            { id: "DIV_APPROX" }
         ]
     }
 };

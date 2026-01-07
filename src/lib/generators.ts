@@ -361,6 +361,139 @@ const gen_mult_999 = () => {
 };
 
 
+// 28. Digital Sum (Casting Out Nines)
+const gen_digital_sum = () => {
+    const a = Math.floor(Math.random() * 9000) + 100; // 3-4 digit number
+
+    const getDigitalSum = (n: number): number => {
+        if (n === 0) return 0;
+        return (n % 9 === 0) ? 9 : (n % 9);
+    };
+
+    return {
+        operands: [a, 0], // Only one operand really matters
+        operator: "DS",
+        answer: getDigitalSum(a),
+        type: "DIGITAL_SUM"
+    } as Question;
+};
+
+// 29. Product of n(n+1)
+const gen_n_n_plus_1 = () => {
+    const n = Math.floor(Math.random() * 20) + 11; // 11 to 30 ish
+    return {
+        operands: [n, n + 1],
+        operator: "×",
+        answer: n * (n + 1),
+        type: "MULT_N_N_PLUS_1"
+    } as Question;
+};
+
+
+// 30. 37 x 3, 6, 9... (The 111 Trick)
+const gen_mult_37_3n = () => {
+    const k = Math.floor(Math.random() * 9) + 1; // 1 to 9
+    const multiplier = k * 3; // 3, 6, 9 ... 27
+    return {
+        operands: [37, multiplier],
+        operator: "×",
+        answer: 37 * multiplier,
+        type: "MULT_37_3N"
+    } as Question;
+};
+
+// 31. 16, 166, 1666... x 4
+const gen_mult_16_series_4 = () => {
+    // Generate n number of 6s after 1. 
+    const n = Math.floor(Math.random() * 3) + 1; // 1 to 3 usually (16, 166, 1666)
+    const str = "1" + "6".repeat(n);
+    const val = parseInt(str);
+
+    return {
+        operands: [val, 4],
+        operator: "×",
+        answer: val * 4,
+        type: "MULT_16_SERIES_4"
+    } as Question;
+};
+
+// 32. Two numbers ending in 1 (31x41)
+const gen_mult_units_1 = () => {
+    // Generate two 2-digit numbers ending in 1
+    const a = (Math.floor(Math.random() * 9) + 1) * 10 + 1; // 11, 21... 91
+    const b = (Math.floor(Math.random() * 9) + 1) * 10 + 1;
+
+    return {
+        operands: [a, b],
+        operator: "×",
+        answer: a * b,
+        type: "MULT_UNITS_1"
+    } as Question;
+};
+
+// 33. Two 3-digit numbers with 0 in middle (305x406)
+const gen_mult_3d_middle_0 = () => {
+    const a = (Math.floor(Math.random() * 9) + 1) * 100 + (Math.floor(Math.random() * 9) + 1); // 101 to 909 (no middle digit)
+    const b = (Math.floor(Math.random() * 9) + 1) * 100 + (Math.floor(Math.random() * 9) + 1);
+
+    return {
+        operands: [a, b],
+        operator: "×",
+        answer: a * b,
+        type: "MULT_3D_MIDDLE_0"
+    } as Question;
+};
+
+// 34. Consecutive Even/Odd (n^2 - 1)
+const gen_mult_consecutive_even_odd = () => {
+    const n = Math.floor(Math.random() * 30) + 10; // Middle number 10 to 40
+    // Make sure middle number is valid so n-1 and n+1 are both odd or both even
+    // Actually n can be anything. (n-1)(n+1) = n^2 - 1.
+    // Neighbors are n-1 and n+1.
+
+    return {
+        operands: [n - 1, n + 1],
+        operator: "×",
+        answer: (n - 1) * (n + 1),
+        type: "MULT_CONSECUTIVE_EVEN_ODD"
+    } as Question;
+};
+
+// 35. Multiply by 1.5 (Number + Half)
+const gen_mult_1_5 = () => {
+    // Even numbers are easier, odd numbers involve .5
+    const val = Math.floor(Math.random() * 40) + 10; // 10 to 50
+    return {
+        operands: [val, 1.5],
+        operator: "×",
+        answer: val * 1.5,
+        type: "MULT_1_5"
+    } as Question;
+};
+
+// 36. Multiply by 15 (Number + Half, then x10)
+const gen_mult_15 = () => {
+    const val = Math.floor(Math.random() * 40) + 10; // 10 to 50
+    return {
+        operands: [val, 15],
+        operator: "×",
+        answer: val * 15,
+        type: "MULT_15"
+    } as Question;
+};
+
+// 37. Multiply by 2.5 (Double + Half)
+const gen_mult_2_5 = () => {
+    // Integers for easier calculation initially
+    const val = (Math.floor(Math.random() * 20) + 4) * 2; // Even numbers 8 to 48
+    return {
+        operands: [val, 2.5],
+        operator: "×",
+        answer: val * 2.5,
+        type: "MULT_2_5"
+    } as Question;
+};
+
 // --- Generator Registry ---
 export const GeneratorRegistry: Record<string, QuestionGenerator> = {
     "ADD_1D_1D": gen_add_1d_1d,
@@ -392,6 +525,16 @@ export const GeneratorRegistry: Record<string, QuestionGenerator> = {
     "MULT_9": gen_mult_9,
     "MULT_99": gen_mult_99,
     "MULT_999": gen_mult_999,
+    "DIGITAL_SUM": gen_digital_sum,
+    "MULT_N_N_PLUS_1": gen_n_n_plus_1,
+    "MULT_37_3N": gen_mult_37_3n,
+    "MULT_16_SERIES_4": gen_mult_16_series_4,
+    "MULT_UNITS_1": gen_mult_units_1,
+    "MULT_3D_MIDDLE_0": gen_mult_3d_middle_0,
+    "MULT_CONSECUTIVE_EVEN_ODD": gen_mult_consecutive_even_odd,
+    "MULT_1_5": gen_mult_1_5,
+    "MULT_15": gen_mult_15,
+    "MULT_2_5": gen_mult_2_5,
 };
 
 // --- Day Configurations ---
@@ -438,6 +581,7 @@ export const daysConfig: Record<number, DayConfig> = {
             { id: "TABLES", config: { min: 2, max: 5 } }
         ]
     },
+
     2: {
         id: 2,
         title: "Rapid Addition II & Tables 6-9",
@@ -740,6 +884,154 @@ export const daysConfig: Record<number, DayConfig> = {
             { id: "MULT_99" },
             { id: "MULT_999" },
             { id: "TABLES", config: { min: 16, max: 25 } }
+        ]
+    },
+    10: {
+        id: 10,
+        title: "Digital Sum & Squares 1-15",
+        linearTasks: [
+            {
+                id: "d10_digital_sum",
+                title: "Digital Sum",
+                description: "Find the digital sum (Casting Out Nines).",
+                generatorId: "DIGITAL_SUM",
+                targetCount: 10
+            },
+            {
+                id: "d10_product_n_plus_1",
+                title: "Product n(n+1)",
+                description: "Multiply consecutive numbers (e.g. 12x13).",
+                generatorId: "MULT_N_N_PLUS_1",
+                targetCount: 10
+            },
+            {
+                id: "d10_squares_review",
+                title: "Squares 1-15",
+                description: "Memorize squares up to 15.",
+                generatorId: "SQUARES",
+                generatorConfig: { min: 1, max: 15 },
+                targetCount: 15
+            }
+        ],
+        unlockedGenerators: [
+            { id: "DIGITAL_SUM" },
+            { id: "MULT_N_N_PLUS_1" },
+            { id: "SQUARES", config: { min: 1, max: 15 } }
+        ]
+    },
+    11: {
+        id: 11,
+        title: "Magic Patterns & Squares 16-30",
+        linearTasks: [
+            {
+                id: "d11_mult_37_3n",
+                title: "The 111 Trick",
+                description: "Multiply 37 by 3, 6, 9... (37x3n)",
+                generatorId: "MULT_37_3N",
+                targetCount: 10
+            },
+            {
+                id: "d11_mult_16_series_4",
+                title: "Patterns of 16...6x4",
+                description: "Multiply 16, 166, 1666... by 4.",
+                generatorId: "MULT_16_SERIES_4",
+                targetCount: 10
+            },
+            {
+                id: "d11_squares_review",
+                title: "Squares 16-30",
+                description: "Memorize squares 16 to 30.",
+                generatorId: "SQUARES",
+                generatorConfig: { min: 16, max: 30 },
+                targetCount: 15
+            }
+        ],
+        unlockedGenerators: [
+            { id: "MULT_37_3N" },
+            { id: "MULT_16_SERIES_4" },
+            { id: "SQUARES", config: { min: 16, max: 30 } }
+        ]
+    },
+    12: {
+        id: 12,
+        title: "Magic Patterns II & Squares 31-40",
+        linearTasks: [
+            {
+                id: "d12_mult_units_1",
+                title: "Unit Digit 1",
+                description: "Multiply numbers ending in 1 (e.g. 31x41).",
+                generatorId: "MULT_UNITS_1",
+                targetCount: 10
+            },
+            {
+                id: "d12_mult_3d_middle_0",
+                title: "Middle 0 Trick",
+                description: "Multiply 3-digit numbers with middle 0.",
+                generatorId: "MULT_3D_MIDDLE_0",
+                targetCount: 10
+            },
+            {
+                id: "d12_mult_consecutive_even_odd",
+                title: "Neighbors (n² - 1)",
+                description: "Multiply consecutive even/odd numbers.",
+                generatorId: "MULT_CONSECUTIVE_EVEN_ODD",
+                targetCount: 10
+            },
+            {
+                id: "d12_squares_review",
+                title: "Squares 31-40",
+                description: "Memorize squares 31 to 40.",
+                generatorId: "SQUARES",
+                generatorConfig: { min: 31, max: 40 },
+                targetCount: 15
+            }
+        ],
+        unlockedGenerators: [
+            { id: "MULT_UNITS_1" },
+            { id: "MULT_3D_MIDDLE_0" },
+            { id: "MULT_CONSECUTIVE_EVEN_ODD" },
+            { id: "SQUARES", config: { min: 31, max: 40 } }
+        ]
+    },
+    13: {
+        id: 13,
+        title: "Multiplying by 1.5, 2.5, 15",
+        linearTasks: [
+            {
+                id: "d13_mult_1_5",
+                title: "Multiply by 1.5",
+                description: "Trick: Number + Half.",
+                generatorId: "MULT_1_5",
+                targetCount: 10
+            },
+            {
+                id: "d13_mult_2_5",
+                title: "Multiply by 2.5",
+                description: "Trick: Double + Half.",
+                generatorId: "MULT_2_5",
+                targetCount: 10
+            },
+            {
+                id: "d13_mult_15",
+                title: "Multiply by 15",
+                description: "Trick: (Number + Half) x 10.",
+                generatorId: "MULT_15",
+                targetCount: 10
+            },
+            {
+                id: "d13_squares_review",
+                title: "Squares 41-50",
+                description: "Memorize squares 41 to 50.",
+                generatorId: "SQUARES",
+                generatorConfig: { min: 41, max: 50 },
+                targetCount: 15
+            }
+        ],
+        unlockedGenerators: [
+            { id: "MULT_1_5" },
+            { id: "MULT_2_5" },
+            { id: "MULT_15" },
+            { id: "SQUARES", config: { min: 41, max: 50 } }
         ]
     }
 };

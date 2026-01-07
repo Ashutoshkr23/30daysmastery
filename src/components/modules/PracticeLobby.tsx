@@ -4,7 +4,7 @@ import { useState } from "react";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { PremiumButton } from "@/components/ui/PremiumButton";
 import { cn } from "@/lib/utils";
-import { Play, Lock, Settings2, Clock, Zap, Heart } from "lucide-react";
+import { Play, Lock, Settings2, Clock, Zap, Heart, Check } from "lucide-react";
 import { DayConfig, TaskConfig } from "@/lib/generators";
 
 interface PracticeLobbyProps {
@@ -16,7 +16,7 @@ interface PracticeLobbyProps {
 }
 
 export interface CustomSettings {
-    generatorId: string;
+    generatorIds: string[]; // Changed from single generatorId to array
     mode: "TIME" | "SURVIVAL";
     value: number; // Seconds or Lives
 }
@@ -24,10 +24,23 @@ export interface CustomSettings {
 export function PracticeLobby({ config, isLinearComplete, onStartLinear, onStartCustom, attempts }: PracticeLobbyProps) {
     const [activeTab, setActiveTab] = useState<"LINEAR" | "CUSTOM">("LINEAR");
 
-    // Custom Settings State
-    const [selectedGen, setSelectedGen] = useState(config.unlockedGenerators[0]);
+    // Custom Settings State - Multi-select (stores generator IDs)
+    const [selectedGens, setSelectedGens] = useState<string[]>([config.unlockedGenerators[0]?.id || ""]);
     const [customMode, setCustomMode] = useState<"TIME" | "SURVIVAL">("TIME");
     const [timeLimit, setTimeLimit] = useState(60); // 1 min default
+
+    // Toggle generator selection
+    const toggleGenerator = (genId: string) => {
+        setSelectedGens(prev => {
+            if (prev.includes(genId)) {
+                // Don't allow deselecting if it's the last one
+                if (prev.length === 1) return prev;
+                return prev.filter(id => id !== genId);
+            } else {
+                return [...prev, genId];
+            }
+        });
+    };
 
     // Always default linear completion to false for now until we have better tracking
     // For MVP, we'll assume linear path needs to be done linearly in session or tracked externally
@@ -122,24 +135,28 @@ export function PracticeLobby({ config, isLinearComplete, onStartLinear, onStart
                         <h3 className="text-xl font-bold">Configure Session</h3>
                     </div>
 
-                    {/* Generator Select */}
+                    {/* Generator Select - Multi-select with checkboxes */}
                     <div className="space-y-3">
-                        <label className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Exercise Type</label>
+                        <label className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Exercise Types (select multiple)</label>
                         <div className="grid grid-cols-2 gap-2">
-                            {config.unlockedGenerators.map(genId => (
-                                <button
-                                    key={genId}
-                                    onClick={() => setSelectedGen(genId)}
-                                    className={cn(
-                                        "p-3 rounded-lg text-sm border transition-all text-left",
-                                        selectedGen === genId
-                                            ? "border-amber-500/50 bg-amber-500/10 text-amber-200"
-                                            : "border-white/5 bg-white/5 text-muted-foreground hover:bg-white/10"
-                                    )}
-                                >
-                                    {genId.replace(/_/g, " ")}
-                                </button>
-                            ))}
+                            {config.unlockedGenerators.map(gen => {
+                                const isSelected = selectedGens.includes(gen.id);
+                                return (
+                                    <button
+                                        key={gen.id}
+                                        onClick={() => toggleGenerator(gen.id)}
+                                        className={cn(
+                                            "p-3 rounded-lg text-sm border transition-all text-left flex items-center justify-between",
+                                            isSelected
+                                                ? "border-amber-500/50 bg-amber-500/10 text-amber-200"
+                                                : "border-white/5 bg-white/5 text-muted-foreground hover:bg-white/10"
+                                        )}
+                                    >
+                                        <span>{gen.id.replace(/_/g, " ")}</span>
+                                        {isSelected && <Check className="h-4 w-4 text-amber-400" />}
+                                    </button>
+                                );
+                            })}
                         </div>
                     </div>
 
@@ -198,12 +215,13 @@ export function PracticeLobby({ config, isLinearComplete, onStartLinear, onStart
                         size="lg"
                         className="w-full"
                         onClick={() => onStartCustom({
-                            generatorId: selectedGen,
+                            generatorIds: selectedGens,
                             mode: customMode,
                             value: customMode === "TIME" ? timeLimit : 3
                         })}
+                        disabled={selectedGens.length === 0}
                     >
-                        Enter Gym <Play className="ml-2 h-4 w-4" />
+                        Enter Gym ({selectedGens.length} selected) <Play className="ml-2 h-4 w-4" />
                     </PremiumButton>
 
                 </GlassCard>

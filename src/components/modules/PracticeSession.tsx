@@ -110,7 +110,7 @@ export function PracticeSession({ dayId, onComplete, onLinearComplete }: Practic
             await logAttempt({
                 course_id: 'speed-maths',
                 day_id: dayId,
-                task_id: activeTaskConfig ? activeTaskConfig.id : customSettings?.generatorId, // Add task_id
+                task_id: activeTaskConfig ? activeTaskConfig.id : customSettings?.generatorIds.join(','), // Add task_id
                 score: stats.score,
                 total_questions: stats.total,
                 accuracy: stats.accuracy,
@@ -160,7 +160,8 @@ export function PracticeSession({ dayId, onComplete, onLinearComplete }: Practic
 
             {view === "RUNNING" && (
                 <PracticeRunner
-                    generator={getGenerator(activeTaskConfig ? activeTaskConfig.generatorId : customSettings!.generatorId)}
+                    generatorIds={activeTaskConfig ? [activeTaskConfig.generatorId] : customSettings!.generatorIds}
+                    generatorConfig={activeTaskConfig?.generatorConfig}
                     config={activeTaskConfig}
                     customSettings={customSettings}
                     onComplete={handleSessionComplete}

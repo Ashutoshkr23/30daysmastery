@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, JSXElementConstructor, Key, ReactElement, ReactNode, ReactPortal } from "react";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { PremiumButton } from "@/components/ui/PremiumButton";
 import { cn } from "@/lib/utils";
@@ -40,17 +40,27 @@ export function StudyCardDeck({ content, onComplete, courseId = "speed-maths", d
         items: content.rote.items.map(item => ({ q: item.front, a: item.back }))
     }] : []);
 
-    const totalCards = 1 + roteGroups.length;
+    // Normalize concepts to an array
+    const concepts = Array.isArray(content.concept) ? content.concept : [content.concept];
+
+    // Total cards = all concepts + all rote groups
+    const totalCards = concepts.length + roteGroups.length;
+
     const [currentCardIndex, setCurrentCardIndex] = useState(0);
     const [bookmarkedCards, setBookmarkedCards] = useState<Set<string>>(new Set());
     const [direction, setDirection] = useState(0); // -1 for left (next), 1 for right (prev) - Wait, Swipe Left = Next (-x)
 
-    const isConceptCard = currentCardIndex === 0;
-    const roteGroupIndex = currentCardIndex - 1;
+    // Determine current card type
+    const isConceptCard = currentCardIndex < concepts.length;
+    const currentConcept = isConceptCard ? concepts[currentCardIndex] : null;
+
+    // Rote cards start after concept cards
+    const roteGroupIndex = currentCardIndex - concepts.length;
     const currentRoteGroup = !isConceptCard ? roteGroups[roteGroupIndex] : null;
 
+    // Generate unique ID
     const currentCardId = isConceptCard
-        ? `${dayId || 'd1'}-concept`
+        ? `${dayId || 'd1'}-concept-${currentCardIndex}`
         : `${dayId || 'd1'}-rote-${roteGroupIndex}`;
 
     const progress = ((currentCardIndex + 1) / totalCards) * 100;
@@ -75,9 +85,9 @@ export function StudyCardDeck({ content, onComplete, courseId = "speed-maths", d
         let frontContent = "";
         let backContent = "";
 
-        if (isConceptCard) {
-            frontContent = content.concept.title;
-            backContent = content.concept.description;
+        if (currentConcept) {
+            frontContent = currentConcept.title;
+            backContent = currentConcept.description;
         } else if (currentRoteGroup) {
             frontContent = currentRoteGroup.title;
             backContent = currentRoteGroup.items.map(i => `${i.q} = ${i.a}`).join('\n');
@@ -218,7 +228,7 @@ export function StudyCardDeck({ content, onComplete, courseId = "speed-maths", d
                             </div>
 
                             {/* TYPE 1: CONCEPT CARD */}
-                            {isConceptCard && (
+                            {currentConcept && (
                                 <div className="space-y-6 md:space-y-8 h-full flex flex-col">
                                     <div className="flex items-center gap-3 border-b border-indigo-500/20 pb-4">
                                         <div className="p-2 bg-indigo-500/10 rounded-lg border border-indigo-500/20">
@@ -228,7 +238,7 @@ export function StudyCardDeck({ content, onComplete, courseId = "speed-maths", d
                                             <h2 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-indigo-300 to-indigo-100 bg-clip-text text-transparent">
                                                 Mental Hack
                                             </h2>
-                                            <p className="text-xs md:text-sm text-indigo-300/60 font-medium">Concept Mastery</p>
+                                            <p className="text-xs md:text-sm text-indigo-300/60 font-medium">{currentConcept.title}</p>
                                         </div>
                                     </div>
 
@@ -238,30 +248,29 @@ export function StudyCardDeck({ content, onComplete, courseId = "speed-maths", d
                                             Let's try standard touch-action CSS first. 
                                         */}
                                         <div>
-                                            <h3 className="text-lg md:text-xl font-bold mb-4 text-foreground/90">{content.concept.title}</h3>
                                             <div className="prose prose-invert max-w-none text-muted-foreground leading-relaxed text-base md:text-lg">
-                                                {content.concept.description.split('\n').map((line, i) => (
+                                                {currentConcept.description.split('\n').map((line: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined, i: Key | null | undefined) => (
                                                     <p key={i} className="mb-2">{line}</p>
                                                 ))}
                                             </div>
                                         </div>
 
-                                        {content.concept.example && (
+                                        {currentConcept.example && (
                                             <div className="bg-black/40 rounded-xl p-4 md:p-6 border border-white/5 backdrop-blur-md shadow-inner">
                                                 <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-4 md:mb-6">Live Example</h4>
                                                 <div className="flex flex-col items-center justify-center py-4 space-y-6">
                                                     <div className="flex flex-wrap justify-center items-center gap-4 md:gap-8 text-3xl md:text-4xl font-mono">
-                                                        <div className="text-white font-bold">{content.concept.example.problem}</div>
+                                                        <div className="text-white font-bold">{currentConcept.example.problem}</div>
                                                         <ArrowRight className="h-6 w-6 md:h-8 md:w-8 text-muted-foreground/50" />
                                                         <div className="text-green-400 font-bold drop-shadow-[0_0_15px_rgba(74,222,128,0.3)]">
-                                                            {content.concept.example.solution}
+                                                            {currentConcept.example.solution}
                                                         </div>
                                                     </div>
 
-                                                    {content.concept.example.steps && (
+                                                    {currentConcept.example.steps && (
                                                         <div className="w-full bg-white/5 rounded-lg p-4 border border-white/5">
                                                             <p className="text-xs md:text-sm text-indigo-200/80 font-mono whitespace-pre-wrap">
-                                                                {content.concept.example.steps}
+                                                                {currentConcept.example.steps}
                                                             </p>
                                                         </div>
                                                     )}

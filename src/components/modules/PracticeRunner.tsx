@@ -4,11 +4,12 @@ import { useEffect, useState, useRef, useCallback } from "react";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { cn } from "@/lib/utils";
 import { Heart, Timer, Zap, XCircle } from "lucide-react";
-import { Question, QuestionGenerator, TaskConfig } from "@/lib/generators";
+import { Question, getGenerator, TaskConfig } from "@/lib/generators";
 import { CustomSettings } from "./PracticeLobby";
 
 interface PracticeRunnerProps {
-    generator: QuestionGenerator;
+    generatorIds: string[]; // Array of generator IDs to randomly pick from
+    generatorConfig?: any; // Config for generators that need it
     config?: TaskConfig; // Only present in Linear Mode
     customSettings?: CustomSettings; // Only present in Custom Mode
     onComplete: (stats: SessionStats) => void;
@@ -23,7 +24,7 @@ export interface SessionStats {
     speed: number; // Seconds per question
 }
 
-export function PracticeRunner({ generator, config, customSettings, onComplete, onExit }: PracticeRunnerProps) {
+export function PracticeRunner({ generatorIds, generatorConfig, config, customSettings, onComplete, onExit }: PracticeRunnerProps) {
     // Game State
     const [question, setQuestion] = useState<Question | null>(null);
     const [input, setInput] = useState("");
@@ -39,13 +40,16 @@ export function PracticeRunner({ generator, config, customSettings, onComplete, 
 
     // --- Core Logic ---
     const generateNext = useCallback(() => {
-        const q = generator(config?.generatorConfig);
+        // Randomly pick a generator from the list
+        const randomId = generatorIds[Math.floor(Math.random() * generatorIds.length)];
+        const generator = getGenerator(randomId);
+        const q = generator(generatorConfig);
         setQuestion(q);
         setInput("");
         setIsWrong(false);
         // Auto-focus logic
         setTimeout(() => inputRef.current?.focus(), 50);
-    }, [generator, config]);
+    }, [generatorIds, generatorConfig]);
 
     // Initial Start
     useEffect(() => {

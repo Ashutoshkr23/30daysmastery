@@ -24,13 +24,22 @@ interface DayData {
                 solution: string;
                 steps: string;
             };
-        };
+        } | {
+            title: string;
+            description: string;
+            example?: {
+                problem: string;
+                solution: string;
+                steps: string;
+            };
+        }[];
         rote: {
             title: string;
-            groups: Array<{
+            groups?: Array<{
                 title: string;
                 items: Array<{ q: string; a: string }>;
             }>;
+            items?: Array<{ front: string; back: string }>;
         };
     };
     practice: { questions: any[] };

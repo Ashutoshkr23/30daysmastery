@@ -48,10 +48,10 @@ export function CompetitionArena({ dayId, onComplete }: CompetitionArenaProps) {
     const getNextQuestion = () => {
         if (!dayConfig) return null;
         // Randomly pick one of the available types for this day
-        const genIds = dayConfig.unlockedGenerators;
-        const randomId = genIds[Math.floor(Math.random() * genIds.length)];
-        const generator = getGenerator(randomId);
-        return generator();
+        const generators = dayConfig.unlockedGenerators;
+        const selected = generators[Math.floor(Math.random() * generators.length)];
+        const generator = getGenerator(selected.id);
+        return generator(selected.config);
     };
 
     // Start

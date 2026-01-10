@@ -23,14 +23,13 @@ export default function AdminDashboard() {
     const [loading, setLoading] = useState(true);
     const [actionLoading, setActionLoading] = useState<string | null>(null);
 
-    const supabase = createClient();
-
     useEffect(() => {
         fetchRequests();
     }, []);
 
     const fetchRequests = async () => {
         setLoading(true);
+        const supabase = createClient();
         const { data, error } = await supabase
             .from('payment_requests')
             .select('*')
@@ -48,6 +47,8 @@ export default function AdminDashboard() {
         setActionLoading(requestId);
         try {
             console.log('Starting action:', { requestId, userId, action });
+            const supabase = createClient();
+
             // 1. Update Request Status
             const { error: reqError } = await supabase
                 .from('payment_requests')

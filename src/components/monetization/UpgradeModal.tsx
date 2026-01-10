@@ -39,8 +39,8 @@ export function UpgradeModal({ open, onOpenChange }: UpgradeModalProps) {
         }
     }, [open, userId]);
 
-    // Placeholder Data
-    const UPI_ID = "ashutosh@upi";
+    // Payment Data
+    const UPI_ID = "8209127958@ybl";
     const AMOUNT = 99;
 
     const showToast = (title: string, type: 'success' | 'error' = 'success') => {
@@ -155,7 +155,11 @@ export function UpgradeModal({ open, onOpenChange }: UpgradeModalProps) {
 
                             <div className="flex justify-center">
                                 <div className="bg-white p-3 rounded-xl flex items-center justify-center shadow-lg">
-                                    <QrCode className="h-32 w-32 text-black" />
+                                    <img
+                                        src="/payment.jpeg"
+                                        alt="Payment QR Code"
+                                        className="h-32 w-32 object-contain"
+                                    />
                                 </div>
                             </div>
 

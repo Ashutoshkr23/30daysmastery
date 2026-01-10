@@ -116,32 +116,38 @@ export async function trackUpgradeModalView(userId?: string): Promise<void> {
 /**
  * Track payment initiation (user starts entering UTR)
  */
-export async function trackPaymentInitiated(): Promise<void> {
+export async function trackPaymentInitiated(userId?: string): Promise<void> {
     await trackEvent({
         event_type: 'payment_initiated',
         event_category: 'monetization'
-    });
+    }, userId);
 
-    await updateConversionFunnel('initiated_payment_at');
+    await updateConversionFunnel('initiated_payment_at', userId);
 }
 
 /**
  * Track UTR submission
  */
-export async function trackUTRSubmitted(utr: string, amount: number): Promise<void> {
+export async function trackUTRSubmitted(utr: string, amount: number, userId?: string): Promise<void> {
     await trackEvent({
         event_type: 'utr_submitted',
         event_category: 'monetization',
         metadata: { utr, amount }
-    });
+    }, userId);
 
     const supabase = createClient();
-    const { data: { user } } = await supabase.auth.getUser();
 
-    if (user) {
+    // Use provided userId or get from session
+    let finalUserId = userId;
+    if (!finalUserId) {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user) finalUserId = user.id;
+    }
+
+    if (finalUserId) {
         await supabase.from('conversion_funnel')
             .upsert({
-                user_id: user.id,
+                user_id: finalUserId,
                 submitted_utr_at: new Date().toISOString(),
                 utr_code: utr,
                 amount
@@ -199,16 +205,22 @@ export async function trackPaymentRejected(userId: string, reason?: string): Pro
 /**
  * Update conversion funnel stage
  */
-async function updateConversionFunnel(stage: string): Promise<void> {
+async function updateConversionFunnel(stage: string, userId?: string): Promise<void> {
     try {
         const supabase = createClient();
-        const { data: { user } } = await supabase.auth.getUser();
 
-        if (!user) return;
+        // Use provided userId or get from session
+        let finalUserId = userId;
+        if (!finalUserId) {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (user) finalUserId = user.id;
+        }
+
+        if (!finalUserId) return;
 
         await supabase.from('conversion_funnel')
             .upsert({
-                user_id: user.id,
+                user_id: finalUserId,
                 [stage]: new Date().toISOString()
             }, { onConflict: 'user_id' });
 

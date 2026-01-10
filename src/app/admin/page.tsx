@@ -6,6 +6,7 @@ import { PremiumButton } from "@/components/ui/PremiumButton";
 import { Check, X, Loader2 } from "lucide-react";
 import { GlassCard } from "@/components/ui/GlassCard";
 import Link from "next/link";
+import { trackPaymentApproved, trackPaymentRejected } from "@/lib/analytics";
 
 interface PaymentRequest {
     id: string;
@@ -64,6 +65,12 @@ export default function AdminDashboard() {
 
                 // If profile doesn't exist, try creating it? Or handle error.
                 if (profileError) console.error("Profile update error:", profileError);
+
+                // Track approval in analytics
+                await trackPaymentApproved(userId);
+            } else {
+                // Track rejection in analytics
+                await trackPaymentRejected(userId, 'Admin rejected');
             }
 
             // Refresh
@@ -130,8 +137,8 @@ export default function AdminDashboard() {
                                             </td>
                                             <td className="p-3">
                                                 <span className={`px-2 py-1 rounded-full text-xs font-bold ${req.status === 'pending' ? 'bg-yellow-500/20 text-yellow-500' :
-                                                        req.status === 'approved' ? 'bg-green-500/20 text-green-500' :
-                                                            'bg-red-500/20 text-red-500'
+                                                    req.status === 'approved' ? 'bg-green-500/20 text-green-500' :
+                                                        'bg-red-500/20 text-red-500'
                                                     }`}>
                                                     {req.status.toUpperCase()}
                                                 </span>

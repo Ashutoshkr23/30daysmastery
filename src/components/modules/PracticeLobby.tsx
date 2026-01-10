@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { PremiumButton } from "@/components/ui/PremiumButton";
+import { trackEvent, trackPremiumGateEncounter, trackPracticeSession } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 import { Play, Lock, Settings2, Clock, Zap, Heart, Check } from "lucide-react";
 import { DayConfig, TaskConfig } from "@/lib/generators";

@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { PremiumButton } from "@/components/ui/PremiumButton";
 import { Copy, Check, QrCode, Loader2, X } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { trackUpgradeModalView, trackPaymentInitiated, trackUTRSubmitted } from "@/lib/analytics";
 
 interface UpgradeModalProps {
     open: boolean;
@@ -14,9 +15,18 @@ export function UpgradeModal({ open, onOpenChange }: UpgradeModalProps) {
     const [utr, setUtr] = useState("");
     const [submitting, setSubmitting] = useState(false);
     const [submitted, setSubmitted] = useState(false);
+    const [hasTrackedPaymentInit, setHasTrackedPaymentInit] = useState(false);
 
     // Simple toast state since we don't have the hook
     const [toastMessage, setToastMessage] = useState<{ title: string, type: 'success' | 'error' } | null>(null);
+
+    // Track modal view when opened
+    useEffect(() => {
+        if (open) {
+            trackUpgradeModalView();
+            setHasTrackedPaymentInit(false); // Reset for new session
+        }
+    }, [open]);
 
     // Placeholder Data
     const UPI_ID = "ashutosh@upi";
@@ -59,6 +69,9 @@ export function UpgradeModal({ open, onOpenChange }: UpgradeModalProps) {
                 });
 
             if (error) throw error;
+
+            // Track UTR submission
+            await trackUTRSubmitted(utr, AMOUNT);
 
             setSubmitted(true);
             showToast("Request Submitted!");
@@ -154,7 +167,14 @@ export function UpgradeModal({ open, onOpenChange }: UpgradeModalProps) {
                                     type="text"
                                     placeholder="Enter 12-digit UTR Code"
                                     value={utr}
-                                    onChange={(e) => setUtr(e.target.value)}
+                                    onChange={(e) => {
+                                        setUtr(e.target.value);
+                                        // Track payment initiation on first character
+                                        if (!hasTrackedPaymentInit && e.target.value.length === 1) {
+                                            trackPaymentInitiated();
+                                            setHasTrackedPaymentInit(true);
+                                        }
+                                    }}
                                     className="w-full bg-white/5 border border-white/10 text-white font-mono tracking-widest text-center p-3 rounded-lg focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-all placeholder:text-zinc-700"
                                 />
                                 <p className="text-[10px] text-zinc-500 text-center">

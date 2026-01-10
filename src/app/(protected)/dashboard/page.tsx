@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { PremiumButton } from "@/components/ui/PremiumButton";
 import { createClient } from "@/lib/supabase/client";
+import { initializeUserMetrics, trackPageView } from "@/lib/analytics";
 
 import { BadgesView } from "@/components/modules/BadgesView";
 
@@ -67,6 +68,10 @@ export default function Dashboard() {
             setUser(user);
 
             if (user) {
+                // Initialize analytics
+                await initializeUserMetrics();
+                await trackPageView('/dashboard');
+
                 // Fetch actual progress from server actions
                 try {
                     const progressActions = await import("@/lib/actions/progress");

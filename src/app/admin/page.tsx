@@ -47,38 +47,58 @@ export default function AdminDashboard() {
     const handleAction = async (requestId: string, userId: string, action: 'approved' | 'rejected') => {
         setActionLoading(requestId);
         try {
+            console.log('Starting action:', { requestId, userId, action });
             // 1. Update Request Status
             const { error: reqError } = await supabase
                 .from('payment_requests')
                 .update({ status: action })
                 .eq('id', requestId);
 
-            if (reqError) throw reqError;
+            if (reqError) {
+                console.error('Payment request update error:', reqError);
+                throw reqError;
+            }
+            console.log('✅ Payment request status updated to:', action);
 
             // 2. If Approved, Upgrade User
             if (action === 'approved') {
+                console.log('Attempting to update profile for user:', userId);
+
                 // Update Profile 'is_premium'
-                const { error: profileError } = await supabase
+                const { data: updateData, error: profileError } = await supabase
                     .from('profiles')
                     .update({ is_premium: true })
-                    .eq('id', userId);
+                    .eq('id', userId)
+                    .select();
 
-                // If profile doesn't exist, try creating it? Or handle error.
-                if (profileError) console.error("Profile update error:", profileError);
+                if (profileError) {
+                    console.error('❌ Profile update error:', profileError);
+                    alert(`Profile update failed: ${profileError.message}`);
+                    throw profileError;
+                }
+
+                console.log('✅ Profile updated:', updateData);
+
+                if (!updateData || updateData.length === 0) {
+                    console.warn('⚠️ No profile found for user:', userId);
+                    alert(`Warning: No profile found for user ${userId}`);
+                }
 
                 // Track approval in analytics
                 await trackPaymentApproved(userId);
+                alert('✅ Payment approved! User upgraded to premium.');
             } else {
                 // Track rejection in analytics
                 await trackPaymentRejected(userId, 'Admin rejected');
+                alert('Payment rejected.');
             }
 
             // Refresh
             await fetchRequests();
 
-        } catch (error) {
+        } catch (error: any) {
             console.error("Action failed:", error);
-            alert("Action failed");
+            alert(`Action failed: ${error.message || 'Unknown error'}`);
         } finally {
             setActionLoading(null);
         }

@@ -17,9 +17,22 @@ export function UpgradeModal({ open, onOpenChange }: UpgradeModalProps) {
     const [submitted, setSubmitted] = useState(false);
     const [hasTrackedPaymentInit, setHasTrackedPaymentInit] = useState(false);
     const [userId, setUserId] = useState<string | null>(null);
+    const [premiumUserCount, setPremiumUserCount] = useState<number>(0);
+    const [loadingCount, setLoadingCount] = useState(true);
 
     // Simple toast state since we don't have the hook
     const [toastMessage, setToastMessage] = useState<{ title: string, type: 'success' | 'error' } | null>(null);
+
+    // Pricing configuration
+    const EARLY_BIRD_LIMIT = 100;
+    const EARLY_BIRD_PRICE = 49;
+    const REGULAR_PRICE = 99;
+    const UPI_ID = "8209127958@ybl";
+
+    // Calculate current price based on premium user count
+    const currentPrice = premiumUserCount < EARLY_BIRD_LIMIT ? EARLY_BIRD_PRICE : REGULAR_PRICE;
+    const spotsRemaining = Math.max(0, EARLY_BIRD_LIMIT - premiumUserCount);
+    const progressPercentage = Math.min(100, (premiumUserCount / EARLY_BIRD_LIMIT) * 100);
 
     // Get userId once when component mounts
     useEffect(() => {
@@ -31,6 +44,30 @@ export function UpgradeModal({ open, onOpenChange }: UpgradeModalProps) {
         getUserId();
     }, []);
 
+    // Fetch premium user count when modal opens
+    useEffect(() => {
+        if (open) {
+            const fetchPremiumCount = async () => {
+                try {
+                    const supabase = createClient();
+                    const { count, error } = await supabase
+                        .from('user_metrics')
+                        .select('*', { count: 'exact', head: true })
+                        .eq('is_premium', true);
+
+                    if (!error && count !== null) {
+                        setPremiumUserCount(count);
+                    }
+                } catch (error) {
+                    console.error('Error fetching premium count:', error);
+                } finally {
+                    setLoadingCount(false);
+                }
+            };
+            fetchPremiumCount();
+        }
+    }, [open]);
+
     // Track modal view when opened
     useEffect(() => {
         if (open && userId) {
@@ -38,10 +75,6 @@ export function UpgradeModal({ open, onOpenChange }: UpgradeModalProps) {
             setHasTrackedPaymentInit(false); // Reset for new session
         }
     }, [open, userId]);
-
-    // Payment Data
-    const UPI_ID = "8209127958@ybl";
-    const AMOUNT = 99;
 
     const showToast = (title: string, type: 'success' | 'error' = 'success') => {
         setToastMessage({ title, type });
@@ -75,7 +108,7 @@ export function UpgradeModal({ open, onOpenChange }: UpgradeModalProps) {
                 .insert({
                     user_id: user.id,
                     transaction_id: utr,
-                    amount: AMOUNT,
+                    amount: currentPrice,
                     status: 'pending'
                 });
 
@@ -83,7 +116,7 @@ export function UpgradeModal({ open, onOpenChange }: UpgradeModalProps) {
 
             // Track UTR submission
             if (userId) {
-                await trackUTRSubmitted(utr, AMOUNT, userId);
+                await trackUTRSubmitted(utr, currentPrice, userId);
             }
 
             setSubmitted(true);
@@ -128,6 +161,48 @@ export function UpgradeModal({ open, onOpenChange }: UpgradeModalProps) {
                     </button>
                 </div>
 
+                {/* Pricing Banner */}
+                {!submitted && (
+                    <div className="px-6 py-4 bg-gradient-to-r from-amber-500/10 to-orange-500/10 border-b border-amber-500/20">
+                        <div className="space-y-3">
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <div className="flex items-baseline gap-2">
+                                        <span className="text-3xl font-bold text-amber-400">₹{currentPrice}</span>
+                                        {currentPrice === EARLY_BIRD_PRICE && (
+                                            <span className="text-zinc-500 line-through text-lg">₹{REGULAR_PRICE}</span>
+                                        )}
+                                    </div>
+                                    {currentPrice === EARLY_BIRD_PRICE ? (
+                                        <p className="text-xs text-amber-400/80 mt-1 font-semibold">
+                                            🎉 Early Bird Special - {spotsRemaining} spots left!
+                                        </p>
+                                    ) : (
+                                        <p className="text-xs text-zinc-400 mt-1">
+                                            Regular Price
+                                        </p>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Progress Bar */}
+                            {currentPrice === EARLY_BIRD_PRICE && (
+                                <div className="space-y-1">
+                                    <div className="w-full bg-zinc-800 rounded-full h-2 overflow-hidden">
+                                        <div
+                                            className="h-full bg-gradient-to-r from-amber-500 to-orange-500 transition-all duration-500 ease-out"
+                                            style={{ width: `${progressPercentage}%` }}
+                                        />
+                                    </div>
+                                    <p className="text-[10px] text-zinc-500 text-right">
+                                        {premiumUserCount} / {EARLY_BIRD_LIMIT} claimed
+                                    </p>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                )}
+
                 {submitted ? (
                     <div className="flex flex-col items-center justify-center p-8 text-center space-y-6">
                         <div className="bg-green-500/20 p-4 rounded-full ring-4 ring-green-500/10">
@@ -150,7 +225,7 @@ export function UpgradeModal({ open, onOpenChange }: UpgradeModalProps) {
                         <div className="space-y-4">
                             <div className="flex items-center gap-2 text-sm font-bold text-white uppercase tracking-wider">
                                 <span className="bg-amber-500 text-black w-6 h-6 rounded-full flex items-center justify-center font-mono">1</span>
-                                Scan & Pay ₹{AMOUNT}
+                                Scan & Pay ₹{currentPrice}
                             </div>
 
                             <div className="flex justify-center">

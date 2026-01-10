@@ -1,63 +1,28 @@
 "use client";
 
-import { useState } from "react";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { PremiumButton } from "@/components/ui/PremiumButton";
 import { cn } from "@/lib/utils";
-import { trackPracticeSession } from "@/lib/analytics";
-import { Trophy, Target, Zap, TrendingUp, X } from "lucide-react";
-
+import { Trophy, RefreshCcw, ArrowRight, Zap, Target } from "lucide-react";
+import { SessionStats } from "./PracticeRunner";
 
 interface PracticeResultProps {
-    score: number;
-    totalQuestions: number;
-    correctAnswers: number;
-    passed: boolean;
+    stats: SessionStats;
+    isPass: boolean; // For linear mode
+    config?: { title: string; targetCount: number };
     onRetry: () => void;
+    onNext?: () => void; // Only if passed linear
     onExit: () => void;
-    onNextTask?: () => void;
-    day?: number;
-    mode?: 'speed_drill' | 'arena' | 'custom_gym';
-    durationSeconds?: number;
-    accuracy: number;
-    speed: number;
 }
 
-export function PracticeResult({
-    score,
-    totalQuestions,
-    correctAnswers,
-    passed,
-    onRetry,
-    onExit,
-    onNextTask,
-    day = 1,
-    mode = 'speed_drill',
-    durationSeconds = 0,
-    accuracy,
-    speed
-}: PracticeResultProps) {
-    const [showConfetti, setShowConfetti] = useState(passed);
-
-    // Track practice session completion
-    useEffect(() => {
-        trackPracticeSession({
-            day,
-            mode,
-            questions_answered: totalQuestions,
-            correct_answers: correctAnswers,
-            duration_seconds: durationSeconds,
-            completed: true
-        });
-    }, [day, mode, totalQuestions, correctAnswers, durationSeconds]);
-
+export function PracticeResult({ stats, isPass, config, onRetry, onNext, onExit }: PracticeResultProps) {
     return (
         <div className="w-full max-w-md mx-auto space-y-6 animate-in zoom-in-95 fade-in duration-500">
 
             <div className="text-center space-y-2">
                 <div className={cn(
                     "mx-auto h-20 w-20 rounded-full flex items-center justify-center mb-4 transition-all duration-1000",
-                    passed ? "bg-emerald-500/20 text-emerald-500 shadow-[0_0_30px_rgba(16,185,129,0.4)]" : "bg-red-500/20 text-red-500"
+                    isPass ? "bg-emerald-500/20 text-emerald-500 shadow-[0_0_30px_rgba(16,185,129,0.4)]" : "bg-red-500/20 text-red-500"
                 )}>
                     {isPass ? <Trophy className="h-10 w-10" /> : <RefreshCcw className="h-10 w-10" />}
                 </div>

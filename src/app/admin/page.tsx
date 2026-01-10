@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { PremiumButton } from "@/components/ui/PremiumButton";
-import { Check, X, Loader2 } from "lucide-react";
+import { Check, X, Loader2, Copy } from "lucide-react";
 import { GlassCard } from "@/components/ui/GlassCard";
 import Link from "next/link";
 import { trackPaymentApproved, trackPaymentRejected } from "@/lib/analytics";
@@ -22,6 +22,7 @@ export default function AdminDashboard() {
     const [requests, setRequests] = useState<PaymentRequest[]>([]);
     const [loading, setLoading] = useState(true);
     const [actionLoading, setActionLoading] = useState<string | null>(null);
+    const [copiedId, setCopiedId] = useState<string | null>(null);
 
     useEffect(() => {
         fetchRequests();
@@ -105,6 +106,12 @@ export default function AdminDashboard() {
         }
     };
 
+    const handleCopyUserId = (userId: string) => {
+        navigator.clipboard.writeText(userId);
+        setCopiedId(userId);
+        setTimeout(() => setCopiedId(null), 2000);
+    };
+
     return (
         <div className="min-h-screen bg-black text-white p-8 font-sans">
             <header className="mb-8 flex justify-between items-center">
@@ -153,8 +160,23 @@ export default function AdminDashboard() {
                                                 {req.transaction_id}
                                             </td>
                                             <td className="p-3 text-green-400">₹{req.amount}</td>
-                                            <td className="p-3 font-mono text-xs text-zinc-500 truncate max-w-[100px]" title={req.user_id}>
-                                                {req.user_id}
+                                            <td className="p-3">
+                                                <div className="flex items-center gap-2">
+                                                    <span className="font-mono text-xs text-zinc-500 truncate max-w-[100px]" title={req.user_id}>
+                                                        {req.user_id.substring(0, 8)}...
+                                                    </span>
+                                                    <button
+                                                        onClick={() => handleCopyUserId(req.user_id)}
+                                                        className="p-1 hover:bg-white/10 rounded transition-colors text-zinc-400 hover:text-white"
+                                                        title="Copy User ID"
+                                                    >
+                                                        {copiedId === req.user_id ? (
+                                                            <Check className="h-3 w-3 text-green-500" />
+                                                        ) : (
+                                                            <Copy className="h-3 w-3" />
+                                                        )}
+                                                    </button>
+                                                </div>
                                             </td>
                                             <td className="p-3">
                                                 <span className={`px-2 py-1 rounded-full text-xs font-bold ${req.status === 'pending' ? 'bg-yellow-500/20 text-yellow-500' :

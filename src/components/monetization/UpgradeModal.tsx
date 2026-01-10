@@ -16,17 +16,28 @@ export function UpgradeModal({ open, onOpenChange }: UpgradeModalProps) {
     const [submitting, setSubmitting] = useState(false);
     const [submitted, setSubmitted] = useState(false);
     const [hasTrackedPaymentInit, setHasTrackedPaymentInit] = useState(false);
+    const [userId, setUserId] = useState<string | null>(null);
 
     // Simple toast state since we don't have the hook
     const [toastMessage, setToastMessage] = useState<{ title: string, type: 'success' | 'error' } | null>(null);
 
+    // Get userId once when component mounts
+    useEffect(() => {
+        const getUserId = async () => {
+            const supabase = createClient();
+            const { data: { user } } = await supabase.auth.getUser();
+            if (user) setUserId(user.id);
+        };
+        getUserId();
+    }, []);
+
     // Track modal view when opened
     useEffect(() => {
-        if (open) {
-            trackUpgradeModalView();
+        if (open && userId) {
+            trackUpgradeModalView(userId);
             setHasTrackedPaymentInit(false); // Reset for new session
         }
-    }, [open]);
+    }, [open, userId]);
 
     // Placeholder Data
     const UPI_ID = "ashutosh@upi";
@@ -71,7 +82,9 @@ export function UpgradeModal({ open, onOpenChange }: UpgradeModalProps) {
             if (error) throw error;
 
             // Track UTR submission
-            await trackUTRSubmitted(utr, AMOUNT);
+            if (userId) {
+                await trackUTRSubmitted(utr, AMOUNT, userId);
+            }
 
             setSubmitted(true);
             showToast("Request Submitted!");
@@ -170,8 +183,8 @@ export function UpgradeModal({ open, onOpenChange }: UpgradeModalProps) {
                                     onChange={(e) => {
                                         setUtr(e.target.value);
                                         // Track payment initiation on first character
-                                        if (!hasTrackedPaymentInit && e.target.value.length === 1) {
-                                            trackPaymentInitiated();
+                                        if (!hasTrackedPaymentInit && e.target.value.length === 1 && userId) {
+                                            trackPaymentInitiated(userId);
                                             setHasTrackedPaymentInit(true);
                                         }
                                     }}

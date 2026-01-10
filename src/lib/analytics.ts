@@ -45,27 +45,40 @@ function getSessionId(): string {
 
 /**
  * Track a generic analytics event
+ * @param event - The event to track
+ * @param userId - Optional user ID (recommended to pass from component to avoid session issues)
  */
-export async function trackEvent(event: AnalyticsEvent): Promise<void> {
+export async function trackEvent(event: AnalyticsEvent, userId?: string): Promise<void> {
     try {
         const supabase = createClient();
-        const { data: { user } } = await supabase.auth.getUser();
 
-        if (!user) {
-            console.warn('Analytics: No user found, skipping event tracking');
-            return;
+        // Use provided userId or try to get from session
+        let finalUserId = userId;
+
+        if (!finalUserId) {
+            const { data: { user }, error } = await supabase.auth.getUser();
+
+            if (error || !user) {
+                console.warn('Analytics: No user found, skipping event tracking. Pass userId parameter to avoid this.');
+                return;
+            }
+            finalUserId = user.id;
         }
 
-        await supabase.from('analytics_events').insert({
-            user_id: user.id,
+        const { error: insertError } = await supabase.from('analytics_events').insert({
+            user_id: finalUserId,
             session_id: getSessionId(),
             event_type: event.event_type,
             event_category: event.event_category,
             metadata: event.metadata || {}
         });
 
+        if (insertError) {
+            console.error('Analytics: Error inserting event:', insertError);
+        }
+
         // Update last_seen_at in user_metrics
-        await updateLastSeen(user.id);
+        await updateLastSeen(finalUserId);
 
     } catch (error) {
         console.error('Analytics tracking error:', error);
@@ -75,12 +88,12 @@ export async function trackEvent(event: AnalyticsEvent): Promise<void> {
 /**
  * Track page view
  */
-export async function trackPageView(page: string, metadata?: Record<string, any>): Promise<void> {
+export async function trackPageView(page: string, metadata?: Record<string, any>, userId?: string): Promise<void> {
     await trackEvent({
         event_type: 'page_view',
         event_category: 'navigation',
         metadata: { page, ...metadata }
-    });
+    }, userId);
 }
 
 // ============================================================================
@@ -90,14 +103,14 @@ export async function trackPageView(page: string, metadata?: Record<string, any>
 /**
  * Track upgrade modal view
  */
-export async function trackUpgradeModalView(): Promise<void> {
+export async function trackUpgradeModalView(userId?: string): Promise<void> {
     await trackEvent({
         event_type: 'upgrade_modal_viewed',
         event_category: 'monetization'
-    });
+    }, userId);
 
     // Update conversion funnel
-    await updateConversionFunnel('viewed_upgrade_modal_at');
+    await updateConversionFunnel('viewed_upgrade_modal_at', userId);
 }
 
 /**

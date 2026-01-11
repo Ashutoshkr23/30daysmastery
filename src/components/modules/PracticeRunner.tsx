@@ -183,8 +183,8 @@ export function PracticeRunner({ generatorIds, generatorConfig, config, customSe
                     isWrong ? "bg-red-500/20" : "bg-primary/10"
                 )} />
 
-                <GlassCard className="relative p-6 md:p-12 flex flex-col items-center gap-8 backdrop-blur-2xl">
-                    <div className="text-7xl font-black tracking-tighter flex items-center gap-4 text-foreground/90">
+                <GlassCard className="relative p-4 md:p-8 flex flex-col items-center gap-4 backdrop-blur-2xl">
+                    <div className="text-4xl md:text-5xl font-black tracking-tighter flex items-center gap-3 text-foreground/90">
                         {/* Render Question */}
                         {question.operands.length === 2 && (
                             <>
@@ -203,7 +203,7 @@ export function PracticeRunner({ generatorIds, generatorConfig, config, customSe
                         placeholder="?"
                         autoFocus
                         className={cn(
-                            "w-full bg-transparent text-center text-6xl font-bold outline-none placeholder:text-white/5 transition-colors",
+                            "w-full bg-transparent text-center text-3xl md:text-4xl font-bold outline-none placeholder:text-white/5 transition-colors",
                             isWrong ? "text-red-500 animate-shake" : "text-foreground"
                         )}
                     />

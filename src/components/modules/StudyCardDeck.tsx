@@ -174,9 +174,9 @@ export function StudyCardDeck({ content, onComplete, onStartPractice, completedT
     };
 
     return (
-        <div className="flex flex-col h-full min-h-[500px] overflow-hidden">
+        <div className="flex flex-col h-full overflow-hidden">
             {/* Progress Header */}
-            <div className="flex items-center justify-between mb-2 md:mb-6 px-2">
+            <div className="flex items-center justify-between mb-2 md:mb-4 px-2">
                 <div className="flex items-center gap-3">
                     <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
                         Card {currentCardIndex + 1}/{totalCards}
@@ -206,8 +206,8 @@ export function StudyCardDeck({ content, onComplete, onStartPractice, completedT
                 </div>
             </div>
 
-            {/* Card Content Area - Swipeable Wrapper */}
-            <div className="flex-1 relative perspective-1000 flex items-center justify-center w-full">
+            {/* Card Content Area - Mobile-First Design */}
+            <div className="flex-1 relative flex items-center justify-center w-full">
                 <AnimatePresence mode="wait">
                     <motion.div
                         key={currentCardIndex}
@@ -222,9 +222,9 @@ export function StudyCardDeck({ content, onComplete, onStartPractice, completedT
                         transition={{ type: "spring", stiffness: 350, damping: 30 }}
                         className="h-full w-full cursor-grab active:cursor-grabbing"
                     >
-                        {/* Reduced padding for mobile from p-8 to p-4 md:p-12. Now even minimal. */}
+                        {/* Mobile-optimized: wider, shorter */}
                         <GlassCard className={cn(
-                            "h-full px-2 py-4 md:p-12 relative w-full select-none transition-all duration-200",
+                            "h-full w-full px-3 py-3 md:px-8 md:py-6 relative select-none transition-all duration-200 max-h-[65vh]",
                             // Add glow effect based on x position
                             Math.abs(x.get()) > 80 && (x.get() < 0
                                 ? "ring-2 ring-primary/50 shadow-[0_0_25px_rgba(124,58,237,0.4)]"
@@ -250,23 +250,23 @@ export function StudyCardDeck({ content, onComplete, onStartPractice, completedT
 
                             {/* TYPE 1: CONCEPT CARD */}
                             {currentConcept && (
-                                <div className="space-y-6 md:space-y-8 h-full flex flex-col">
-                                    <div className="flex items-center gap-3 border-b border-indigo-500/20 pb-4">
+                                <div className="space-y-3 md:space-y-6 h-full flex flex-col overflow-y-auto">
+                                    <div className="flex items-center gap-3 border-b border-indigo-500/20 pb-3">
                                         <div className="p-2 bg-indigo-500/10 rounded-lg border border-indigo-500/20">
-                                            <Sparkles className="h-6 w-6 text-indigo-400" />
+                                            <Sparkles className="h-5 w-5 text-indigo-400" />
                                         </div>
                                         <div>
-                                            <h2 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-indigo-300 to-indigo-100 bg-clip-text text-transparent">
+                                            <h2 className="text-lg md:text-xl font-bold bg-gradient-to-r from-indigo-300 to-indigo-100 bg-clip-text text-transparent">
                                                 Mental Hack
                                             </h2>
-                                            <p className="text-xs md:text-sm text-indigo-300/60 font-medium">{currentConcept.title}</p>
+                                            <p className="text-xs text-indigo-300/60 font-medium">{currentConcept.title}</p>
                                         </div>
                                     </div>
 
-                                    <div className="flex-1 space-y-6 overflow-y-auto pr-2 md:pr-4 custom-scrollbar">
+                                    <div className="flex-1 space-y-4 overflow-y-auto pr-1 custom-scrollbar">
                                         {/* Content */}
                                         <div>
-                                            <div className="prose prose-invert max-w-none text-muted-foreground leading-relaxed text-base md:text-lg">
+                                            <div className="prose prose-invert max-w-none text-muted-foreground leading-relaxed text-sm md:text-base">
                                                 {currentConcept.description.split('\n').map((line: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined, i: Key | null | undefined) => (
                                                     <p key={i} className="mb-2">{line}</p>
                                                 ))}
@@ -274,19 +274,19 @@ export function StudyCardDeck({ content, onComplete, onStartPractice, completedT
                                         </div>
 
                                         {currentConcept.example && (
-                                            <div className="bg-black/40 rounded-xl p-3 md:p-6 border border-white/5 backdrop-blur-md shadow-inner">
-                                                <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-4 md:mb-6">Live Example</h4>
-                                                <div className="flex flex-col items-center justify-center py-4 space-y-6">
-                                                    <div className="flex flex-wrap justify-center items-center gap-4 md:gap-8 text-3xl md:text-4xl font-mono">
+                                            <div className="bg-black/40 rounded-xl p-3 md:p-4 border border-white/5 backdrop-blur-md shadow-inner">
+                                                <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-3">Live Example</h4>
+                                                <div className="flex flex-col items-center justify-center py-2 space-y-4">
+                                                    <div className="flex flex-wrap justify-center items-center gap-3 md:gap-6 text-2xl md:text-3xl font-mono">
                                                         <div className="text-white font-bold">{currentConcept.example.problem}</div>
-                                                        <ArrowRight className="h-6 w-6 md:h-8 md:w-8 text-muted-foreground/50" />
+                                                        <ArrowRight className="h-5 w-5 md:h-6 md:w-6 text-muted-foreground/50" />
                                                         <div className="text-green-400 font-bold drop-shadow-[0_0_15px_rgba(74,222,128,0.3)]">
                                                             {currentConcept.example.solution}
                                                         </div>
                                                     </div>
 
                                                     {currentConcept.example.steps && (
-                                                        <div className="w-full bg-white/5 rounded-lg p-4 border border-white/5">
+                                                        <div className="w-full bg-white/5 rounded-lg p-3 border border-white/5">
                                                             <p className="text-xs md:text-sm text-indigo-200/80 font-mono whitespace-pre-wrap">
                                                                 {currentConcept.example.steps}
                                                             </p>
@@ -329,28 +329,28 @@ export function StudyCardDeck({ content, onComplete, onStartPractice, completedT
 
                             {/* TYPE 2: ROTE GROUP CARD */}
                             {currentRoteGroup && (
-                                <div className="space-y-6 md:space-y-8 h-full flex flex-col">
-                                    <div className="flex items-center gap-3 border-b border-amber-500/20 pb-4">
+                                <div className="space-y-3 md:space-y-6 h-full flex flex-col overflow-y-auto">
+                                    <div className="flex items-center gap-3 border-b border-amber-500/20 pb-3">
                                         <div className="p-2 bg-amber-500/10 rounded-lg border border-amber-500/20">
-                                            <BrainCircuit className="h-6 w-6 text-amber-500" />
+                                            <BrainCircuit className="h-5 w-5 text-amber-500" />
                                         </div>
                                         <div>
-                                            <h2 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-amber-200 to-yellow-100 bg-clip-text text-transparent">
+                                            <h2 className="text-lg md:text-xl font-bold bg-gradient-to-r from-amber-200 to-yellow-100 bg-clip-text text-transparent">
                                                 Memory Bank
                                             </h2>
-                                            <p className="text-xs md:text-sm text-amber-300/60 font-medium">{currentRoteGroup.title}</p>
+                                            <p className="text-xs text-amber-300/60 font-medium">{currentRoteGroup.title}</p>
                                         </div>
                                     </div>
 
-                                    <div className="flex-1 overflow-y-auto custom-scrollbar">
+                                    <div className="flex-1 overflow-y-auto pr-1 custom-scrollbar">
                                         <div className={cn(
-                                            "grid gap-3 md:gap-4",
+                                            "grid gap-2 md:gap-3",
                                             currentRoteGroup.items.length === 1 ? "grid-cols-1" : "grid-cols-1 md:grid-cols-2"
                                         )}>
                                             {currentRoteGroup.items.map((item, idx) => (
                                                 <div
                                                     key={idx}
-                                                    className="group flex flex-col md:flex-row items-start md:items-center justify-between p-3 md:p-4 rounded-xl border border-white/5 bg-white/5 hover:bg-white/10 hover:border-white/10 transition-all duration-300"
+                                                    className="group flex flex-col md:flex-row items-start md:items-center justify-between p-2 md:p-3 rounded-xl border border-white/5 bg-white/5 hover:bg-white/10 hover:border-white/10 transition-all duration-300"
                                                 >
                                                     <span className="text-sm md:text-base font-mono text-muted-foreground group-hover:text-foreground transition-colors mb-2 md:mb-0">
                                                         {item.q}

@@ -133,26 +133,19 @@ export default function Dashboard() {
     return (
         <div className="min-h-screen bg-background pb-24 p-4 space-y-8 animate-in fade-in-50 duration-500">
             {/* Header */}
-            <header className="flex items-center justify-between pt-4">
+            <header className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pt-4">
                 <div className="space-y-1">
-                    <h1 className="text-3xl font-bold bg-gradient-to-r from-cyan-500 to-cyan-300 bg-clip-text text-transparent">
+                    <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-cyan-500 to-cyan-300 bg-clip-text text-transparent">
                         Hello, {user?.user_metadata?.full_name?.split(' ')[0] || "Aspirant"}! 👋
                     </h1>
                     <p className="text-muted-foreground font-medium">Ready to conquer your goals?</p>
                 </div>
-                <div className="flex items-center gap-2 rounded-full bg-orange-500/10 px-4 py-1.5 text-orange-600 dark:text-orange-400 border border-orange-500/20 shadow-sm backdrop-blur-sm">
+                <div className="flex items-center gap-2 rounded-full bg-orange-500/10 px-4 py-2 text-orange-600 dark:text-orange-400 border border-orange-500/20 shadow-sm backdrop-blur-sm w-fit">
                     <Flame className="h-5 w-5 fill-current animate-pulse" />
-                    <span className="font-bold">{streak} Day Streak</span>
+                    <span className="font-bold text-sm sm:text-base whitespace-nowrap">{streak} Day Streak</span>
                 </div>
             </header>
 
-            {/* Achievements Section */}
-            <section>
-                <div className="flex items-center gap-2 mb-5">
-                    <h2 className="text-xl font-bold">Hall of Fame</h2>
-                </div>
-                <BadgesView />
-            </section>
 
             {/* Continue Learning Hero Card */}
             {resumeInfo && (

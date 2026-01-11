@@ -152,7 +152,7 @@ export function StudyCardDeck({ content, onComplete, onStartPractice, completedT
     const handleDragEnd = async (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
         const offset = info.offset.x;
         const velocity = info.velocity.x;
-        const swipeThreshold = 50; // reduced from 100 for better sensitivity
+        const swipeThreshold = 100; // Optimized for mobile - intentional swipes
 
         // Swipe Left (<-) : Next
         if (offset < -swipeThreshold || velocity < -500) {
@@ -212,17 +212,24 @@ export function StudyCardDeck({ content, onComplete, onStartPractice, completedT
                     <motion.div
                         key={currentCardIndex}
                         drag="x"
-                        // Removed constraints to allow free movement (snap-back handled by onDragEnd)
+                        dragConstraints={{ left: -300, right: 300 }}
+                        dragElastic={0.2}
                         onDragEnd={handleDragEnd}
-                        style={{ x, rotate, opacity, touchAction: "pan-y" }} // Explicit touch-action
+                        style={{ x, rotate, opacity, touchAction: "pan-y" }}
                         initial={{ opacity: 0, scale: 0.9, x: direction === 1 ? 100 : -100 }}
                         animate={{ opacity: 1, scale: 1, x: 0 }}
                         exit={{ opacity: 0, scale: 0.9 }}
-                        transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                        transition={{ type: "spring", stiffness: 350, damping: 30 }}
                         className="h-full w-full cursor-grab active:cursor-grabbing"
                     >
                         {/* Reduced padding for mobile from p-8 to p-4 md:p-12. Now even minimal. */}
-                        <GlassCard className="h-full px-2 py-4 md:p-12 relative w-full select-none">
+                        <GlassCard className={cn(
+                            "h-full px-2 py-4 md:p-12 relative w-full select-none transition-all duration-200",
+                            // Add glow effect based on x position
+                            Math.abs(x.get()) > 80 && (x.get() < 0
+                                ? "ring-2 ring-primary/50 shadow-[0_0_25px_rgba(124,58,237,0.4)]"
+                                : "ring-2 ring-violet-500/50 shadow-[0_0_25px_rgba(139,92,246,0.4)]")
+                        )}>
 
                             {/* Bookmark Button */}
                             <div className="absolute top-4 right-4 z-10">

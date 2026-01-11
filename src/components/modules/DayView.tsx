@@ -116,7 +116,7 @@ export function DayView({ day, initialProgress, completedTasks = [] }: DayViewPr
     const isLockedDay = day.day > 3 && !isPremium;
 
     return (
-        <div className="space-y-6">
+        <div>
             <UpgradeModal open={showUpgradeModal} onOpenChange={setShowUpgradeModal} />
 
             {/* Concept Practice Modal */}
@@ -148,48 +148,10 @@ export function DayView({ day, initialProgress, completedTasks = [] }: DayViewPr
                 />
             )}
 
-            {/* 1. Progress / Tab Navigation */}
-            <div className="grid grid-cols-3 gap-2 md:gap-4">
-                {TABS.map((tab) => {
-                    const isActive = activeTab === tab.id;
-                    const Icon = tab.icon;
-                    return (
-                        <button
-                            key={tab.id}
-                            onClick={() => setActiveTab(tab.id)}
-                            className={cn(
-                                "flex flex-col items-center justify-center p-3 md:p-4 rounded-xl border transition-all duration-300 relative overflow-hidden group",
-                                isActive
-                                    ? "bg-primary/20 border-primary/50 shadow-[0_0_20px_rgba(124,58,237,0.2)]"
-                                    : "bg-secondary/20 border-border/50 hover:bg-secondary/40"
-                            )}
-                        >
-                            <Icon
-                                className={cn(
-                                    "h-6 w-6 mb-2 transition-transform duration-300",
-                                    isActive ? "text-primary scale-110" : "text-muted-foreground group-hover:text-foreground"
-                                )}
-                            />
-                            <span
-                                className={cn(
-                                    "text-xs font-bold uppercase tracking-wider",
-                                    isActive ? "text-primary" : "text-muted-foreground"
-                                )}
-                            >
-                                {tab.label}
-                            </span>
-                            {isActive && (
-                                <div className="absolute bottom-0 left-0 right-0 h-1 bg-primary shadow-[0_0_10px_currentColor] animate-in fade-in slide-in-from-bottom-2" />
-                            )}
-                        </button>
-                    );
-                })}
-            </div>
-
-            {/* 2. Content Area */}
+            {/* Content Area */}
             <GlassCard
                 className={cn(
-                    "min-h-[600px] relative overflow-hidden transition-all duration-300",
+                    "relative overflow-hidden transition-all duration-300",
                     activeTab === "study" && !isLockedDay
                         ? "-mx-4 w-[calc(100%+2rem)] rounded-none p-0 bg-transparent border-0 shadow-none md:mx-0 md:w-full md:rounded-3xl md:p-8 md:bg-white/5 md:border-white/10 md:shadow-lg md:backdrop-blur-md"
                         : "p-6 md:p-8"

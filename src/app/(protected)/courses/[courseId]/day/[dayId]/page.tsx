@@ -87,15 +87,12 @@ export default async function DayPage({ params }: PageProps) {
     // 6. Render View
     return (
         <>
-            <div className="container max-w-5xl mx-auto py-8 px-4 pb-24">
-                <div className="mb-8">
-                    <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-violet-400 bg-clip-text text-transparent mb-2">
-                        Day {dayData.day}: {dayData.title}
-                    </h1>
-                    <p className="text-muted-foreground">step-by-step mastery protocol</p>
+            <div className="flex flex-col min-h-screen">
+                <div className="flex-1 overflow-y-auto px-4 pt-4 pb-4">
+                    <div className="max-w-5xl mx-auto">
+                        <DayView day={dayData} initialProgress={progress} completedTasks={completedTasks} />
+                    </div>
                 </div>
-
-                <DayView day={dayData} initialProgress={progress} completedTasks={completedTasks} />
             </div>
 
             <DayBottomNav />

@@ -212,9 +212,8 @@ export function StudyCardDeck({ content, onComplete, onStartPractice, completedT
                     <motion.div
                         key={currentCardIndex}
                         drag="x"
-                        dragConstraints={{ left: 0, right: 0 }}
-                        dragElastic={0.9}
-                        dragDirectionLock={true}
+                        dragConstraints={{ left: -1000, right: 1000 }} // Loose constraints for 1:1 feel
+                        dragElastic={1}
                         onDragEnd={handleDragEnd}
                         style={{ x, rotate, opacity }}
                         animate={controls}

@@ -212,15 +212,15 @@ export function StudyCardDeck({ content, onComplete, onStartPractice, completedT
                     <motion.div
                         key={currentCardIndex}
                         drag="x"
-                        dragConstraints={{ left: -1000, right: 1000 }} // Loose constraints for 1:1 feel
-                        dragElastic={1}
+                        dragConstraints={{ left: 0, right: 0 }}
+                        dragElastic={1} // Follow finger exactly 1:1
                         onDragEnd={handleDragEnd}
                         style={{ x, rotate, opacity }}
                         animate={controls}
                         initial={{ opacity: 0, scale: 0.9, x: direction === 1 ? 100 : -100 }}
                         whileInView={{ opacity: 1, scale: 1, x: 0 }}
                         exit={{ opacity: 0, scale: 0.9 }}
-                        transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                        transition={{ type: "spring", stiffness: 400, damping: 25 }} // Stiffer spring for snappier feel
                         className="h-full w-full cursor-grab active:cursor-grabbing touch-pan-y"
                     >
                         {/* Reduced padding for mobile from p-8 to p-4 md:p-12. Now even minimal. */}
@@ -398,6 +398,6 @@ export function StudyCardDeck({ content, onComplete, onStartPractice, completedT
             <div className="mt-4 flex justify-center text-xs text-muted-foreground/40 md:hidden">
                 Swipe left to continue
             </div>
-        </div>
+        </div >
     );
 }

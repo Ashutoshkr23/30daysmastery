@@ -76,19 +76,19 @@ export default function CourseTimeline({ course }: CourseTimelineProps) {
 
                                 {/* Modules Badges - Premium Glass Chips */}
                                 <div className="mt-5 flex flex-wrap gap-2">
-                                    {day.video && (
+                                    {day.content?.video && (
                                         <div className="inline-flex items-center gap-1.5 rounded-lg border border-white/5 bg-white/5 px-2.5 py-1.5 text-xs font-medium text-blue-400 hover:bg-blue-500/10 transition-colors">
                                             <PlayCircle className="h-3.5 w-3.5" />
                                             Video
                                         </div>
                                     )}
-                                    {day.notes && (
+                                    {day.content?.notes && (
                                         <div className="inline-flex items-center gap-1.5 rounded-lg border border-white/5 bg-white/5 px-2.5 py-1.5 text-xs font-medium text-amber-400 hover:bg-amber-500/10 transition-colors">
                                             <FileText className="h-3.5 w-3.5" />
                                             Notes
                                         </div>
                                     )}
-                                    {day.practice && (
+                                    {(day.practice || day.content?.concept || day.content?.rote) && (
                                         <div className="inline-flex items-center gap-1.5 rounded-lg border border-white/5 bg-white/5 px-2.5 py-1.5 text-xs font-medium text-purple-400 hover:bg-purple-500/10 transition-colors">
                                             <HelpCircle className="h-3.5 w-3.5" />
                                             Practice

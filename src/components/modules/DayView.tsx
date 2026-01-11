@@ -182,7 +182,7 @@ export function DayView({ day, initialProgress, completedTasks = [] }: DayViewPr
                 {activeTab === "study" && (
                     <StudyCardDeck
                         content={day.content}
-                        onComplete={() => handleProgressUpdate('notes', { notes_read: true })}
+                        onComplete={() => handleProgressUpdate('notes', { notes_status: 'completed' })}
                         onStartPractice={handleStartPractice}
                         completedTasks={completedTasks}
                     />
@@ -203,7 +203,7 @@ export function DayView({ day, initialProgress, completedTasks = [] }: DayViewPr
                             dayId={day.day}
                             onComplete={(success, accuracy) => {
                                 if (success) {
-                                    handleProgressUpdate('practice', { practice_score: accuracy });
+                                    handleProgressUpdate('practice', { practice_status: 'completed', practice_score: accuracy });
                                 }
                             }}
                             onLinearComplete={() => setIsLinearComplete(true)}
@@ -245,7 +245,7 @@ export function DayView({ day, initialProgress, completedTasks = [] }: DayViewPr
                                 <CompetitionArena
                                     dayId={day.day}
                                     onComplete={() => {
-                                        handleProgressUpdate('practice', { compete_score: 100 });
+                                        handleProgressUpdate('practice', { arena_status: 'completed', compete_score: 100 });
                                     }}
                                 />
                             </div>

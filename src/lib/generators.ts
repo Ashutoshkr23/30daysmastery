@@ -48,6 +48,12 @@ const gen_add_mult10 = () => {
     return { operands: [a, b], operator: "+", answer: a + b, type: "ADD_MULT10" } as Question;
 };
 
+// 2.5 Day 1 Basics: Mix of Single Digit & Multiples of 10
+const gen_add_day1_basics = () => {
+    // 50% chance of each type
+    return Math.random() < 0.5 ? gen_add_1d_1d() : gen_add_mult10();
+};
+
 // 3. Double digit + Double digit (10-99 + 10-99)
 const gen_add_2d_2d = () => {
     const a = Math.floor(Math.random() * 90) + 10; // 10-99
@@ -765,6 +771,7 @@ const gen_div_approx = () => {
 export const GeneratorRegistry: Record<string, QuestionGenerator> = {
     "ADD_1D_1D": gen_add_1d_1d,
     "ADD_MULT10": gen_add_mult10,
+    "ADD_DAY1_BASICS": gen_add_day1_basics,
     "ADD_2D_2D": gen_add_2d_2d,
     "ADD_1D_2D": gen_add_1d_2d,
     "COMPLEMENT_100": gen_complements_100,

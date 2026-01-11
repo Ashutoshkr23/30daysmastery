@@ -8,10 +8,12 @@ import { PracticeSession } from "./PracticeSession";
 import { CompetitionArena } from "./CompetitionArena";
 import { Leaderboard } from "./Leaderboard";
 import { StudyCardDeck } from "./StudyCardDeck";
-import { updateDailyProgress } from "@/lib/actions/progress";
+import { updateDailyProgress, logAttempt } from "@/lib/actions/progress";
 import { useProgressStore } from "@/store/progress-store";
 import { UpgradeModal } from "@/components/monetization/UpgradeModal";
 import { createClient } from "@/lib/supabase/client";
+import { PracticeConfig } from "@/types/course";
+import { ConceptPractice } from "@/components/modules/ConceptPractice";
 
 // Updated Interface matching new JSON Key
 
@@ -51,9 +53,13 @@ interface DayData {
 }
 
 interface DayViewProps {
-    day: any; // Type assertion handled in component due to JSON variability during migration
+    day: AnyDay; // Use proper type if possible, otherwise keep any or specific shape
     initialProgress: any;
+    completedTasks?: string[];
 }
+
+// Helper type for the day object if not imported
+type AnyDay = any;
 
 // Tab Definition
 const TABS = [
@@ -64,7 +70,7 @@ const TABS = [
 
 type TabId = (typeof TABS)[number]["id"];
 
-export function DayView({ day, initialProgress }: DayViewProps) {
+export function DayView({ day, initialProgress, completedTasks = [] }: DayViewProps) {
     const getInitialTab = () => {
         if (!initialProgress) return "study";
         if (!initialProgress.notes_read) return "study";
@@ -74,6 +80,7 @@ export function DayView({ day, initialProgress }: DayViewProps) {
 
     const [activeTab, setActiveTab] = useState<TabId>(getInitialTab());
     const [isLinearComplete, setIsLinearComplete] = useState(true);
+    const [practiceMode, setPracticeMode] = useState<{ config: PracticeConfig; title: string } | null>(null);
 
     const handleProgressUpdate = async (type: 'notes' | 'practice', data: any) => {
         try {
@@ -84,6 +91,10 @@ export function DayView({ day, initialProgress }: DayViewProps) {
         } catch (error) {
             console.error("Failed to save progress", error);
         }
+    };
+
+    const handleStartPractice = (config: PracticeConfig, title: string) => {
+        setPracticeMode({ config, title });
     };
 
     // FREEMIUM LOGIC
@@ -107,6 +118,36 @@ export function DayView({ day, initialProgress }: DayViewProps) {
     return (
         <div className="space-y-6">
             <UpgradeModal open={showUpgradeModal} onOpenChange={setShowUpgradeModal} />
+
+            {/* Concept Practice Modal */}
+            {practiceMode && (
+                <ConceptPractice
+                    config={practiceMode.config}
+                    title={practiceMode.title}
+                    onClose={() => setPracticeMode(null)}
+                    onComplete={async (score, total, timeTaken) => {
+                        const accuracy = Math.round((score / total) * 100);
+                        const passed = score >= practiceMode.config.passingScore;
+
+                        // Log the attempt
+                        await logAttempt({
+                            course_id: 'speed-maths', // Hardcoded for now, or use day context
+                            day_id: day.day,
+                            task_id: practiceMode.title, // Use title as ID for now
+                            score,
+                            total_questions: total,
+                            accuracy,
+                            time_taken: timeTaken,
+                            passed
+                        });
+
+                        // If passed, we could trigger a confetti or refresh completion status
+                        // For now just close
+                        setPracticeMode(null);
+                    }}
+                />
+            )}
+
             {/* 1. Progress / Tab Navigation */}
             <div className="grid grid-cols-3 gap-2 md:gap-4">
                 {TABS.map((tab) => {
@@ -176,11 +217,12 @@ export function DayView({ day, initialProgress }: DayViewProps) {
                         </button>
                     </div>
                 )}
-
                 {activeTab === "study" && (
                     <StudyCardDeck
                         content={day.content}
                         onComplete={() => handleProgressUpdate('notes', { notes_read: true })}
+                        onStartPractice={handleStartPractice}
+                        completedTasks={completedTasks}
                     />
                 )}
 

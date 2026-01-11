@@ -4,9 +4,12 @@ import { useState, useEffect, JSXElementConstructor, Key, ReactElement, ReactNod
 import { GlassCard } from "@/components/ui/GlassCard";
 import { PremiumButton } from "@/components/ui/PremiumButton";
 import { cn } from "@/lib/utils";
-import { Sparkles, BrainCircuit, ArrowRight, ArrowLeft, CheckCircle2, Eye, RotateCcw } from "lucide-react";
+import { Sparkles, BrainCircuit, ArrowRight, ArrowLeft, CheckCircle2, Eye, RotateCcw, Calculator } from "lucide-react";
 import { toggleReviewCard, getReviewStatus } from "@/lib/actions/review";
 import { motion, useMotionValue, useTransform, useAnimation, PanInfo, AnimatePresence } from "framer-motion";
+
+// ... (Existing Interfaces)
+import { PracticeConfig } from "@/types/course";
 
 // ... (Existing Interfaces)
 interface StudyDeckProps {
@@ -21,7 +24,17 @@ interface StudyDeckProps {
                 solution: string;
                 steps: string;
             };
-        };
+            practiceConfig?: PracticeConfig;
+        } | Array<{
+            title: string;
+            description: string;
+            example?: {
+                problem: string;
+                solution: string;
+                steps: string;
+            };
+            practiceConfig?: PracticeConfig;
+        }>;
         rote: {
             title: string;
             groups?: Array<{
@@ -29,12 +42,15 @@ interface StudyDeckProps {
                 items: Array<{ q: string; a: string }>;
             }>;
             items?: Array<{ front: string; back: string }>;
+            practiceConfig?: PracticeConfig;
         };
     };
     onComplete: () => void;
+    onStartPractice?: (config: PracticeConfig, title: string) => void;
+    completedTasks?: string[];
 }
 
-export function StudyCardDeck({ content, onComplete, courseId = "speed-maths", dayId }: StudyDeckProps) {
+export function StudyCardDeck({ content, onComplete, onStartPractice, completedTasks = [], courseId = "speed-maths", dayId }: StudyDeckProps) {
     const roteGroups = content.rote.groups || (content.rote.items ? [{
         title: "Daily Vitamin",
         items: content.rote.items.map(item => ({ q: item.front, a: item.back }))
@@ -275,6 +291,34 @@ export function StudyCardDeck({ content, onComplete, courseId = "speed-maths", d
                                                 </div>
                                             </div>
                                         )}
+
+                                        {/* Practice Button */}
+                                        {/* Practice Button */}
+                                        {currentConcept.practiceConfig && onStartPractice && (() => {
+                                            const isMastered = completedTasks.includes(currentConcept.title);
+                                            return (
+                                                <div className="space-y-3 mt-4">
+                                                    {isMastered && (
+                                                        <div className="flex items-center gap-2 text-green-400 font-bold justify-center bg-green-500/10 p-2 rounded-lg border border-green-500/20 animate-in fade-in zoom-in duration-300">
+                                                            <CheckCircle2 className="h-5 w-5" />
+                                                            <span>Concept Mastered!</span>
+                                                        </div>
+                                                    )}
+                                                    <PremiumButton
+                                                        onClick={() => onStartPractice(currentConcept.practiceConfig!, currentConcept.title)}
+                                                        className={cn(
+                                                            "w-full border",
+                                                            isMastered
+                                                                ? "bg-green-500/5 hover:bg-green-500/10 text-green-300 border-green-500/20"
+                                                                : "bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-300 border-indigo-500/50"
+                                                        )}
+                                                    >
+                                                        <Calculator className="mr-2 h-4 w-4" />
+                                                        {isMastered ? "Practice Again" : `Practice This Concept (${currentConcept.practiceConfig.questionCount} Questions)`}
+                                                    </PremiumButton>
+                                                </div>
+                                            );
+                                        })()}
                                     </div>
                                 </div>
                             )}
@@ -314,6 +358,36 @@ export function StudyCardDeck({ content, onComplete, courseId = "speed-maths", d
                                             ))}
                                         </div>
                                     </div>
+
+                                    {/* Practice Button for Rote */}
+                                    {/* @ts-ignore - Local type definition check */}
+                                    {currentRoteGroup.practiceConfig && onStartPractice && (() => {
+                                        // @ts-ignore
+                                        const isMastered = completedTasks.includes(currentRoteGroup.title);
+                                        return (
+                                            <div className="mt-6 space-y-3">
+                                                {isMastered && (
+                                                    <div className="flex items-center gap-2 text-green-400 font-bold justify-center bg-green-500/10 p-2 rounded-lg border border-green-500/20 animate-in fade-in zoom-in duration-300">
+                                                        <CheckCircle2 className="h-5 w-5" />
+                                                        <span>Table Mastered!</span>
+                                                    </div>
+                                                )}
+                                                <PremiumButton
+                                                    // @ts-ignore
+                                                    onClick={() => onStartPractice(currentRoteGroup.practiceConfig!, currentRoteGroup.title)}
+                                                    className={cn(
+                                                        "w-full border",
+                                                        isMastered
+                                                            ? "bg-green-500/5 hover:bg-green-500/10 text-green-300 border-green-500/20"
+                                                            : "bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border-amber-500/50"
+                                                    )}
+                                                >
+                                                    <Calculator className="mr-2 h-4 w-4" />
+                                                    {isMastered ? "Practice Again" : `Practice ${currentRoteGroup.title}`}
+                                                </PremiumButton>
+                                            </div>
+                                        );
+                                    })()}
                                 </div>
                             )}
 

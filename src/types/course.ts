@@ -14,21 +14,54 @@ export interface Module {
     };
 }
 
+export interface PracticeConfig {
+    generator: string;
+    questionCount: number;
+    passingScore: number;
+    timeLimit?: number; // seconds
+    config?: any; // Additional generator configuration
+}
+
+export interface ConceptItem {
+    title: string;
+    description: string;
+    example: {
+        problem: string;
+        solution: string;
+        steps: string;
+    };
+    practiceConfig?: PracticeConfig;
+}
+
+export interface RoteGroup {
+    title: string;
+    items: { q: string; a: string }[];
+}
+
+export interface RoteContent {
+    title: string;
+    groups: RoteGroup[];
+    practiceConfig?: PracticeConfig;
+}
+
 export interface Day {
     id?: string;
-    day: number; // Changed from dayNumber to match JSON
+    day: number;
     title: string;
     description?: string;
     unlockDate?: string;
 
-    // New Content Structure
-    video?: { youtubeId: string; title: string };
-    notes?: { content: string };
+    // Structured Content
+    content: {
+        concept?: ConceptItem | ConceptItem[];
+        rote?: RoteContent;
+        video?: { youtubeId: string; title: string };
+        notes?: { content: string };
+    };
+
+    // Legacy/Old structure support (optional, can be removed if unused)
     practice?: { questions: any[] };
     compete?: { targetScore: number; leaderboardId?: string };
-
-    // Deprecate
-    // modules: Module[]; 
 }
 
 export interface Course {

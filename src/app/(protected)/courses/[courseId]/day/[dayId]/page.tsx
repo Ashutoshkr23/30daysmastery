@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import speedMathsData from "@/data/courses/speed-maths.json";
 import { DayView } from "@/components/modules/DayView";
-import { getDailyProgress } from "@/lib/actions/progress";
+import { getDailyProgress, getCompletedTasks } from "@/lib/actions/progress";
 // Force Re-eval
 import { Lock } from "lucide-react";
 import { headers } from "next/headers";
@@ -78,8 +78,10 @@ export default async function DayPage({ params }: PageProps) {
         );
     }
 
+
     // 5. Fetch User Progress (Only if unlocked)
     const progress = await getDailyProgress(courseId, dayNumber);
+    const completedTasks = await getCompletedTasks(courseId, dayNumber);
 
     // 6. Render View
     return (
@@ -91,7 +93,7 @@ export default async function DayPage({ params }: PageProps) {
                 <p className="text-muted-foreground">step-by-step mastery protocol</p>
             </div>
 
-            <DayView day={dayData} initialProgress={progress} />
+            <DayView day={dayData} initialProgress={progress} completedTasks={completedTasks} />
         </div>
     );
 }

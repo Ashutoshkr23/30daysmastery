@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Course } from '@/types/course';
 import { cn } from '@/lib/utils';
-import { CheckCircle2, Lock, Circle, ChevronRight } from 'lucide-react';
+import { CheckCircle2, Lock, ChevronRight } from 'lucide-react';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { PremiumButton } from '@/components/ui/PremiumButton';
 import { createClient } from '@/lib/supabase/client';
@@ -146,39 +146,11 @@ export default function CourseTimeline({ course }: CourseTimelineProps) {
                                                 )}
                                             </div>
                                             <h3 className={cn(
-                                                "font-bold text-base leading-tight mb-2",
+                                                "font-bold text-base leading-tight",
                                                 isCompleted && "line-through text-muted-foreground"
                                             )}>
                                                 {day.title}
                                             </h3>
-
-                                            {/* Progress Indicators */}
-                                            <div className="flex items-center gap-3 text-xs">
-                                                <div className="flex items-center gap-1">
-                                                    {progress.studyCompleted ? (
-                                                        <CheckCircle2 className="h-3.5 w-3.5 text-green-600" />
-                                                    ) : (
-                                                        <Circle className="h-3.5 w-3.5 text-muted-foreground" />
-                                                    )}
-                                                    <span className={progress.studyCompleted ? "text-green-600" : "text-muted-foreground"}>Study</span>
-                                                </div>
-                                                <div className="flex items-center gap-1">
-                                                    {progress.practiceCompleted ? (
-                                                        <CheckCircle2 className="h-3.5 w-3.5 text-green-600" />
-                                                    ) : (
-                                                        <Circle className="h-3.5 w-3.5 text-muted-foreground" />
-                                                    )}
-                                                    <span className={progress.practiceCompleted ? "text-green-600" : "text-muted-foreground"}>Practice</span>
-                                                </div>
-                                                <div className="flex items-center gap-1">
-                                                    {progress.arenaCompleted ? (
-                                                        <CheckCircle2 className="h-3.5 w-3.5 text-green-600" />
-                                                    ) : (
-                                                        <Circle className="h-3.5 w-3.5 text-muted-foreground" />
-                                                    )}
-                                                    <span className={progress.arenaCompleted ? "text-green-600" : "text-muted-foreground"}>Arena</span>
-                                                </div>
-                                            </div>
 
                                             {/* Progress Bar */}
                                             {progress.percentage > 0 && progress.percentage < 100 && (

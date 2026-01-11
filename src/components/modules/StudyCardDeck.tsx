@@ -212,16 +212,14 @@ export function StudyCardDeck({ content, onComplete, onStartPractice, completedT
                     <motion.div
                         key={currentCardIndex}
                         drag="x"
-                        dragConstraints={{ left: 0, right: 0 }}
-                        dragElastic={1} // Follow finger exactly 1:1
+                        // Removed constraints to allow free movement (snap-back handled by onDragEnd)
                         onDragEnd={handleDragEnd}
-                        style={{ x, rotate, opacity }}
-                        animate={controls}
+                        style={{ x, rotate, opacity, touchAction: "pan-y" }} // Explicit touch-action
                         initial={{ opacity: 0, scale: 0.9, x: direction === 1 ? 100 : -100 }}
-                        whileInView={{ opacity: 1, scale: 1, x: 0 }}
+                        animate={{ opacity: 1, scale: 1, x: 0 }}
                         exit={{ opacity: 0, scale: 0.9 }}
-                        transition={{ type: "spring", stiffness: 400, damping: 25 }} // Stiffer spring for snappier feel
-                        className="h-full w-full cursor-grab active:cursor-grabbing touch-pan-y"
+                        transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                        className="h-full w-full cursor-grab active:cursor-grabbing"
                     >
                         {/* Reduced padding for mobile from p-8 to p-4 md:p-12. Now even minimal. */}
                         <GlassCard className="h-full px-2 py-4 md:p-12 relative w-full select-none">

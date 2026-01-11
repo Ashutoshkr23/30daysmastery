@@ -1,106 +1,207 @@
 "use client";
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Course } from '@/types/course';
 import { cn } from '@/lib/utils';
-import { PlayCircle, FileText, CheckCircle2, Lock, HelpCircle } from 'lucide-react';
-import { useProgressStore } from '@/store/progress-store';
+import { CheckCircle2, Lock, Circle, ChevronRight } from 'lucide-react';
 import { GlassCard } from '@/components/ui/GlassCard';
+import { PremiumButton } from '@/components/ui/PremiumButton';
+import { createClient } from '@/lib/supabase/client';
 
 interface CourseTimelineProps {
     course: Course;
 }
 
+interface DayProgress {
+    studyCompleted: boolean;
+    practiceCompleted: boolean;
+    arenaCompleted: boolean;
+    percentage: number;
+}
+
 export default function CourseTimeline({ course }: CourseTimelineProps) {
-    const { completedDays } = useProgressStore();
+    const [isPremium, setIsPremium] = useState(false);
+    const [dayProgress, setDayProgress] = useState<Record<number, DayProgress>>({});
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function fetchUserData() {
+            const supabase = createClient();
+
+            // Get user premium status
+            const { data: { user } } = await supabase.auth.getUser();
+            if (user) {
+                const { data: profile } = await supabase
+                    .from('profiles')
+                    .select('is_premium')
+                    .eq('id', user.id)
+                    .single();
+
+                setIsPremium(profile?.is_premium || false);
+
+                // Fetch progress for each day
+                const progressData: Record<number, DayProgress> = {};
+
+                for (const day of course.days) {
+                    const { data: progress } = await supabase
+                        .from('daily_progress')
+                        .select('*')
+                        .eq('user_id', user.id)
+                        .eq('course_id', course.id)
+                        .eq('day_id', day.day)
+                        .single();
+
+                    if (progress) {
+                        const studyDone = progress.notes_status === 'completed';
+                        const practiceDone = progress.practice_status === 'completed';
+                        const arenaDone = progress.arena_status === 'completed';
+
+                        const completed = [studyDone, practiceDone, arenaDone].filter(Boolean).length;
+                        const percentage = Math.round((completed / 3) * 100);
+
+                        progressData[day.day] = {
+                            studyCompleted: studyDone,
+                            practiceCompleted: practiceDone,
+                            arenaCompleted: arenaDone,
+                            percentage
+                        };
+                    } else {
+                        progressData[day.day] = {
+                            studyCompleted: false,
+                            practiceCompleted: false,
+                            arenaCompleted: false,
+                            percentage: 0
+                        };
+                    }
+                }
+
+                setDayProgress(progressData);
+            }
+            setLoading(false);
+        }
+
+        fetchUserData();
+    }, [course]);
 
     return (
-        <div className="relative space-y-8 pl-8 sm:pl-10">
-            {/* Vertical Line */}
-            <div className="absolute left-[19px] sm:left-[23px] top-6 h-[calc(100%-40px)] w-0.5 bg-gradient-to-b from-primary/50 via-primary/20 to-transparent" />
-
-            {course.days.map((day, index) => {
-                const isCompleted = completedDays[`${course.id}-${day.day}`];
-                // For MVP, we unlock the next day if previous is completed, or if it's day 1
-                const isLocked = false;
+        <div className="space-y-3">
+            {course.days.map((day) => {
+                const progress = dayProgress[day.day] || { studyCompleted: false, practiceCompleted: false, arenaCompleted: false, percentage: 0 };
+                const isLocked = day.day > 3 && !isPremium;
+                const isCompleted = progress.percentage === 100;
 
                 return (
-                    <div key={day.day} className="relative animate-in fade-in slide-in-from-bottom-4" style={{ animationDelay: `${index * 50}ms` }}>
-                        {/* Timeline Dot */}
-                        <div
-                            className={cn(
-                                "absolute -left-[34px] sm:-left-[39px] top-1/2 -translate-y-1/2 z-10 flex h-8 w-8 items-center justify-center rounded-full border-4 border-background transition-all duration-300",
-                                isCompleted
-                                    ? "bg-gradient-to-br from-green-500 to-emerald-600 text-white shadow-[0_0_10px_rgba(16,185,129,0.4)]"
-                                    : isLocked
-                                        ? "bg-muted text-muted-foreground"
-                                        : "bg-gradient-to-br from-cyan-500 to-cyan-700 text-white shadow-[0_0_10px_rgba(6,182,212,0.4)]"
-                            )}
-                        >
-                            {isCompleted ? (
-                                <CheckCircle2 className="h-4 w-4" />
-                            ) : isLocked ? (
-                                <Lock className="h-3.5 w-3.5" />
-                            ) : (
-                                <span className="text-xs font-bold">{day.day}</span>
-                            )}
-                        </div>
-
-                        {/* Day Card */}
-                        <Link href={isLocked ? "#" : `/courses/${course.id}/day/${day.day}`}>
-                            <GlassCard
-                                variant={isLocked ? "static" : "interactive"}
-                                gradientBorder={!isLocked && !isCompleted}
-                                className={cn(
-                                    "p-6 transition-all",
-                                    isLocked && "opacity-50 grayscale cursor-not-allowed",
-                                    !isLocked && !isCompleted && "ring-1 ring-primary/20 bg-primary/5"
-                                )}
-                            >
-                                <div className="flex items-start justify-between gap-4">
-                                    <div className="space-y-2">
-                                        <h3 className={cn("font-bold text-xl leading-tight font-heading tracking-tight", isCompleted && "text-muted-foreground line-through decoration-primary/50")}>
-                                            {day.title}
-                                        </h3>
-                                        <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
-                                            {day.description || "Master the concepts of speed mathematics."}
-                                        </p>
+                    <div key={day.day} className="relative">
+                        {isLocked ? (
+                            <GlassCard className="p-4 opacity-60 cursor-not-allowed">
+                                <div className="flex items-start gap-3">
+                                    <div className="shrink-0 w-12 h-12 rounded-lg bg-muted flex items-center justify-center">
+                                        <Lock className="h-5 w-5 text-muted-foreground" />
                                     </div>
 
-                                    {isCompleted && (
-                                        <span className="shrink-0 rounded-full bg-green-500/10 dark:bg-green-500/20 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-green-600 dark:text-green-400 border border-green-500/20 shadow-[0_0_10px_rgba(16,185,129,0.2)]">
-                                            Done
-                                        </span>
-                                    )}
+                                    <div className="flex-1 min-w-0">
+                                        <div className="flex items-center gap-2 mb-1">
+                                            <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Day {day.day}</span>
+                                            <span className="px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-600 text-[10px] font-bold border border-amber-500/20">
+                                                PREMIUM
+                                            </span>
+                                        </div>
+                                        <h3 className="font-bold text-base leading-tight text-muted-foreground">
+                                            {day.title}
+                                        </h3>
+                                    </div>
                                 </div>
 
-                                {/* Modules Badges - Premium Glass Chips */}
-                                <div className="mt-5 flex flex-wrap gap-2">
-                                    {day.content?.video && (
-                                        <div className="inline-flex items-center gap-1.5 rounded-lg border border-white/5 bg-white/5 px-2.5 py-1.5 text-xs font-medium text-blue-400 hover:bg-blue-500/10 transition-colors">
-                                            <PlayCircle className="h-3.5 w-3.5" />
-                                            Video
-                                        </div>
-                                    )}
-                                    {day.content?.notes && (
-                                        <div className="inline-flex items-center gap-1.5 rounded-lg border border-white/5 bg-white/5 px-2.5 py-1.5 text-xs font-medium text-amber-400 hover:bg-amber-500/10 transition-colors">
-                                            <FileText className="h-3.5 w-3.5" />
-                                            Notes
-                                        </div>
-                                    )}
-                                    {(day.practice || day.content?.concept || day.content?.rote) && (
-                                        <div className="inline-flex items-center gap-1.5 rounded-lg border border-white/5 bg-white/5 px-2.5 py-1.5 text-xs font-medium text-purple-400 hover:bg-purple-500/10 transition-colors">
-                                            <HelpCircle className="h-3.5 w-3.5" />
-                                            Practice
-                                        </div>
-                                    )}
-                                </div>
+                                <PremiumButton size="sm" className="w-full mt-3">
+                                    Upgrade to Premium
+                                </PremiumButton>
                             </GlassCard>
-                        </Link>
+                        ) : (
+                            <Link href={`/courses/${course.id}/day/${day.day}`}>
+                                <GlassCard
+                                    variant="interactive"
+                                    className={cn(
+                                        "p-4 transition-all",
+                                        isCompleted && "bg-green-500/5 border-green-500/20"
+                                    )}
+                                >
+                                    <div className="flex items-start gap-3">
+                                        <div className={cn(
+                                            "shrink-0 w-12 h-12 rounded-lg flex items-center justify-center font-bold text-lg",
+                                            isCompleted
+                                                ? "bg-green-500/10 text-green-600 border border-green-500/20"
+                                                : "bg-cyan-500/10 text-cyan-600 border border-cyan-500/20"
+                                        )}>
+                                            {isCompleted ? <CheckCircle2 className="h-6 w-6" /> : day.day}
+                                        </div>
+
+                                        <div className="flex-1 min-w-0">
+                                            <div className="flex items-center justify-between gap-2 mb-1">
+                                                <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Day {day.day}</span>
+                                                {isCompleted && (
+                                                    <span className="px-2 py-0.5 rounded-full bg-green-500/10 text-green-600 text-[10px] font-bold">
+                                                        DONE
+                                                    </span>
+                                                )}
+                                            </div>
+                                            <h3 className={cn(
+                                                "font-bold text-base leading-tight mb-2",
+                                                isCompleted && "line-through text-muted-foreground"
+                                            )}>
+                                                {day.title}
+                                            </h3>
+
+                                            {/* Progress Indicators */}
+                                            <div className="flex items-center gap-3 text-xs">
+                                                <div className="flex items-center gap-1">
+                                                    {progress.studyCompleted ? (
+                                                        <CheckCircle2 className="h-3.5 w-3.5 text-green-600" />
+                                                    ) : (
+                                                        <Circle className="h-3.5 w-3.5 text-muted-foreground" />
+                                                    )}
+                                                    <span className={progress.studyCompleted ? "text-green-600" : "text-muted-foreground"}>Study</span>
+                                                </div>
+                                                <div className="flex items-center gap-1">
+                                                    {progress.practiceCompleted ? (
+                                                        <CheckCircle2 className="h-3.5 w-3.5 text-green-600" />
+                                                    ) : (
+                                                        <Circle className="h-3.5 w-3.5 text-muted-foreground" />
+                                                    )}
+                                                    <span className={progress.practiceCompleted ? "text-green-600" : "text-muted-foreground"}>Practice</span>
+                                                </div>
+                                                <div className="flex items-center gap-1">
+                                                    {progress.arenaCompleted ? (
+                                                        <CheckCircle2 className="h-3.5 w-3.5 text-green-600" />
+                                                    ) : (
+                                                        <Circle className="h-3.5 w-3.5 text-muted-foreground" />
+                                                    )}
+                                                    <span className={progress.arenaCompleted ? "text-green-600" : "text-muted-foreground"}>Arena</span>
+                                                </div>
+                                            </div>
+
+                                            {/* Progress Bar */}
+                                            {progress.percentage > 0 && progress.percentage < 100 && (
+                                                <div className="mt-2 flex items-center gap-2">
+                                                    <div className="flex-1 h-1.5 bg-secondary rounded-full overflow-hidden">
+                                                        <div
+                                                            className="h-full bg-gradient-to-r from-cyan-500 to-amber-500 transition-all duration-500"
+                                                            style={{ width: `${progress.percentage}%` }}
+                                                        />
+                                                    </div>
+                                                    <span className="text-[10px] font-bold text-muted-foreground">{progress.percentage}%</span>
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        <ChevronRight className="h-5 w-5 text-muted-foreground shrink-0 group-hover:translate-x-1 transition-transform" />
+                                    </div>
+                                </GlassCard>
+                            </Link>
+                        )}
                     </div>
                 );
             })}
         </div>
     );
 }
-

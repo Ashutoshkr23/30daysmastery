@@ -212,15 +212,16 @@ export function StudyCardDeck({ content, onComplete, onStartPractice, completedT
                     <motion.div
                         key={currentCardIndex}
                         drag="x"
-                        dragConstraints={{ left: -300, right: 300 }}
-                        dragElastic={0.2}
+                        dragConstraints={{ left: 0, right: 0 }}
+                        dragElastic={1}
+                        dragDirectionLock
                         onDragEnd={handleDragEnd}
-                        style={{ x, rotate, opacity, touchAction: "pan-y" }}
+                        style={{ x, rotate, opacity }}
                         initial={{ opacity: 0, scale: 0.9, x: direction === 1 ? 100 : -100 }}
                         animate={{ opacity: 1, scale: 1, x: 0 }}
                         exit={{ opacity: 0, scale: 0.9 }}
-                        transition={{ type: "spring", stiffness: 350, damping: 30 }}
-                        className="h-full w-full cursor-grab active:cursor-grabbing"
+                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                        className="h-full w-full cursor-grab active:cursor-grabbing touch-none"
                     >
                         {/* Mobile-optimized: wider, shorter */}
                         <GlassCard className={cn(

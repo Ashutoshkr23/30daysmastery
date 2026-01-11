@@ -213,7 +213,7 @@ export function StudyCardDeck({ content, onComplete, onStartPractice, completedT
                         key={currentCardIndex}
                         drag="x"
                         dragConstraints={{ left: 0, right: 0 }}
-                        dragElastic={0.05}
+                        dragElastic={0.9}
                         dragDirectionLock={true}
                         onDragEnd={handleDragEnd}
                         style={{ x, rotate, opacity }}

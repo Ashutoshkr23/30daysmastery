@@ -96,10 +96,10 @@ export default function LoginPage() {
             </div>
 
             {/* RIGHT PANEL: Login Form (Centerpiece) */}
-            <div className="relative z-10 flex flex-col items-center justify-center p-6 w-full h-full">
+            <div className="relative z-10 flex flex-col items-center justify-center p-6 w-full min-h-screen">
 
                 {/* Mobile Branding (Only visible on mobile) */}
-                <div className="md:hidden w-full max-w-sm mb-12 flex flex-col items-center">
+                <div className="md:hidden w-full max-w-sm mb-8 flex flex-col items-center">
                     <motion.div
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
@@ -171,7 +171,7 @@ export default function LoginPage() {
                 </motion.div>
 
                 {/* Mobile Footer Links */}
-                <div className="md:hidden mt-12 text-center">
+                <div className="md:hidden mt-8 text-center">
                     <Link href="/" className="text-sm text-muted-foreground hover:text-white transition-colors">
                         Back to Home
                     </Link>

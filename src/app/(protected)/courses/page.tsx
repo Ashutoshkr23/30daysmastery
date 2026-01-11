@@ -55,7 +55,7 @@ export default function ExplorePage() {
             {/* Header section with Search */}
             <header className="space-y-6 pt-4">
                 <div className="space-y-1">
-                    <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-violet-400 bg-clip-text text-transparent">
+                    <h1 className="text-3xl font-bold bg-gradient-to-r from-cyan-500 to-cyan-300 bg-clip-text text-transparent">
                         Explore Courses
                     </h1>
                     <p className="text-muted-foreground font-medium">Find your next challenge and level up.</p>

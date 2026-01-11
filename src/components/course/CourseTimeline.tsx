@@ -34,7 +34,7 @@ export default function CourseTimeline({ course }: CourseTimelineProps) {
                                     ? "bg-gradient-to-br from-green-500 to-emerald-600 text-white shadow-[0_0_10px_rgba(16,185,129,0.4)]"
                                     : isLocked
                                         ? "bg-muted text-muted-foreground"
-                                        : "bg-gradient-to-br from-primary to-violet-600 text-white shadow-[0_0_10px_rgba(124,58,237,0.4)]"
+                                        : "bg-gradient-to-br from-cyan-500 to-cyan-700 text-white shadow-[0_0_10px_rgba(6,182,212,0.4)]"
                             )}
                         >
                             {isCompleted ? (

@@ -50,7 +50,7 @@ export default async function CoursePage({ params }: PageProps) {
                         </div>
                         <div className="h-2 w-full overflow-hidden rounded-full bg-secondary">
                             <div
-                                className="h-full bg-gradient-to-r from-primary to-violet-400 shadow-[0_0_10px_rgba(124,58,237,0.5)] transition-all duration-1000 ease-out"
+                                className="h-full bg-gradient-to-r from-cyan-500 to-amber-500 shadow-[0_0_10px_rgba(6,182,212,0.5)] transition-all duration-1000 ease-out"
                                 style={{ width: `${course.progress}%` }}
                             />
                         </div>

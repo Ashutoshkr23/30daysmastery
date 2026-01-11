@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  /* Cosmic Light Mode - Clean, crisp, with violet accents */
+  /* Deep Ocean Light Mode - Professional, trustworthy, achievement-focused */
   --background: #ffffff;
   --foreground: #030712;
   /* Slate-950 */
@@ -13,8 +13,8 @@
   --popover: #ffffff;
   --popover-foreground: #030712;
 
-  --primary: #7c3aed;
-  /* Violet-600 */
+  --primary: #0891b2;
+  /* Cyan-600 - Trust, clarity, focus */
   --primary-foreground: #ffffff;
 
   --secondary: #f1f5f9;
@@ -34,14 +34,14 @@
   --border: #e2e8f0;
   /* Slate-200 */
   --input: #e2e8f0;
-  --ring: #7c3aed;
+  --ring: #0891b2;
 
   --radius: 1rem;
   /* More rounded premium feel */
 }
 
 .dark {
-  /* Cosmic Dark Mode - Deep Space, Neon functionality */
+  /* Deep Ocean Dark Mode - Professional depth with energy */
   --background: #020617;
   /* Slate-950 (Deep Blue-Black) */
   --foreground: #f8fafc;
@@ -54,8 +54,8 @@
   --popover: #0b1021;
   --popover-foreground: #f8fafc;
 
-  --primary: #8b5cf6;
-  /* Violet-500 */
+  --primary: #06b6d4;
+  /* Cyan-500 - Bright, focused */
   --primary-foreground: #ffffff;
 
   --secondary: #1e293b;
@@ -76,7 +76,7 @@
 
   --border: #1e293b;
   --input: #1e293b;
-  --ring: #8b5cf6;
+  --ring: #06b6d4;
 }
 
 @theme inline {

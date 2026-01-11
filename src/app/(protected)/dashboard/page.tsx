@@ -135,7 +135,7 @@ export default function Dashboard() {
             {/* Header */}
             <header className="flex items-center justify-between pt-4">
                 <div className="space-y-1">
-                    <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-violet-400 bg-clip-text text-transparent">
+                    <h1 className="text-3xl font-bold bg-gradient-to-r from-cyan-500 to-cyan-300 bg-clip-text text-transparent">
                         Hello, {user?.user_metadata?.full_name?.split(' ')[0] || "Aspirant"}! 👋
                     </h1>
                     <p className="text-muted-foreground font-medium">Ready to conquer your goals?</p>

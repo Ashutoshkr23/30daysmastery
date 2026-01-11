@@ -183,7 +183,7 @@ export function StudyCardDeck({ content, onComplete, onStartPractice, completedT
                     </span>
                     <div className="w-24 md:w-32 h-1.5 bg-secondary/50 rounded-full overflow-hidden">
                         <div
-                            className="h-full bg-gradient-to-r from-primary to-violet-500 transition-all duration-300 ease-out"
+                            className="h-full bg-gradient-to-r from-cyan-500 to-amber-500 transition-all duration-300 ease-out"
                             style={{ width: `${progress}%` }}
                         />
                     </div>
@@ -252,15 +252,15 @@ export function StudyCardDeck({ content, onComplete, onStartPractice, completedT
                             {/* TYPE 1: CONCEPT CARD */}
                             {currentConcept && (
                                 <div className="space-y-3 md:space-y-6 h-full flex flex-col overflow-y-auto">
-                                    <div className="flex items-center gap-3 border-b border-indigo-500/20 pb-3">
-                                        <div className="p-2 bg-indigo-500/10 rounded-lg border border-indigo-500/20">
-                                            <Sparkles className="h-5 w-5 text-indigo-400" />
+                                    <div className="flex items-center gap-3 border-b border-cyan-500/20 pb-3">
+                                        <div className="p-2 bg-cyan-500/10 rounded-lg border border-cyan-500/20">
+                                            <Sparkles className="h-5 w-5 text-cyan-400" />
                                         </div>
                                         <div>
-                                            <h2 className="text-lg md:text-xl font-bold bg-gradient-to-r from-indigo-300 to-indigo-100 bg-clip-text text-transparent">
+                                            <h2 className="text-lg md:text-xl font-bold bg-gradient-to-r from-cyan-400 to-cyan-200 bg-clip-text text-transparent">
                                                 Mental Hack
                                             </h2>
-                                            <p className="text-xs text-indigo-300/60 font-medium">{currentConcept.title}</p>
+                                            <p className="text-xs text-cyan-300/60 font-medium">{currentConcept.title}</p>
                                         </div>
                                     </div>
 
@@ -288,7 +288,7 @@ export function StudyCardDeck({ content, onComplete, onStartPractice, completedT
 
                                                     {currentConcept.example.steps && (
                                                         <div className="w-full bg-white/5 rounded-lg p-3 border border-white/5">
-                                                            <p className="text-xs md:text-sm text-indigo-200/80 font-mono whitespace-pre-wrap">
+                                                            <p className="text-xs md:text-sm text-cyan-200/80 font-mono whitespace-pre-wrap">
                                                                 {currentConcept.example.steps}
                                                             </p>
                                                         </div>

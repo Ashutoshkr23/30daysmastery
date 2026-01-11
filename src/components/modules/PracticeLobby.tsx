@@ -77,7 +77,7 @@ export function PracticeLobby({ config, isLinearComplete, onStartLinear, onStart
 
             {/* Header */}
             <div className="text-center space-y-2">
-                <h2 className="text-3xl font-bold bg-gradient-to-r from-primary to-violet-400 bg-clip-text text-transparent">
+                <h2 className="text-3xl font-bold bg-gradient-to-r from-cyan-500 to-cyan-300 bg-clip-text text-transparent">
                     {config.title}
                 </h2>
                 <p className="text-muted-foreground">Choose your training protocol</p>

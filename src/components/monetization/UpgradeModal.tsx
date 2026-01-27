@@ -5,6 +5,7 @@ import { PremiumButton } from "@/components/ui/PremiumButton";
 import { Copy, Check, QrCode, Loader2, X } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { trackUpgradeModalView, trackPaymentInitiated, trackUTRSubmitted } from "@/lib/analytics";
+import { createPortal } from "react-dom";
 
 interface UpgradeModalProps {
     open: boolean;
@@ -136,7 +137,9 @@ export function UpgradeModal({ open, onOpenChange }: UpgradeModalProps) {
 
     if (!open) return null;
 
-    return (
+    if (typeof document === 'undefined') return null;
+
+    return createPortal(
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
             {/* Toast Notification */}
             {toastMessage && (
@@ -289,6 +292,7 @@ export function UpgradeModal({ open, onOpenChange }: UpgradeModalProps) {
                     </div>
                 )}
             </div>
-        </div>
+        </div>,
+        document.body
     );
 }

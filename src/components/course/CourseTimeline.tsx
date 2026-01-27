@@ -8,6 +8,7 @@ import { CheckCircle2, Lock, ChevronRight } from 'lucide-react';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { PremiumButton } from '@/components/ui/PremiumButton';
 import { createClient } from '@/lib/supabase/client';
+import { UpgradeModal } from '@/components/monetization/UpgradeModal';
 
 interface CourseTimelineProps {
     course: Course;
@@ -21,6 +22,7 @@ interface DayProgress {
 }
 
 export default function CourseTimeline({ course }: CourseTimelineProps) {
+    const [showUpgradeModal, setShowUpgradeModal] = useState(false);
     const [isPremium, setIsPremium] = useState(false);
     const [dayProgress, setDayProgress] = useState<Record<number, DayProgress>>({});
     const [loading, setLoading] = useState(true);
@@ -113,7 +115,11 @@ export default function CourseTimeline({ course }: CourseTimelineProps) {
                                     </div>
                                 </div>
 
-                                <PremiumButton size="sm" className="w-full mt-3">
+                                <PremiumButton
+                                    size="sm"
+                                    className="w-full mt-3"
+                                    onClick={() => setShowUpgradeModal(true)}
+                                >
                                     Upgrade to Premium
                                 </PremiumButton>
                             </GlassCard>
@@ -174,6 +180,7 @@ export default function CourseTimeline({ course }: CourseTimelineProps) {
                     </div>
                 );
             })}
+            <UpgradeModal open={showUpgradeModal} onOpenChange={setShowUpgradeModal} />
         </div>
     );
 }

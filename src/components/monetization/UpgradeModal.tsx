@@ -289,6 +289,13 @@ export function UpgradeModal({ open, onOpenChange }: UpgradeModalProps) {
                                 "Verify Payment"
                             )}
                         </PremiumButton>
+
+                        <button
+                            onClick={() => onOpenChange(false)}
+                            className="w-full py-2 text-zinc-500 hover:text-white transition-colors text-sm font-medium"
+                        >
+                            Cancel
+                        </button>
                     </div>
                 )}
             </div>

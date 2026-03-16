@@ -30,21 +30,27 @@ export async function middleware(request: NextRequest) {
         }
     )
 
-    // Refresh session if expired
-    const {
-        data: { user },
-    } = await supabase.auth.getUser()
-
-    // Protected Routes Logic
-    const path = request.nextUrl.pathname
-
     // Bypass auth for localhost
     if (request.nextUrl.hostname === 'localhost' || request.nextUrl.hostname === '127.0.0.1') {
         return supabaseResponse
     }
 
+    // Protected Routes Logic
+    const path = request.nextUrl.pathname
     const isProtectedPath = path.startsWith('/dashboard') || path.startsWith('/courses') || path.startsWith('/profile')
     const isAuthPath = path === '/login' || path === '/signup'
+    const isHomePage = path === '/'
+
+    // Skip the expensive `getUser()` network call if the path doesn't require auth checks
+    if (!isProtectedPath && !isAuthPath && !isHomePage) {
+        return supabaseResponse
+    }
+
+    // Refresh session if expired and getting the user
+    // This network call takes time which might cause MIDDLEWARE_INVOCATION_TIMEOUT if called on every route
+    const {
+        data: { user },
+    } = await supabase.auth.getUser()
 
     // Redirect to login if accessing protected route without user
     if (!user && isProtectedPath) {
